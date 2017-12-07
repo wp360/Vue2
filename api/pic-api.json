@@ -1,0 +1,21 @@
+{
+    "status": 0,
+    "message":[
+        {
+            "url": "https://github.com/vuejs/vue",
+            "img": "http://www.swiper.com.cn/demo/img/nature1.jpg"
+        },
+        {
+            "url": "https://vuefe.cn/v2/guide/",
+            "img": "http://www.swiper.com.cn/demo/img/nature2.jpg"
+        },
+        {
+            "url": "https://mint-ui.github.io/#!/zh-cn",
+            "img": "http://www.swiper.com.cn/demo/img/nature3.jpg"
+        },
+        {
+            "url": "http://www.swiper.com.cn/",
+            "img": "http://www.swiper.com.cn/demo/img/nature4.jpg"
+        }
+    ]
+}
