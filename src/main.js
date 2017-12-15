@@ -9,6 +9,8 @@ import Shopcart from './components/shopcart/shopcart.vue';
 import Search from './components/search/search.vue';
 import NewsList from './components/news/newsList.vue';
 import NewsDetail from './components/news/newsDetail.vue';
+import PhotoShare from './components/photo/photoShare.vue';
+import PhotoDetail from './components/photo/photoDetail.vue';
 
 Vue.use(VueRouter);
 
@@ -42,6 +44,11 @@ Vue.filter('convertDate',function(value){
     return Moment(value).format('YYYY-MM-DD');
 });
 
+//引入vue-preview
+import VuePreview from 'vue-preview';
+//使用vue-preview
+Vue.use(VuePreview);
+
 let router = new VueRouter({
     linkActiveClass: 'mui-active',
     routes: [
@@ -52,7 +59,9 @@ let router = new VueRouter({
         { name: 'shopcart', path: '/shopcart', component: Shopcart }, //购物车
         { name: 'search', path: '/search', component: Search }, //查找
         { name: 'newsList',path: '/news/list',component: NewsList },//新闻列表
-        { name: 'newsDetail',path: '/news/detail',component: NewsDetail }//新闻详情
+        { name: 'newsDetail',path: '/news/detail',component: NewsDetail },//新闻详情
+        { name: 'photoShare', path: '/photo/share', component: PhotoShare },//图文分享
+        { name: 'photoDetail', path: '/photo/detail/:id', component: PhotoDetail }//图片详情
     ]
 });
 
