@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "node ./node_modules/webpack/bin/webpack --config ./build/webpack.base.config.js",
     "start": "node server",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -16,6 +15,8 @@
     "vue": "^2.5.13"
   },
   "devDependencies": {
-    "webpack": "^3.5.5"
+    "webpack": "^3.5.5",
+    "webpack-dev-middleware": "^1.12.0",
+    "webpack-hot-middleware": "^2.18.2"
   }
 }

@@ -10,6 +10,8 @@ const indexHTML = (() => {
 // 加载静态资源
 app.use('/dist',express.static(path.resolve(__dirname,'./dist')));
 
+require('./build/dev-server')(app);
+
 app.get('*',(req,res) => {
     res.write(indexHTML); // 'hello vue'
     res.end();
