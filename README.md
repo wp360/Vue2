@@ -108,3 +108,11 @@ export default {
 }
 </script>
 ```
+> 编辑器设置——不要保存后格式化 "format_on_save": false
+7. JSONP跨域请求
+`npm install jsonp`
+
+[https://github.com/webmodules/jsonp](https://github.com/webmodules/jsonp)
+
+8. axios
+`npm install --save axios`
