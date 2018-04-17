@@ -3,13 +3,17 @@ import VueRouter from 'vue-router'
 import App from './app.vue'
 
 import './assets/style/global.styl'
-
-import store from './store/store'
+// vuex
+import Vuex from 'vuex'
+import creatStore from './store/store'
 
 // 路由
 import createRouter from './config/router'
 Vue.use(VueRouter)
 const router = createRouter()
+
+Vue.use(Vuex)
+const store = creatStore()
 
 // 路由守卫
 router.beforeEach((to, from, next) => {
