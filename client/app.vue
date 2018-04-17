@@ -2,12 +2,16 @@
   <div id="app">
     <div id="cover"></div>
     <Header></Header>
+    <p>{{count}}</p>
     <!--<Todo></Todo>-->
     <router-link to="/app">app</router-link>
     <router-link to="/login">login</router-link>
     <!--<router-link to="/login/exact">loginExact</router-link>-->
-    <router-view></router-view>
+    <transition name="fade">
+      <router-view></router-view>
+    </transition>
     <Footer></Footer>
+    <!--<router-view name="a"></router-view>-->
   </div>
 </template>
 
@@ -23,6 +27,18 @@ export default {
     Header,
     Todo,
     Footer
+  },
+  mounted () {
+    console.log(this.$store)
+    let i = 1
+    setInterval(() => {
+      this.$store.commit('updateCount', i++)
+    }, 1000)
+  },
+  computed: {
+    count () {
+      return this.$store.state.count
+    }
   }
 }
 </script>

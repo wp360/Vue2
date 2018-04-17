@@ -168,6 +168,18 @@ historyApiFallback: {
 }
 ```
 
+`npm i babel-plugin-syntax-dynamic-import -D`
+```js
+// 修改.babelrc
+{
+  // ... 省略
+    "syntax-dynamic-import"
+  ]
+}
+
+```
+
+`npm i vuex -S`
 
 [前端工程化之自动构建gulp及模块打包webpack和parcel简介](https://github.com/chinadbo/web-front-end/issues/6)
 
@@ -242,7 +254,7 @@ historyApiFallback: {
   </template>
   ```
 
-### css预处理、后处理
+### css预处理、后处理
   开发过程中使用Sass、Less、Stylus等css预处理
   ```javascript
   // webpack.config.js

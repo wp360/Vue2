@@ -7,8 +7,29 @@ export default [
     redirect: '/app'
   },
   {
-    path: '/app',
-    component: Todo
+    path: '/app', // /app/:id
+    props: true,
+    component: Todo,
+    // components: {
+    //   default: Todo,
+    //   a: Login
+    // },
+    name: 'app',
+    meta: {
+      title: 'this is app',
+      description: ''
+    },
+    beforeEnter (to, from, next) {
+      console.log('app route before enter')
+      next()
+    }
+    // 嵌套路由 子路由
+    // children: [
+    //   {
+    //     path: 'test',
+    //     component: Login
+    //   }
+    // ]
   },
   {
     path: '/login',

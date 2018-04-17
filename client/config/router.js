@@ -18,5 +18,12 @@ export default () => {
         }
       }
     }
+    // fallback: true,
+    // parseQuery (query) {
+
+    // },
+    // stringifyQuery (obj) {
+
+    // }
   })
 }
