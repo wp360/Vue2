@@ -1,4 +1,4 @@
-# vue-learn
+# smartisan 锤子商城
 
 ## Project setup
 ```
