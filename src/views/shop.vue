@@ -15,11 +15,13 @@
         </div>
       </div>
     </div>
+    <prompt />
   </div>
 </template>
 <script>
 import goodsData from '@/lib/newGoodsData'
 import ShopItem from '@/components/ShopItem'
+import Prompt from '@/components/Prompt'
 export default {
   name: 'shop',
   data () {
@@ -28,7 +30,8 @@ export default {
     }
   },
   components: {
-    ShopItem
+    ShopItem,
+    Prompt
   }
 }
 </script>

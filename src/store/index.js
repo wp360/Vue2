@@ -5,7 +5,8 @@ Vue.use(Vuex)
 
 let store = new Vuex.Store({
   state: {
-    carPanelData: []
+    carPanelData: [],
+    maxOff: false
   },
   getters: {
     totalCount (state) {
@@ -30,6 +31,10 @@ let store = new Vuex.Store({
         if(goods.sku_id === data.sku_id) {
           goods.count ++
           bOff = false
+          if (goods.count > goods.limit_num) {
+            goods.count --
+            state.maxOff = true
+          }
         }
       })
       if(bOff) {
@@ -46,6 +51,9 @@ let store = new Vuex.Store({
           return
         }
       })
+    },
+    closePrompt (state) {
+      state.maxOff = false
     }
   }
 })
