@@ -38,6 +38,14 @@ let store = new Vuex.Store({
         state.carPanelData.push(goodsData)
       }
       console.log(state.carPanelData)
+    },
+    delCarPanelData (state,id) {
+      state.carPanelData.forEach((goods,index) => {
+        if (goods.sku_id === id) {
+          state.carPanelData.splice(index,1)
+          return
+        }
+      })
     }
   }
 })

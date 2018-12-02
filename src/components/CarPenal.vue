@@ -33,7 +33,7 @@
                         </h6>
                       </div>
                     </div>
-                    <div class="del-btn">删除</div>
+                    <div class="del-btn" @click="delCarPanelHandle(item.sku_id)">删除</div>
                   </div>
                 </div>
               </li>
@@ -63,6 +63,11 @@
       },
       totalPrice () {
         return this.$store.getters.totalPrice
+      }
+    },
+    methods: {
+      delCarPanelHandle (id) {
+        this.$store.commit('delCarPanelData', id)
       }
     }
   }
