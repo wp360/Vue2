@@ -8,7 +8,12 @@ let store = new Vuex.Store({
     carPanelData: [],
     maxOff: false,
     carShow: false,
-    carTimer: null
+    carTimer: null,
+    ball: {
+      show: false,
+      el: null,
+      img: ''
+    }
   },
   getters: {
     totalCount (state) {
@@ -29,25 +34,34 @@ let store = new Vuex.Store({
   mutations: {
     addCarPanelData (state,data) {
       let bOff = true
-      state.carPanelData.forEach((goods) => {
-        if(goods.sku_id === data.sku_id) {
-          goods.count ++
-          bOff = false
-          if (goods.count > goods.limit_num) {
-            goods.count --
-            state.maxOff = true
-            return
+      if (!state.ball.show) {
+        state.carPanelData.forEach((goods) => {
+          if (goods.sku_id === data.sku_id) {
+            goods.count++
+            bOff = false
+            if (goods.count > goods.limit_num) {
+              goods.count--
+              state.maxOff = true
+              return
+            }
+            state.carShow = true
+            state.ball.show = true
+            state.ball.img = data.ali_image
+            state.ball.el = event.path[0]
           }
+        })
+        if (bOff) {
+          let goodsData = data
+          Vue.set(goodsData, 'count', 1)
+          state.carPanelData.push(goodsData)
           state.carShow = true
+          state.ball.show = true
+          state.ball.img = data.ali_image
+          state.ball.el = event.path[0]
         }
-      })
-      if(bOff) {
-        let goodsData = data
-        Vue.set(goodsData,'count',1)
-        state.carPanelData.push(goodsData)
-        state.carShow = true
+      // window.console.log(event)
+      // console.log(state.carPanelData)
       }
-      console.log(state.carPanelData)
     },
     delCarPanelData (state,id) {
       state.carPanelData.forEach((goods,index) => {

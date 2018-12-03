@@ -1,6 +1,6 @@
 <template>
   <li class="nav-cart" @mouseenter="showCarHandle" @mouseleave="hideCarHandle">
-    <a href="javascript:;">购物车</a>
+    <a href="javascript:;" class="ball-rect">购物车</a>
     <!--根据class改变颜色-->
     <span class="cart-empty-num" :class="{'cart-num':totalCount>0}">
       <i>{{totalCount}}</i>
@@ -50,6 +50,11 @@
         </div>
       </div>
     </div>
+    <transition name="ball" @before-enter="beforeEnter" @enter="enter" @after-enter="afterEnter" :css="true">
+      <div class="addcart-mask" v-show="ball.show">
+        <img class="mask-item">
+      </div>
+    </transition>
   </li>
 </template>
 <script>
@@ -66,6 +71,9 @@
       },
       carShow () {
         return this.$store.state.carShow
+      },
+      ball () {
+        return this.$store.state.ball
       }
     },
     methods: {
@@ -77,7 +85,35 @@
       },
       hideCarHandle () {
         this.$store.commit('hideCar')
+      },
+      beforeEnter (el) {
+        let rect = this.ball.el.getBoundingClientRect()
+        let rectEl = document.getElementsByClassName('ball-rect')[0].getBoundingClientRect()
+        let ball = document.getElementsByClassName('mask-item')[0]
+        let x = (rectEl.left + 16) - (rect.left + rect.width / 2)
+        let y = rect.top + rect.height / 2 - rectEl.top + 5 - 16
+        el.style.transform = 'translate3d(0,' + y + 'px,0)'
+        ball.style.transform = 'translate3d(-' + x + 'px,0,0)'
+        ball.src = this.ball.img
+      },
+      enter (el) {
+        let a = el.offsetHeight
+        el.a = a
+        el.style.transform = 'translate3d(0,0,0)'
+        document.getElementsByClassName('mask-item')[0].style.transform = 'translate3d(0,0,0)'
+      },
+      afterEnter () {
+        this.ball.show = false
       }
     }
   }
 </script>
+<style>
+  .ball-enter-active {
+    transition: 1s cubic-bezier(.32,.89,.72,1.32);
+  }
+
+  .ball-enter-active .mask-item{
+    transition: 1s cubic-bezier(0,0,1,1);
+  }
+</style>

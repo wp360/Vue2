@@ -1,4 +1,5 @@
 @charset "utf-8";
+
 .nav-global {
   height: 100px;
   background-color: #000;
@@ -10,9 +11,7 @@
   margin: 0 auto;
 }
 
-
 /*logo*/
-
 .nav-logo {
   float: left;
   padding-top: 25px;
@@ -26,9 +25,7 @@
   background-size: cover;
 }
 
-
 /*导航*/
-
 .nav-global .nav-list {
   float: right;
   line-height: 28px;
@@ -37,6 +34,7 @@
 
 .nav-global .nav-list li {
   float: left;
+
 }
 
 .nav-global .nav-list a {
@@ -66,9 +64,7 @@
   font-size: 0;
 }
 
-
 /*用户列表*/
-
 .nav-user {
   margin-left: 40px;
   width: 36px;
@@ -221,9 +217,7 @@
   background-position: 0 -84px;
 }
 
-
 /*购物车*/
-
 .nav-cart {
   margin-left: 21px;
   width: 61px;
@@ -289,6 +283,7 @@
   position: absolute;
   right: 0;
   padding-top: 18px;
+  opacity: 1;
   top: 18px;
   z-index: 30;
   width: 360px;
@@ -438,7 +433,7 @@
 
 .nav-cart-list .item-desc .attrs span {
   position: relative;
-  */ display: inline-block;
+  display: inline-block;
   margin-right: 20px;
   font-size: 14px;
   line-height: 14px;
@@ -527,6 +522,7 @@
   right: 20px;
   top: 20px;
   width: 108px;
+
 }
 
 .nav-aside .nav-cart-btn {
@@ -543,9 +539,7 @@
   text-shadow: 0 -1px 0 rgba(0, 0, 0, .15)
 }
 
-
 /*次导航*/
-
 .nav-sub {
   position: relative;
   z-index: 20;
@@ -604,4 +598,29 @@
 
 .nav-sub .nav-list li a:hover {
   color: #6b95ea;
+}
+
+.nav-global .addcart-mask {
+  position: absolute;
+  left: 0;
+  top: -5px;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  pointer-events: none;
+  z-index: 240;
+  transform: translate3d(0, 0, 0);
+}
+
+.nav-global .addcart-mask .mask-item {
+  pointer-events: none;
+  width: 32px;
+  height: 32px;
+  box-sizing: border-box;
+  overflow: hidden;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 0 0 1px rgba(0, 0, 0, .05), 0 3px 8px rgba(0, 0, 0, .1);
+  background-size: contain;
+  transform: translate3d(0, 0, 0);
 }
