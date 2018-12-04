@@ -172,7 +172,6 @@ let itemsData = [{
     "http://image.smartisanos.cn/resource/40b8c1b1e5d175cc8fa9e7ff96cb6016.jpg",
     "http://image.smartisanos.cn/resource/fb24dc3db26c6f02542e0dea9b10151b.jpg"
   ],
-  "limit_num": 1,
   "sku_list": [{
     "id": 100029901,
     "image": "attr/v2/1000299/B37F37544921114CEF1EC01ED4DF44E4/",
