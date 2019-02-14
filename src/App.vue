@@ -15,12 +15,36 @@
       </li>
     </ul>
     <router-view/>
+    <button class="btn" @click="backHandler">后退</button>
+    <button class="btn" @click="forwardHandler">前进</button>
+    <button class="btn" @click="goHandler">跳步-2</button>
+    <button class="btn" @click="pushHandler">push</button>
+    <button class="btn" @click="replaceHandler">replace</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'App'
+  name: 'App',
+  methods: {
+    backHandler () {
+      this.$router.go(-1)
+    },
+    forwardHandler () {
+      this.$router.go(1)
+    },
+    goHandler () {
+      this.$router.go(-2)
+    },
+    pushHandler () {
+      // 字符串用法
+      this.$router.push('/bar')
+    },
+    replaceHandler () {
+      // 字符串用法
+      this.$router.replace('/bar')
+    }
+  }
 }
 </script>
 
@@ -45,9 +69,18 @@ export default {
   color: #666;
 }
 .banner {
-  padding: 10px 0 ;
+  padding: 10px 0;
 }
 .banner h3 {
   font-size: 24px;
+}
+
+.btn {
+  padding: 5px 15px;
+  background: #008083;
+  color: #fff;
+  border-radius: 4px;
+  margin-right: 5px;
+  cursor: pointer;
 }
 </style>

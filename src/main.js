@@ -8,6 +8,10 @@ import router from './router'
 import './assets/style/reset.css'
 import 'iview/dist/styles/iview.css'
 
+import axios from 'axios'
+// 只能把axios挂载到vue的原型上
+Vue.prototype.$axios = axios
+
 Vue.config.productionTip = false
 // Vue.use(iView)
 
