@@ -21,6 +21,7 @@ npm run build --report
 For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
 
 ## 初始化项目目录结构
+```
 |-- build (项目构造(webpack)相关代码)
     |-- build.js (生产环境构造代码)
     |-- check-version.js (检查node 、npm等版本)
@@ -47,6 +48,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 |-- .babelrc (ES6语法编译配置)
 |-- .gitignore (git 上传需要忽略的文件格式)
 |-- README.md (项目说明)
+```
 
 ##iview 按需引入vue项目中
 1. `npm install babel-plugin-import --save-dev`
@@ -64,7 +66,6 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ```js
 import 'iview/dist/styles/iview.css'
 ```
-
 
 ## git远程上传
 ```

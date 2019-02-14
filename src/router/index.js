@@ -1,6 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
+import Index from '@/pages/index'
+import Bar from '@/pages/bar'
+import User from '@/pages/user'
+import Login from '@/pages/login'
 
 Vue.use(Router)
 
@@ -8,8 +11,26 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'HelloWorld',
-      component: HelloWorld
+      name: 'Index',
+      component: Index
+    },
+    // 我是关于我们
+    {
+      path: '/bar',
+      name: 'Bar',
+      component: Bar
+    },
+    // 我是账户中心
+    {
+      path: '/user',
+      name: 'User',
+      component: User
+    },
+    // 我是登录
+    {
+      path: '/login',
+      name: 'Login',
+      component: Login
     }
   ]
 })
