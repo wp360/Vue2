@@ -12,6 +12,10 @@
           <h3>父组件</h3>
           <p>子组件传递的数据：{{msg}}</p>
           <child @change='getVal'></child>
+          <br>
+          <p>{{txt}}</p>
+          <ChildOne @change="getChildVal"></ChildOne>
+          <ChildTwo :countval="txt"></ChildTwo>
         </div>
     </div>
 </template>
@@ -20,18 +24,23 @@
 // 引入组件
 import ListItem from '@/components/ticketlist/listitem'
 import child from './child'
+import ChildOne from './childone'
+import ChildTwo from './childtwo'
 export default {
   data () {
     return {
       // listdata: '',
       count: 100,
-      msg: ''
+      msg: '',
+      txt: 0
     }
   },
   components: {
     // 注册组件
     ListItem,
-    child
+    child,
+    ChildOne,
+    ChildTwo
   },
   methods: {
     // 单击按钮改变listdata数据
@@ -40,6 +49,9 @@ export default {
     },
     getVal (val) {
       this.msg = val
+    },
+    getChildVal (val) {
+      this.txt = val
     }
   }
 }
