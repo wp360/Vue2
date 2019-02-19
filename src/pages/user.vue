@@ -16,6 +16,11 @@
           <p>{{txt}}</p>
           <ChildOne @change="getChildVal"></ChildOne>
           <ChildTwo :countval="txt"></ChildTwo>
+          <div class="hello">
+            <popup>
+              <h1>显示弹出框内容</h1>
+            </popup>
+          </div>
         </div>
     </div>
 </template>
@@ -26,7 +31,9 @@ import ListItem from '@/components/ticketlist/listitem'
 import child from './child'
 import ChildOne from './childone'
 import ChildTwo from './childtwo'
+import popup from './popup'
 export default {
+  name: 'HelloWorld',
   data () {
     return {
       // listdata: '',
@@ -40,7 +47,8 @@ export default {
     ListItem,
     child,
     ChildOne,
-    ChildTwo
+    ChildTwo,
+    popup
   },
   methods: {
     // 单击按钮改变listdata数据
