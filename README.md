@@ -35,7 +35,7 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
     |-- index.js (项目一些配置变量)
     |-- prod.env.js (生产环境变量)
 |-- node_modules (依赖的node工具包目录)
-|-- src (源码自录)
+|-- src (源码目录)
     |-- assets (资源目录)
     |-- components (组件目录)
     |-- router (路由配置目录)
@@ -66,6 +66,10 @@ For a detailed explanation on how things work, check out the [guide](http://vuej
 ```js
 import 'iview/dist/styles/iview.css'
 ```
+
+## 自定义事件及$emit 方法
+> 语法： this.$emit('event',val)
+> $emit为实例方法，用来触发事件监听。其中，参数event代表自定义事件名称，参数val代表通过自定义事件传递的值， 注意这里的val为可选参数。
 
 ## git远程上传
 ```
