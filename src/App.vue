@@ -13,6 +13,9 @@
       <li>
         <router-link to="/login">登录</router-link>
       </li>
+      <li>
+        <router-link to="/map">地图</router-link>
+      </li>
     </ul>
     <router-view/>
     <button class="btn" @click="backHandler">后退</button>

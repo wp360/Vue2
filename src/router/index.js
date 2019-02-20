@@ -4,6 +4,7 @@ import Index from '@/pages/index'
 import Bar from '@/pages/bar'
 import User from '@/pages/user'
 import Login from '@/pages/login'
+import Map from '@/pages/map'
 
 Vue.use(Router)
 
@@ -31,6 +32,12 @@ export default new Router({
       path: '/login',
       name: 'Login',
       component: Login
+    },
+    // 百度地图
+    {
+      path: '/map',
+      name: 'Map',
+      component: Map
     }
   ]
 })
