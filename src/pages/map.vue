@@ -1,5 +1,12 @@
 <template>
-    <div id="page" ref="allmap"></div>
+    <div class="page">
+        <p>{{count}}</p>
+        <p>
+            <button class="btn" @click="increment">+</button>
+            <button class="btn" @click="decrement">-</button>
+        </p>        
+        <div id="page" ref="allmap"></div>        
+    </div>
 </template>
 <script>
 import BMap from 'BMap'
@@ -9,10 +16,22 @@ export default {
     return {}
   },
   components: {},
+  computed: {
+      count () {
+          return this.$store.state.count
+      }
+  },
   mounted () {
     this.mapdata()
   },
   methods: {
+    // 改变store 中的状态的唯一途径就是显式地提交（commit) mutation
+    increment () {
+        this.$store.commit('increment')
+    },
+    decrement () {
+        this.$store.commit('decrement')
+    },
     mapdata () {
       // 创建Map实例
       var map = new BMap.Map('page')
