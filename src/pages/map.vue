@@ -1,15 +1,25 @@
 <template>
     <div class="page">
+        <!-- Vuex -->
         <p>{{count}}</p>
         <p>
             <button class="btn" @click="increment">+</button>
             <button class="btn" @click="decrement">-</button>
-        </p>        
-        <div id="page" ref="allmap"></div>        
+        </p>
+        <!-- 二维码 -->
+        <div class="qrcode">
+            <!-- 生成二维码区域 -->
+            <canvas id="canvas"></canvas>
+        </div>
+        <div id="page" ref="allmap"></div>
     </div>
 </template>
 <script>
+import Vue from 'vue'
+// 引入qrcode插件
+import QRCode from 'qrcode'
 import BMap from 'BMap'
+Vue.use(QRCode)
 export default {
   props: ['mapitem'],
   data () {
@@ -17,20 +27,31 @@ export default {
   },
   components: {},
   computed: {
-      count () {
-          return this.$store.state.count
-      }
+    count () {
+      return this.$store.state.count
+    }
   },
   mounted () {
-    this.mapdata()
+    // this.mapdata()
+    this.useqrcode() // 组件挂载的时候，调用生成二维码函数
   },
   methods: {
     // 改变store 中的状态的唯一途径就是显式地提交（commit) mutation
     increment () {
-        this.$store.commit('increment')
+      this.$store.commit('increment')
     },
     decrement () {
-        this.$store.commit('decrement')
+      this.$store.commit('decrement')
+    },
+    useqrcode () {
+      var canvas = document.getElementById('canvas')
+      QRCode.toCanvas(canvas, 'http://www.baidu.com', function (error) {
+        if (error) {
+          console.log(error)
+        } else {
+          console.log('success')
+        }
+      })
     },
     mapdata () {
       // 创建Map实例
