@@ -11,6 +11,10 @@
             <!-- 生成二维码区域 -->
             <canvas id="canvas"></canvas>
         </div>
+        <div class="map-area">
+            <div id="l-map"></div>
+            <div id="r-result"></div>
+        </div>
         <div id="page" ref="allmap"></div>
     </div>
 </template>
@@ -33,9 +37,21 @@ export default {
   },
   mounted () {
     // this.mapdata()
+    this.map()
     this.useqrcode() // 组件挂载的时候，调用生成二维码函数
   },
   methods: {
+    map () {
+      // 百度地图API功能
+      var map = new BMap.Map('l-map') // 创建Map实例
+      map.centerAndZoom(new BMap.Point(116.307689, 40.056974), 12)
+      var myKeys = ['酒店', '加油站']
+      var local = new BMap.LocalSearch(map, {
+        renderOptions: { map: map, panel: 'r-result' },
+        pageCapacity: 3
+      })
+      local.searchInBounds(myKeys, map.getBounds())
+    },
     // 改变store 中的状态的唯一途径就是显式地提交（commit) mutation
     increment () {
       this.$store.commit('increment')
@@ -85,4 +101,15 @@ export default {
        width: 700px;
        height: 450px;
    }
+   .map-area {
+        width: 500px;
+        margin: 0 auto;
+    }
+   #l-map {
+        width: 500px;
+        height: 300px;
+    }
+    #r-result {
+        width: 300px;
+    }
 </style>
