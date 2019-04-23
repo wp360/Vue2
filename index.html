@@ -1,0 +1,24 @@
+<html>
+<head>
+  <title>Notebook</title>
+  <!-- Icons & Stylesheets -->
+  <!-- <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet"> -->
+  <link rel="stylesheet" href="https://cdn.bootcss.com/material-design-icons/3.0.0/iconfont/material-icons.css">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- 在页面中包含JavaScript库 -->
+  <script src="https://unpkg.com/vue/dist/vue.js"></script>
+
+  <!-- 笔记本应用 -->
+  <div id="notebook">
+    <!-- 主版面 -->
+    <section class="main">
+      <textarea v-model="content"></textarea>
+    </section>
+  </div>
+
+  <!-- 一些JavaScript代码 -->
+  <script src="script.js"></script>
+</body>
+</html>
