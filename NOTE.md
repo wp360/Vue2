@@ -46,5 +46,8 @@
 /users/getUser
 ```
 
+#### koa-passport学习笔记
+[https://www.jianshu.com/p/622561ec7be2](https://www.jianshu.com/p/622561ec7be2)
+
 #### 参考笔记
 [https://www.cnblogs.com/xiaozhumaopao/p/10368420.html](https://www.cnblogs.com/xiaozhumaopao/p/10368420.html)

@@ -124,6 +124,7 @@ export default {
             self.timerid = setInterval(function () {
               self.statusMsg = `验证码已发送,剩余${count--}秒`
               if (count === 0) {
+                self.statusMsg = ''
                 clearInterval(self.timerid)
               }
             }, 1000)
