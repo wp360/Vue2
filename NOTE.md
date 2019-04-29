@@ -46,6 +46,25 @@
 /users/getUser
 ```
 
+#### 数据库导入
+> mongoimport -d dbs -c test pois.dat
+
+`mongoimport -d student -c areas areas.dat`
+`mongoimport -d student -c category category.dat`
+`mongoimport -d student -c cities cities.dat`
+`mongoimport -d student -c maps maps.dat`
+`mongoimport -d student -c menus menus.dat`
+`mongoimport -d student -c pois pois.dat`
+`mongoimport -d student -c provinces provinces.dat`
+`mongoimport -d student -c regions regions.dat`
+`mongoimport -d student -c topsearches topsearches.dat`
+
+* 需要导入的数据库文档：areas、category、cities、maps、menus、pois、provinces、regions、topsearches
+
+#### 接口签名
+> axios.get(`http://cp-tools.cn/geo/getPosition?sign=${sign}`)
+> http://cp-tools.cn/sign 请输入用户id 获取
+
 #### koa-passport学习笔记
 [https://www.jianshu.com/p/622561ec7be2](https://www.jianshu.com/p/622561ec7be2)
 
