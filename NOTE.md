@@ -117,3 +117,127 @@ const router = new VueRouter({
 * active class
 > 路由器链接在与其关联的路由当前处于激活状态时获取active class。默认情况下，组件使用router-link-active CSS 类，因此你可以相应地更改其视觉效果。
 * 将exact属性添加到Home链接上，确保默认高亮显示。
+
+## FAQ——使用API
+1. 服务器设置
+```
+安装依赖并启动服务器：
+cd server
+npm install
+npm start
+```
+2. fetch 用法的示例：
+```js
+fetch(url).then(response => {
+  if (response.ok) {
+    // 返回一个新的Promise
+    return response.json()
+  } else {
+    return Promise.reject('error')
+  }
+}).then(result => {
+  // 成功
+  console.log('JSON:', result)
+}).catch(e => {
+  // 失败
+  console.error(e)
+})
+
+// 实例
+created() {
+  fetch("http://localhost:3000/questions")
+    .then(response => {
+      if (response.ok) {
+        console.log(response);
+        return response.json();
+      } else {
+        return Promise.reject("error");
+      }
+    })
+    .then(result => {
+      console.log('result:' + result);
+      // 结果是来自服务器的JSON 解析而成的对象
+      this.questions = result;
+    })
+    .catch(e => {
+      this.error = e;
+    });
+}
+
+// 使用JavaScript关键字async和await重写这段代码，使其看起来像同步执行的代码：
+async created() {
+  try {
+    const response = await fetch('http://localhost:3000/questions')
+    if (response.ok) {
+      this.questions = await response.json()
+    } else {
+      throw new Error('error')
+    }
+  } catch (e) {
+    this.error = e
+  }
+},
+
+// try-catch的使用
+try {
+// 正常流程
+} catch (e) {
+// 如果是程序的错，就告诉用户不好意思没法执行
+}
+
+```
+## Loading加载动画
+1. 新建Loading组件
+```vue
+<!-- Loading.vue -->
+<template>
+  <div class="loading">
+    <!-- 加载动画 -->
+    <div></div>
+  </div>
+</template>
+```
+2. 全局组件添加
+* 新建global-components.js
+```js
+import Vue from 'vue'
+import Loading from './components/Loading.vue'
+
+Vue.component('Loading', Loading)
+
+```
+3. main.js导入
+```js
+// 省略
+import './global-components'
+
+```
+4. 页面添加
+```vue
+<!-- FAQ.vue -->
+<!-- 模板添加 -->
+<template>
+  <main class="faq">
+    <h1>Frenquently Asked Questions</h1>
+    <Loading v-if="loading" />
+    <!-- 省略 -->
+  </main>
+</template>
+<script>
+// 默认data设置false
+export default {
+  data() {
+    return {
+      // 省略
+      loading: false,
+    };
+  },
+  async created() {
+    this.loading = true
+    // fetch获取数据，省略
+    this.loading = false
+  }
+};
+</script>
+```
+5. 加载样式

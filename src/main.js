@@ -2,6 +2,7 @@ import "babel-polyfill"
 import Vue from "vue"
 import AppLayout from './components/AppLayout.vue'
 import router from './router'
+import './global-components'
 
 new Vue({
   el: "#app",
@@ -9,3 +10,4 @@ new Vue({
   // 将路由器提供给应用
   router,
 });
+
