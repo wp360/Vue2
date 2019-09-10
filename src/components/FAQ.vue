@@ -42,16 +42,24 @@ export default {
   // }
   // 使用JavaScript关键字async和await重写这段代码，使其看起来像同步执行的代码：
   async created() {
+    // this.loading = true
+    // try {
+    //   const response = await fetch("http://localhost:3000/questions");
+    //   if (response.ok) {
+    //     this.questions = await response.json();
+    //   } else {
+    //     throw new Error("error");
+    //   }
+    // } catch (e) {
+    //   this.error = e;
+    // }
+    // this.loading = false
     this.loading = true
     try {
-      const response = await fetch("http://localhost:3000/questions");
-      if (response.ok) {
-        this.questions = await response.json();
-      } else {
-        throw new Error("error");
-      }
-    } catch (e) {
-      this.error = e;
+      this.questions = await this.$fetch('questions')
+    }
+    catch (e) {
+      this.error = e
     }
     this.loading = false
   }

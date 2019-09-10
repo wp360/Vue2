@@ -241,3 +241,32 @@ export default {
 </script>
 ```
 5. 加载样式
+
+## 用自己的插件扩展Vue
+* 创建一个插件
+> src >> plugins >> fetch.js
+```js
+export default {
+  install(Vue) {
+    console.log('Installed!')
+  }
+}
+
+```
+* 调用
+```js
+// main.js
+import VueFetch from './plugins/fetch'
+Vue.use(VueFetch)
+```
+> 在浏览器控制台中看到消息Installed!。
+* 插件选项
+> 使用options 参数配置插件
+```js
+// fetch.js
+export default {
+  install (Vue, options) {
+    console.log('Installed!', options)
+  },
+}
+```
