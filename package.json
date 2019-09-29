@@ -1,0 +1,17 @@
+{
+  "name": "vue-admin",
+  "version": "1.0.0",
+  "description": "Vue2.0开发后台管理系统",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "server": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "haidebaozi",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "mongoose": "^5.7.1"
+  }
+}
