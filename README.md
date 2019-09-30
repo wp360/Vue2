@@ -53,7 +53,7 @@ mongoose.connect(db)
 const express = require("express");
 const router = express.Router();
 
-// $route GET api/users/test
+// $route GET api/users/login
 // @desc 返回的请求的json数据
 // @access public
 router.get("/login", (req,res) => {
@@ -102,4 +102,64 @@ const UserSchema = new Schema({
 })
 
 modeule.exports = User = mongoose.model("users", UserSchema);
+```
+10. body-parser中间件
+> body-parser是非常常用的一个express中间件，作用是对post请求的请求体进行解析。使用非常简单，以下两行代码已经覆盖了大部分的使用场景。
+```js
+// server.js
+//引入
+const bodyParser = require("body-parser");
+
+// 使用body-parser中间件
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+
+```
+
+11. 添加路由
+```js
+// 引入模型
+const User = require("../../models/User");
+
+// $route POST api/users/register
+// @desc 返回的请求的json数据
+// @access public
+router.post("/register", (req,res) => {
+  console.log(req.body);
+  // 查询数据库中是否拥有邮箱
+  User.findOne({email: req.body.email}).then((user) => {
+    if(user) {
+      return res.status(400).json({email: "邮箱已被注册！"});
+    } else {
+      const newUser = new User({
+        name: req.body.name,
+        email: req.body.email,
+        // avatar,
+        password: req.body.password
+      })
+    }
+});
+
+```
+12. bcrypt加密
+`npm i bcrypt`
+```js
+// users.js
+const bcrypt = require("bcrypt");
+// 省略
+  //进行加密
+  bcrypt.genSalt(10, (err, salt) => {
+    if (err) {
+      throw err;
+    }
+    bcrypt.hash(newUser.password, salt, (err, hash) => {
+      if (err) {
+        throw err;
+      }
+      newUser.password = hash;
+      newUser.save()
+      .then(user => res.json(user))
+      .catch(err=> console.log(err));
+    });
+  });
 ```
