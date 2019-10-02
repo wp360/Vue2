@@ -163,3 +163,23 @@ const bcrypt = require("bcrypt");
     });
   });
 ```
+13. avatar头像处理
+`npm i gravatar`
+```js
+// api >> users.js
+// 头像
+const gravatar = require('gravatar');
+// ...省略
+  // 查询数据库中是否拥有邮箱
+  User.findOne({email: req.body.email}).then((user) => {
+    if(user) {
+      return res.status(400).json({email: "邮箱已被注册！"});
+    } else {
+      const avatar = gravatar.url(req.body.email,
+      {
+        s: '200',
+        r: 'pg',
+        d: 'mm'
+      });
+// ...省略
+```
