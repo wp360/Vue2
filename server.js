@@ -20,8 +20,11 @@ app.use(bodyParser.json());
 // passport初始化
 app.use(passport.initialize());
 
+// 解决findOneAndUpdate()更新数据库警告问题
+mongoose.set('useFindAndModify', false);
+
 // 连接数据库
-mongoose.connect(db)
+mongoose.connect(db,{useNewUrlParser: true, useUnifiedTopology: true})
   .then(()=> console.log("数据库连接成功！"))
   .catch(err => console.log(err));
 
