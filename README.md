@@ -1,4 +1,5 @@
-## 开发流程
+# 开发流程
+## 一、 Node服务端
 1. 初始化
 `npm init`
 2. 构建服务
@@ -116,7 +117,7 @@ app.use(bodyParser.json());
 
 ```
 
-11. 添加路由
+11. 添加路由（注册）
 ```js
 // 引入模型
 const User = require("../../models/User");
@@ -168,7 +169,7 @@ const bcrypt = require("bcrypt");
 ```js
 // api >> users.js
 // 头像
-const gravatar = require('gravatar');
+const gravatar = require("gravatar");
 // ...省略
   // 查询数据库中是否拥有邮箱
   User.findOne({email: req.body.email}).then((user) => {
@@ -262,8 +263,8 @@ app.use(passport.initialize());
 ```
 * 新建passport.js
 ```js
-const JwtStrategy = require('passport-jwt').Strategy,
-  ExtractJwt = require('passport-jwt').ExtractJwt;
+const JwtStrategy = require("passport-jwt").Strategy,
+  ExtractJwt = require("passport-jwt").ExtractJwt;
 const mongoose = require("mongoose");
 const User = mongoose.model("users");
 const keys = require("../config/keys");
@@ -364,4 +365,91 @@ router.get("/current", passport.authenticate("jwt", {session: false}), (req,res)
     email: req.user.email,
     identity: req.user.identity
   });
+```
+18. 信息数据接口
+* 新建模型
+```js
+// models >> Profile.js
+const mongoose = require("mongoose");
+const Schema = mongoose.Schema;
+
+// Create Schema
+const ProfileSchema = new Schema({
+  type: {
+    type: String
+  },
+  describe: {
+    type: String
+  },
+  income: {
+    type: String,
+    required: true
+  },
+  expend: {
+    type: String,
+    required: true
+  },
+  cash: {
+    type: String,
+    required: true
+  },
+  remark: {
+    type: String
+  },
+  date: {
+    type: Date,
+    default: Date.now
+  }
+})
+
+module.exports = Profile = mongoose.model("profile", ProfileSchema);
+```
+19. 新建路由api
+> api >> profiles.js
+```js
+// 信息数据接口
+const express = require("express");
+const router = express.Router();
+// passport
+const passport = require("passport");
+const Profile = require("../../models/Profile");
+
+// 测试
+// $route GET api/profiles/test
+// @desc 返回的请求的json数据
+// @access public
+router.get("/test", (req, res) => {
+  res.json({ msg: "profile works"});
+});
+
+// 添加
+// $route POST api/profiles/add
+// @desc 创建信息接口
+// @access Private
+router.post("/add",passport.authenticate("jwt", {session: false}), (req, res) => {
+  const profileFields = {};
+
+  if (req.body.type) profileFields.type = req.body.type;
+  if (req.body.describe) profileFields.describe = req.body.describe;
+  if (req.body.income) profileFields.income = req.body.income;
+  if (req.body.expend) profileFields.expend = req.body.expend;
+  if (req.body.cash) profileFields.cash = req.body.cash;
+  if (req.body.remark) profileFields.remark = req.body.remark;
+
+  new Profile(profileFields).save().then(profile => {
+    res.json(profile);
+  });
+});
+
+module.exports = router;
+```
+20. 引入profile模型
+```js
+// server.js
+// 引入profiles.js
+const profiles = require("./routes/api/profiles");
+
+// 使用routes
+app.use("/api/users", users);
+app.use("/api/profiles", profiles);
 ```

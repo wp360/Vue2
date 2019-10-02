@@ -5,7 +5,7 @@ const User = require("../../models/User");
 // 加密
 const bcrypt = require("bcrypt");
 // 头像
-const gravatar = require('gravatar');
+const gravatar = require("gravatar");
 // token
 const jwt = require("jsonwebtoken");
 // secret
