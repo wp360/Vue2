@@ -453,3 +453,35 @@ const profiles = require("./routes/api/profiles");
 app.use("/api/users", users);
 app.use("/api/profiles", profiles);
 ```
+21. 获取所有信息
+```js
+// api > profiles.js
+// 获取
+// $route GET api/profiles
+// @desc 获取所有信息
+// @access Private
+router.get("/", passport.authenticate("jwt", {session: false}), (req,res) => {
+  Profile.find()
+    .then(profile => {
+      if(!profile) {
+        return res.status(404).json("没有任何内容");
+      }
+      res.json(profile);
+    }).catch(err => res.status(404).json(err));
+});
+
+// $route GET api/profiles/:id
+// @desc 获取单个信息
+// @access Private
+router.get("/:id", passport.authenticate("jwt", {session: false}), (req, res) => {
+  Profile.findOne({_id: req.params.id})
+    .then(profile => {
+      if (!profile) {
+        return res.status(404).json("没有任何内容");
+      }
+      res.json(profile);
+    }).catch(err => res.status(404).json(err));
+});
+
+
+```
