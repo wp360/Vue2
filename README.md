@@ -329,3 +329,39 @@ router.get("/current", passport.authenticate("jwt", {session: false}), (req,res)
 });
 
 ```
+17. 身份（权限管理）
+* 模型添加身份字段
+```js
+// 模型User.js
+  identity: {
+    type: String,
+    required: true
+  },
+```
+* 路由对应添加
+```js
+// api >> users.js
+  const newUser = new User({
+    name: req.body.name,
+    email: req.body.email,
+    avatar,
+    password: req.body.password,
+    identity: req.body.identity
+  });
+
+// 登录处添加
+  const rule = {
+    id: user.id,
+    name: user.name,
+    avatar: user.avater,
+    identity: user.identity
+  };
+
+// 验证后返回添加
+  res.json({
+    id: req.user.id,
+    name: req.user.name,
+    email: req.user.email,
+    identity: req.user.identity
+  });
+```
