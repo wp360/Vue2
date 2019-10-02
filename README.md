@@ -239,3 +239,93 @@ const keys = require("../../config/keys");
       }
     });
 ```
+16. token验证
+```js
+// api >> users.js
+// token验证
+// $route GET api/users/current
+// @desc return current user
+// @access Private
+router.get("/current", "验证token", (req,res) => {
+  res.json({msg: "success"});
+});
+```
+* 安装插件
+`npm i passport passport-jwt`
+* 引入passport
+```js
+// server.js
+const passport = require("passport");
+
+// passport初始化
+app.use(passport.initialize());
+```
+* 新建passport.js
+```js
+const JwtStrategy = require('passport-jwt').Strategy,
+  ExtractJwt = require('passport-jwt').ExtractJwt;
+const mongoose = require("mongoose");
+const User = mongoose.model("users");
+const keys = require("../config/keys");
+
+const opts = {}
+
+opts.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
+opts.secretOrKey = keys.secretOrKey;
+
+module.exports = passport => {
+  passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
+    console.log(jwt_payload);
+  }));
+}
+```
+* 添加验证
+```js
+// api >> user.js
+// passport
+const passport = require("passport");
+// 验证
+router.get("/current", passport.authenticate("jwt", {session: false}), (req,res) => {
+  res.json({msg: "success"});
+});
+
+```
+* 修改token设置
+```js
+// api >> user.js
+token: "Bearer " + token
+```
+* postman测试
+> localhost:5000/api/users/login POST Body添加参数获取token
+> localhost:5000/api/users/current GET Headers添加Authorization及token值点击发送获取返回信息
+* passport设置
+```js
+// passport.js
+module.exports = passport => {
+  passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
+    // console.log(jwt_payload);
+    User.findById(jwt_payload.id)
+      .then(user => {
+        if (user) {
+          return done(null, user);
+        }
+        return done(null, false);
+      })
+      .catch(err => console.log(err));
+  }));
+}
+```
+* 修改验证返回
+```js
+// api >> users.js
+router.get("/current", passport.authenticate("jwt", {session: false}), (req,res) => {
+  // res.json({msg: "success"});
+  // res.json(req.user);
+  res.json({
+    id: req.user.id,
+    name: req.user.name,
+    email: req.user.email
+  });
+});
+
+```

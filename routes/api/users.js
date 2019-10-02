@@ -10,6 +10,8 @@ const gravatar = require('gravatar');
 const jwt = require("jsonwebtoken");
 // secret
 const keys = require("../../config/keys");
+// passport
+const passport = require("passport");
 
 // 登录
 // $route POST api/users/login
@@ -35,7 +37,7 @@ router.post("/login", (req,res) => {
               if(err) throw err;
               res.json({
                 success: true,
-                token: "bao" + token
+                token: "Bearer " + token
               });
             });
             // res.json({msg: "success"});
@@ -83,6 +85,20 @@ router.post("/register", (req,res) => {
         });
       });
     }
+  });
+});
+
+// token验证
+// $route GET api/users/current
+// @desc return current user
+// @access Private
+router.get("/current", passport.authenticate("jwt", {session: false}), (req,res) => {
+  // res.json({msg: "success"});
+  // res.json(req.user);
+  res.json({
+    id: req.user.id,
+    name: req.user.name,
+    email: req.user.email
   });
 });
 
