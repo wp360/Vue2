@@ -183,3 +183,59 @@ const gravatar = require('gravatar');
       });
 // ...省略
 ```
+14. 登录
+```js
+// api >> users.js
+// $route POST api/users/login
+// @desc 返回token jwt passport
+// @access public
+router.post("/login", (req,res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  // 查询数据库
+  User.findOne({email})
+    .then(user => {
+      if(!user) {
+        return res.status(404).json({email: "用户不存在！"});
+      }
+      // 密码匹配
+      bcrypt.compare(password, user.password)
+        .then(isMatch => {
+          if(isMatch) {
+            res.json({msg: "success"});
+          } else {
+            return res.status(400).json({password: "密码错误！"});
+          }
+        });
+    });
+});
+```
+15. 返回token
+`npm i jsonwebtoken`
+```js
+// api >> users.js
+// 引入
+const jwt = require("jsonwebtoken");
+// secret
+const keys = require("../../config/keys");
+// ...省略
+  // 密码匹配
+  bcrypt.compare(password, user.password)
+    .then(isMatch => {
+      if(isMatch) {
+        const rule = {id: user.id, name: user.name};
+        // jwt.sign("规则", "加密名字", "过期时间", "箭头函数")
+        // 3600 = 1小时
+        jwt.sign(rule, keys.secretOrKey, {expiresIn: 3600}, (err,token) => {
+          if(err) throw err;
+          res.json({
+            success: true,
+            token: "bao" + token
+          });
+        });
+        // res.json({msg: "success"});
+      } else {
+        return res.status(400).json({password: "密码错误！"});
+      }
+    });
+```
