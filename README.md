@@ -592,6 +592,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 
 Vue.use(ElementUI);
 ```
+## 注册页
+1. 新建页面
+2. 添加路由
 
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
