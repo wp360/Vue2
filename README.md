@@ -581,3 +581,19 @@ npm install -g @vue/cli
 ```
 4. 启动
 `npm run dev`
+## Element-UI
+1. 安装
+`npm i element-ui -S`
+2. 引入
+```js
+// main.js
+import ElementUI from 'element-ui';
+import 'element-ui/lib/theme-chalk/index.css';
+
+Vue.use(ElementUI);
+```
+
+## vue踩坑总结 & 优化点
+> 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
+* 参考 —— 1.11 js文件中引入的css不会自动加前缀(新的脚手架已解决该问题)
+[https://www.cnblogs.com/adelina-blog/p/8336548.html](https://www.cnblogs.com/adelina-blog/p/8336548.html)
