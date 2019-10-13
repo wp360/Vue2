@@ -30,7 +30,8 @@ export default {
   height: 210px;
   position: absolute;
   top: 10%;
-  left: 34%;
+  left: 50%;
+  margin-left: -175px;
   padding: 25px;
   border-radius: 5px;
   text-align: center;
