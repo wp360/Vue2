@@ -714,6 +714,57 @@ export default axios
 2. 复制Register.vue，以此基础修改Login.vue
 3. 登录测试
 
+## 路由守卫
+```js
+// client >> src >> router >> index.js
+// 添加路由守卫
+router.beforeEach((to, from, next) => {
+  const isLogin = localStorage.eleToken
+  // const isLogin = localStorage.eleToken ? true : false
+  if (to.path === '/login' || to.path === '/register') {
+    next()
+  } else {
+    isLogin ? next() : next('/login')
+  }
+})
+
+```
+## 请求拦截
+```js
+// client >> src >> http.js
+// 请求拦截  设置统一header
+axios.interceptors.request.use(config => {
+  // 加载动画
+  startLoading()
+  if (localStorage.eleToken) config.headers.Authorization = localStorage.eleToken
+  return config
+}, error => {
+  return Promise.reject(error)
+})
+
+// 响应拦截  401 token过期处理
+axios.interceptors.response.use(response => {
+  endLoading()
+  return response
+}, error => {
+  // 错误提醒
+  endLoading()
+  Message.error(error.response.data)
+  // 获取错误状态码
+  const { status } = error.response
+  if (status === 401) {
+    Message.error('token值无效，请重新登录')
+    // 清除token
+    localStorage.removeItem('eleToken')
+    // 页面跳转
+    router.push('/login')
+  }
+
+  return Promise.reject(error)
+})
+```
+> 测试时，可以修改routes >> api >> users.js里过期时间的值（expiresIn）
+
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
 * 参考 —— 1.11 js文件中引入的css不会自动加前缀(新的脚手架已解决该问题)

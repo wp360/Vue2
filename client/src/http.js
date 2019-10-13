@@ -1,5 +1,6 @@
 import axios from 'axios'
 import {Loading, Message} from 'element-ui'
+import router from './router'
 // 定义loading变量
 let loading
 
@@ -18,8 +19,9 @@ function endLoading () {
 
 // 请求拦截  设置统一header
 axios.interceptors.request.use(config => {
-  // 加载
+  // 加载动画
   startLoading()
+  if (localStorage.eleToken) config.headers.Authorization = localStorage.eleToken
   return config
 }, error => {
   return Promise.reject(error)
@@ -33,6 +35,16 @@ axios.interceptors.response.use(response => {
   // 错误提醒
   endLoading()
   Message.error(error.response.data)
+  // 获取错误状态码
+  const { status } = error.response
+  if (status === 401) {
+    Message.error('token值无效，请重新登录')
+    // 清除token
+    localStorage.removeItem('eleToken')
+    // 页面跳转
+    router.push('/login')
+  }
+
   return Promise.reject(error)
 })
 

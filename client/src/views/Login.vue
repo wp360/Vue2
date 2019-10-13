@@ -16,7 +16,7 @@
             <el-button type="primary" class="submit_btn" @click="submitForm('loginForm')">登录</el-button>
           </el-form-item>
           <div class="tiparea">
-            <p>还没有账号？现在<router-link to='/register'>登录</router-link></p>
+            <p>还没有账号？现在<router-link to='/register'>注册</router-link></p>
           </div>
         </el-form>
       </div>
