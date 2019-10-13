@@ -93,7 +93,18 @@ export default {
     submitForm (formName) {
       this.$refs[formName].validate(valid => {
         if (valid) {
-          alert('注册成功！')
+          // alert('注册成功！')
+          this.$axios
+            .post('/api/users/register', this.registerUser)
+            .then(res => {
+              // 注册成功
+              this.$message({
+                message: '注册成功！',
+                type: 'success'
+              })
+              // 注册成功跳转注册页
+              this.$router.push('/login')
+            })
         } else {
           console.log('error submit!!')
           return false
@@ -111,6 +122,7 @@ export default {
   background: url(../assets/bg.jpg) no-repeat center center;
   background-size: 100% 100%;
 }
+
 .form_container {
   width: 370px;
   height: 210px;
@@ -122,12 +134,14 @@ export default {
   border-radius: 5px;
   text-align: center;
 }
+
 .form_container .manage_tip .title {
   font-family:"Microsoft YaHei";
   font-weight: bold;
   font-size: 26px;
   color: #fff;
 }
+
 .registerForm {
   margin-top: 20px;
   background-color: #fff;

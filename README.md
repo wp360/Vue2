@@ -595,6 +595,118 @@ Vue.use(ElementUI);
 ## 注册页
 1. 新建页面
 2. 添加路由
+3. 使用ElementUI组件添加Form表单
+4. 添加判断
+5. 使用axios
+* 创建
+```js
+// client >> src >> http.js
+import axios from 'axios'
+
+// 请求拦截
+
+// 响应拦截
+
+export default axios
+```
+* 引入
+```js
+// client >> src >> main.js
+import axios from './http'
+
+// 省略
+
+// 全局使用axios
+Vue.prototype.$axios = axios
+```
+* 调整
+```js
+// client >> src >> http.js
+import axios from 'axios'
+import {Loading, Message} from 'element-ui'
+//定义loading变量
+let loading
+
+// 使用Element loading-start 方法
+function startLoading() {
+  loading = Loading.service({
+    lock: true,
+    text: '加载中...',
+    background: 'rgba(0, 0, 0, 0.7)'
+  })
+}
+// 使用Element loading-close 方法
+function endLoading() {
+  loading.close()
+}
+
+// 请求拦截  设置统一header
+axios.interceptors.request.use(config => {
+  // 加载
+  startLoading()
+  return config
+}, error => {
+  return Promise.reject(error)
+})
+
+// 响应拦截  401 token过期处理
+axios.interceptors.response.use(response => {
+  endLoading()
+  return response
+}, error => {
+  // 错误提醒
+  endLoading()
+  Message.error(error.response.data)
+  return Promise.reject(error)
+})
+
+export default axios
+
+```
+6. 跨域请求
+* 如果是Vue-cli3.0直接新增配置文件 client >> vue.config.js
+* 如果是旧版
+```js
+// client >> config >> index.js
+  // 代理解决跨域问题
+  proxyTable: {
+    '/api': {
+      target: 'http://localhost:5000/api/',
+      // secure: false, // 如果是https接口，需要配置这个参数
+      changeOrigin: true,
+      pathRewrite: {
+        '^/api': ''
+      }
+    }
+  },
+```
+7. 提交表单
+```js
+// Register.vue
+  methods: {
+    submitForm (formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // alert('注册成功！')
+          this.$axios
+            .post('/api/users/register', this.registerUser)
+            .then(res => {
+              // 注册成功
+              this.$message({
+                message: '注册成功！',
+                type: 'success'
+              })
+              // this.$router.push('/login')
+            })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    }
+  }
+```
+8. 提交测试
 
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
