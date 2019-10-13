@@ -708,6 +708,12 @@ export default axios
 ```
 8. 提交测试
 
+## 登录页
+1. 新建文件
+> views >> Login.vue
+2. 复制Register.vue，以此基础修改Login.vue
+3. 登录测试
+
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
 * 参考 —— 1.11 js文件中引入的css不会自动加前缀(新的脚手架已解决该问题)

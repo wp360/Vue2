@@ -3,7 +3,7 @@
     <section class="form_container">
       <div class="manage_tip">
         <span class="title">
-          Vue在线后台管理系统
+          Vue在线后台管理系统注册页
         </span>
         <el-form :model="registerUser" :rules="rules" ref="registerForm" label-width="80px" class="registerForm">
           <el-form-item label="用户名" prop="name">
