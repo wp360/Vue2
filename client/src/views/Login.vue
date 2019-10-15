@@ -24,6 +24,7 @@
   </div>
 </template>
 <script>
+import jwtDecode from 'jwt-decode'
 export default {
   name: 'login',
   components: {},
@@ -62,6 +63,9 @@ export default {
               const { token } = res.data
               // 存储
               localStorage.setItem('eleToken', token)
+              // 解析token
+              const decode = jwtDecode(token)
+              console.log(decode)
               // 登录成功跳转管理后台首页
               this.$router.push('/index')
             })

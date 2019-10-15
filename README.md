@@ -765,6 +765,20 @@ axios.interceptors.response.use(response => {
 ```
 > 测试时，可以修改routes >> api >> users.js里过期时间的值（expiresIn）
 
+## jwt-decode的使用
+> 当前端拿到后端返回的token，可以通过localStorage存储到本地，然后通过jwt-decode对token进行解析，jwt-decode是一种对token的解析包，通过npm install jwt-decode
+
+[Vue2.0-token权限处理 https://www.cnblogs.com/zhoulifeng/p/9858605.html](https://www.cnblogs.com/zhoulifeng/p/9858605.html)
+
+```js
+// Login.vue
+import jwtDecode from 'jwt-decode'
+
+// 解析token
+const decode = jwtDecode(token)
+console.log(decode)
+```
+
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
 * 参考 —— 1.11 js文件中引入的css不会自动加前缀(新的脚手架已解决该问题)
