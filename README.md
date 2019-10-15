@@ -779,6 +779,133 @@ const decode = jwtDecode(token)
 console.log(decode)
 ```
 
+## Vuex设置
+```js
+// store.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+
+Vue.use(Vuex)
+
+const types = {
+  SET_AUTHENTICATED: 'SET_AUTHENTICATED',
+  SET_USER: 'SET_USER'
+}
+
+const state = {
+  isAuthenticated: false,
+  user: {}
+}
+
+const getters = {
+  isAuthenticated: state => state.isAuthenticated,
+  user: state => state.user
+}
+
+const mutations = {
+  [types.SET_AUTHENTICATED] (state, isAuthenticated) {
+    // 是否授权
+    if (isAuthenticated) {
+      state.isAuthenticated = isAuthenticated
+    } else {
+      state.isAuthenticated = false
+    }
+  },
+  [types.SET_USER] (state, user) {
+    // 是否存在user
+    if (user) {
+      state.user = user
+    } else {
+      state.user = {}
+    }
+  }
+}
+
+const actions = {
+  setAuthenticated: ({commit}, isAuthenticated) => {
+    commit(types.SET_AUTHENTICATED, isAuthenticated)
+  },
+  setUser: ({commit}, user) => {
+    commit(types.SET_USER, user)
+  }
+}
+
+export default new Vuex.Store({
+  state,
+  getters,
+  mutations,
+  actions
+})
+
+```
+## 使用Vuex
+```js
+// Login.vue
+  methods: {
+    submitForm (formName) {
+      this.$refs[formName].validate(valid => {
+        if (valid) {
+          // alert('登录成功！')
+          this.$axios
+            .post('/api/users/login', this.loginUser)
+            .then(res => {
+              // ...省略
+              // 解析token
+              const decoded = jwtDecode(token)
+              // console.log(decoded)
+              // token存储到vuex中
+              this.$store.dispatch('setAuthenticated', !this.isEmpty(decoded))
+              this.$store.dispatch('setUser', decoded)
+              // 登录成功跳转管理后台首页
+              this.$router.push('/index')
+            })
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    // 判断是否为空
+    isEmpty (value) {
+      return (
+        value === undefined ||
+        value === null ||
+        (typeof value === 'object' && Object.keys(value).length === 0) ||
+        (typeof value === 'string' && value.trim().length === 0)
+      )
+    }
+  }
+
+// Index.vue
+import jwtDecode from 'jwt-decode'
+export default {
+  name: 'index',
+  components: {
+
+  },
+  created () {
+    if (localStorage.eleToken) {
+      // 解析token
+      const decoded = jwtDecode(localStorage.eleToken)
+      // token存储到vuex中
+      this.$store.dispatch('setAuthenticated', !this.isEmpty(decoded))
+      this.$store.dispatch('setUser', decoded)
+    }
+  },
+  methods: {
+    // 判断是否为空
+    isEmpty (value) {
+      return (
+        value === undefined ||
+        value === null ||
+        (typeof value === 'object' && Object.keys(value).length === 0) ||
+        (typeof value === 'string' && value.trim().length === 0)
+      )
+    }
+  }
+}
+```
+
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
 * 参考 —— 1.11 js文件中引入的css不会自动加前缀(新的脚手架已解决该问题)

@@ -64,8 +64,11 @@ export default {
               // 存储
               localStorage.setItem('eleToken', token)
               // 解析token
-              const decode = jwtDecode(token)
-              console.log(decode)
+              const decoded = jwtDecode(token)
+              // console.log(decoded)
+              // token存储到vuex中
+              this.$store.dispatch('setAuthenticated', !this.isEmpty(decoded))
+              this.$store.dispatch('setUser', decoded)
               // 登录成功跳转管理后台首页
               this.$router.push('/index')
             })
@@ -74,6 +77,15 @@ export default {
           return false
         }
       })
+    },
+    // 判断是否为空
+    isEmpty (value) {
+      return (
+        value === undefined ||
+        value === null ||
+        (typeof value === 'object' && Object.keys(value).length === 0) ||
+        (typeof value === 'string' && value.trim().length === 0)
+      )
     }
   }
 }
