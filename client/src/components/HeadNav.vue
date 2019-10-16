@@ -7,13 +7,23 @@
       </el-col>
       <el-col :span="6" class="user">
         <div class="userinfo">
-          <img src="https://p.ssl.qhimg.com/dmsmty/74_74_100/t01bded2055a7ea40ae.png" class="avatar" alt="">
+          <img v-if=user.avatar != null :src="user.avatar" class="avatar" alt="">
+          <img v-else src="https://img.zcool.cn/community/04e6a45864cbb2a801219c7753c455.jpg@80w_80h_1c_1e_1o_100sh.jpg" class="avatar" alt="">
           <div class="welcome">
             <p class="name comename">欢迎</p>
-            <p class="name avatarname">Bob</p>
+            <p class="name avatarname">{{user.name}}</p>
           </div>
           <span class="username">
             <!-- 下拉箭头 -->
+            <el-dropdown trigger="click" @command="setDialogInfo">
+              <span class="el-dropdown-link">
+                <i class="el-icon-caret-bottom el-icon--right"></i>
+              </span>
+              <el-dropdown-menu slot="dropdown">
+                <el-dropdown-item command="info">个人信息</el-dropdown-item>
+                <el-dropdown-item command="logout">退出</el-dropdown-item>
+              </el-dropdown-menu>
+            </el-dropdown>
           </span>
         </div>
       </el-col>
@@ -22,7 +32,37 @@
 </template>
 <script>
 export default {
-  name: 'head-nav'
+  name: 'head-nav',
+  computed: {
+    user () {
+      return this.$store.getters.user
+    }
+  },
+  methods: {
+    setDialogInfo (cmdItem) {
+      // console.log(cmdItem)
+      switch (cmdItem) {
+        case 'info':
+          this.showInfoList()
+          break
+        case 'logout':
+          this.logout()
+          break
+      }
+    },
+    showInfoList () {
+      console.log('个人信息')
+    },
+    logout () {
+      // console.log('退出')
+      // 清除token
+      localStorage.removeItem('eleToken')
+      // 设置vuex store
+      this.$store.dispatch('clearCurrentState')
+      // 跳转登录页
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 <style scoped>
