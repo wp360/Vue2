@@ -876,10 +876,10 @@ export default new Vuex.Store({
     }
   }
 
-// Index.vue
+// App.vue
 import jwtDecode from 'jwt-decode'
 export default {
-  name: 'index',
+  name: 'app',
   components: {
 
   },
