@@ -5,7 +5,7 @@ import Index from '../views/Index.vue'
 import Register from '../views/Register.vue'
 import Login from '../views/Login.vue'
 import Home from '../views/Home.vue'
-import InfoShow from '../views/infoShow.vue'
+import InfoShow from '../views/InfoShow.vue'
 import NotFound from '../views/404.vue'
 
 Vue.use(Router)
