@@ -998,6 +998,10 @@ props: {
 
 ## 分页
 
+## 筛选
+
+## 权限
+
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
 * 参考 —— 1.11 js文件中引入的css不会自动加前缀(新的脚手架已解决该问题)

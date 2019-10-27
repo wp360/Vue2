@@ -19,7 +19,7 @@
             <el-button type="primary" size ="small" icon="search" @click='handleSearch()'>筛选</el-button>
         </el-form-item>
         <el-form-item class="btnRight">
-          <el-button type="primary" size="small" icon="view" @click="handleAdd()">
+          <el-button v-if="user.identity === 'manager'" type="primary" size="small" icon="view" @click="handleAdd()">
             添加
           </el-button>
         </el-form-item>
@@ -90,7 +90,7 @@
           width="220"
         >
         </el-table-column>
-        <el-table-column prop="operation" label="操作" align="center">
+        <el-table-column v-if="user.identity === 'manager'" prop="operation" label="操作" align="center">
           <template slot-scope="scope">
             <el-button
               size="small"
@@ -168,6 +168,11 @@ export default {
   },
   created () {
     this.getProfile()
+  },
+  computed: {
+    user () {
+      return this.$store.getters.user
+    }
   },
   methods: {
     getProfile () {
