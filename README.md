@@ -942,6 +942,10 @@ const router = new Router({
 
 4. 将获取到的数据绑定模板
 
+5. 表格优化
+
+6. 添加编辑、删除
+
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
 * 参考 —— 1.11 js文件中引入的css不会自动加前缀(新的脚手架已解决该问题)
