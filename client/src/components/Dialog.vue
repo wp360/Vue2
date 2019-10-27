@@ -1,0 +1,23 @@
+<template>
+  <div class="dialog">
+    <el-dialog
+      title="添加资金信息"
+      :visible="dialog.show"
+      :close-on-click-model="false"
+      :close-on-press-escape="false"
+      :modal-append-to-body="false"
+    >
+    </el-dialog>
+  </div>
+</template>
+<script>
+export default {
+  name: 'Dialog',
+  props: {
+    dialog: Object
+  }
+}
+</script>
+<style scoped>
+
+</style>

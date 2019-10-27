@@ -941,10 +941,12 @@ const router = new Router({
 [参考链接：https://element.faas.ele.me/#/zh-CN/component/table#zi-ding-yi-lie-mo-ban](https://element.faas.ele.me/#/zh-CN/component/table#zi-ding-yi-lie-mo-ban)
 
 4. 将获取到的数据绑定模板
-
 5. 表格优化
-
 6. 添加编辑、删除
+7. 添加按钮
+8. 使用Dialog组件
+9. props属性传值
+10. 资金管理页面引入Dialog组件
 
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
