@@ -58,7 +58,7 @@ export default {
           this.$axios
             .post('/api/users/login', this.loginUser)
             .then(res => {
-              console.log(res)
+              // console.log(res)
               // token
               const { token } = res.data
               // 存储

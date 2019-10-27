@@ -906,6 +906,42 @@ export default {
 }
 ```
 
+## 资金列表
+1. 新建文件views >> FundList.vue
+2. 添加路由
+```js
+// router.js
+import FundList from '../views/FundList.vue'
+
+// 省略
+const router = new Router({
+  mode: 'history',
+  routes: [
+    {
+      path: '/',
+      redirect: '/index'
+    },
+    {
+      path: '/index',
+      name: 'index',
+      component: Index,
+      children: [
+        // 省略
+        {
+          path: '/fundlist',
+          name: 'fundlist',
+          component: FundList
+        }
+      ]
+    }
+  ]
+})
+```
+3. 使用自定义列模板
+[参考链接：https://element.faas.ele.me/#/zh-CN/component/table#zi-ding-yi-lie-mo-ban](https://element.faas.ele.me/#/zh-CN/component/table#zi-ding-yi-lie-mo-ban)
+
+4. 将获取到的数据绑定模板
+
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
 * 参考 —— 1.11 js文件中引入的css不会自动加前缀(新的脚手架已解决该问题)
