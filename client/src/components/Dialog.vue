@@ -1,7 +1,7 @@
 <template>
   <div class="dialog">
     <el-dialog
-      title="添加资金信息"
+      :title="dialog.title"
       :visible.sync="dialog.show"
       :close-on-click-model="false"
       :close-on-press-escape="false"
@@ -54,19 +54,11 @@
 export default {
   name: 'fundDialog',
   props: {
-    dialog: Object
+    dialog: Object,
+    formData: Object
   },
   data () {
     return {
-      formData: {
-        type: '',
-        describe: '',
-        income: '',
-        expend: '',
-        cash: '',
-        remark: '',
-        id: ''
-      },
       format_type_list: [
         '提现',
         '提现手续费',
@@ -97,7 +89,8 @@ export default {
         if (valid) {
           // console.log(this.formData)
           // 表单数据验证完成之后，提交数据;
-          this.$axios.post('/api/profiles/add', this.formData).then(res => {
+          const url = this.dialog.option === 'add' ? 'add' : `edit/${this.formData.id}`
+          this.$axios.post(`/api/profiles/${url}`, this.formData).then(res => {
             // 操作成功
             this.$message({
               message: '保存成功！',

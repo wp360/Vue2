@@ -90,7 +90,7 @@
         </el-table-column>
       </el-table>
     </div>
-    <Dialog :dialog="dialog" @update="getProfile"></Dialog>
+    <Dialog :dialog="dialog" :formData="formData" @update="getProfile"></Dialog>
   </div>
 </template>
 <script>
@@ -100,8 +100,19 @@ export default {
   data () {
     return {
       tableData: [],
+      formData: {
+        type: '',
+        describe: '',
+        income: '',
+        expend: '',
+        cash: '',
+        remark: '',
+        id: ''
+      },
       dialog: {
-        show: false
+        show: false,
+        title: '',
+        option: 'edit'
       }
     }
   },
@@ -119,14 +130,53 @@ export default {
         .catch(err => console.log(err))
     },
     handleEdit (index, row) {
-      console.log(index, row)
+      // console.log(index, row)
+      // 编辑
+      this.dialog = {
+        show: true,
+        title: '修改资金信息',
+        option: 'edit'
+      }
+      // 获取信息
+      this.formData = {
+        type: row.type,
+        describe: row.describe,
+        income: row.income,
+        expend: row.expend,
+        cash: row.cash,
+        remark: row.remark,
+        id: row._id
+      }
     },
     handleDelete (index, row) {
-      console.log(index, row)
+      // console.log(index, row)
+      this.$axios.delete(`/api/profiles/delete/${row._id}`)
+        .then(res => {
+          this.$message('删除成功！')
+          this.getProfile()
+        }).catch(err => {
+          this.$message(err)
+        })
     },
     handleAdd () {
       // console.log('添加')
-      this.dialog.show = true
+      // 添加
+      this.dialog = {
+        show: true,
+        title: '添加资金信息',
+        option: 'add'
+      }
+      // 设置信息
+      this.formData = {
+        type: '',
+        describe: '',
+        income: '',
+        expend: '',
+        cash: '',
+        remark: '',
+        id: ''
+      }
+      // this.dialog.show = true
     }
   },
   components: {

@@ -948,6 +948,54 @@ const router = new Router({
 9. props属性传值
 10. 资金管理页面引入Dialog组件
 
+## 编辑
+1. 数据提升
+> 将formData添加到父组件FundList里
+2. Dialog组件添加对应formData属性
+```js
+props: {
+  dialog: Object,
+  formData: Object
+},
+```
+3. 提交判断
+```js
+  onSubmit (form) {
+    this.$refs[form].validate(valid => {
+      if (valid) {
+        // console.log(this.formData)
+        // 表单数据验证完成之后，提交数据;
+        const url = this.dialog.option === 'add' ? 'add' : `edit/${this.formData.id}`;
+        this.$axios.post(`/api/profiles/${url}`, this.formData).then(res => {
+        // this.$axios.post('/api/profiles/add', this.formData).then(res => {
+          // 操作成功
+          this.$message({
+            message: '保存成功！',
+            type: 'success'
+          })
+          this.dialog.show = false
+          this.$emit('update')
+        })
+      }
+    })
+  }
+```
+
+## 删除
+```js
+// FundList.vue
+  handleDelete (index, row) {
+    // console.log(index, row)
+    this.$axios.delete(`/api/profiles/delete/${row._id}`)
+      .then(res => {
+        this.$message('删除成功！')
+        this.getProfile()
+      }).catch(err => {
+        this.$message(err)
+      })
+  },
+```
+
 ## vue踩坑总结 & 优化点
 > 特别“Module build failed: Error: No PostCSS Config found”报错处理，修改utils.js
 * 参考 —— 1.11 js文件中引入的css不会自动加前缀(新的脚手架已解决该问题)
