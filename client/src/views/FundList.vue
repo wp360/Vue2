@@ -89,6 +89,22 @@
           </template>
         </el-table-column>
       </el-table>
+      <!-- 分页 -->
+      <el-row>
+        <el-col :span="24">
+          <div class="pagination">
+            <el-pagination
+              @size-change="handleSizeChange"
+              @current-change="handleCurrentChange"
+              :current-page.sync="paginations.pageIndex"
+              :page-sizes="paginations.pageSizes"
+              :page-size="paginations.pageSize"
+              :layout="paginations.layout"
+              :total="paginations.total">
+            </el-pagination>
+          </div>
+        </el-col>
+      </el-row>
     </div>
     <Dialog :dialog="dialog" :formData="formData" @update="getProfile"></Dialog>
   </div>
@@ -99,7 +115,20 @@ export default {
   name: 'fundList',
   data () {
     return {
+      paginations: {
+        // 当前位于哪页
+        pageIndex: 1,
+        // 总数
+        total: 0,
+        // 一页显示5条
+        pageSize: 5,
+        // 每页显示多少条
+        pageSizes: [5, 10, 15, 20],
+        // 翻页属性
+        layout: 'total,sizes,prev,next,jumper'
+      },
       tableData: [],
+      allTableData: [],
       formData: {
         type: '',
         describe: '',
@@ -125,7 +154,10 @@ export default {
       this.$axios.get('/api/profiles')
         .then(res => {
           // console.log(res)
-          this.tableData = res.data
+          // this.tableData = res.data
+          this.allTableData = res.data
+          // 设置分页数据
+          this.setPaginations()
         })
         .catch(err => console.log(err))
     },
@@ -177,6 +209,38 @@ export default {
         id: ''
       }
       // this.dialog.show = true
+    },
+    handleSizeChange (pageSize) {
+      // 切换size
+      this.paginations.pageIndex = 1
+      this.paginations.pageSize = pageSize
+      this.tableData = this.allTableData.filter((item, index) => {
+        return index < pageSize
+      })
+    },
+    handleCurrentChange (page) {
+      // 获取当前页
+      let index = this.paginations.pageSize * (page - 1)
+      // 数据的总数
+      let nums = this.paginations.pageSize * page
+      // 容器
+      let tables = []
+      for (let i = index; i < nums; i++) {
+        if (this.allTableData[i]) {
+          tables.push(this.allTableData[i])
+        }
+        this.tableData = tables
+      }
+    },
+    setPaginations () {
+      // 分页属性设置
+      this.paginations.total = this.allTableData.length
+      this.paginations.pageIndex = 1
+      this.paginations.pageSize = 5
+      // 设置默认的分页数据
+      this.tableData = this.allTableData.filter((item, index) => {
+        return index < this.paginations.pageSize
+      })
     }
   },
   components: {
