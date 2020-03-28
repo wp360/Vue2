@@ -6,7 +6,7 @@ function resolve(dir) {
   return path.join(__dirname, dir)
 }
 
-const name = defaultSettings.title || 'vue Element Admin' // page title
+const name = defaultSettings.title || '后台管理' // page title  vue Element Admin
 
 // If your port is set to 80,
 // use administrator privileges to execute the command line.
@@ -83,7 +83,8 @@ module.exports = {
     config
       // https://webpack.js.org/configuration/devtool/#development
       .when(process.env.NODE_ENV === 'development',
-        config => config.devtool('cheap-source-map')
+        config => config.devtool('source-map')
+        // cheap-source-map
       )
 
     config
