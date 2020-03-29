@@ -56,6 +56,8 @@ JSON Web Token（JWT）是非常流行的跨域身份验证解决方案。
 ```
 * 10.安装 jsonwebtoken
 > npm i -S jsonwebtoken
+* 11.JWT 认证
+> npm i -S express-jwt
 
 ## 上传github
 ```

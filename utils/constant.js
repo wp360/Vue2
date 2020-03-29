@@ -1,6 +1,7 @@
 module.exports = {
   CODE_ERROR: -1,
   CODE_SUCCESS: 0,
+  CODE_TOKEN_EXPIRED: -2, // token错误码
   debug: true,
   PWD_SALT: 'admin_node',
   PRIVATE_KEY: 'admin_node_haidebaozi_key', // 私钥
