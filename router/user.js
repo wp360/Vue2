@@ -1,8 +1,11 @@
 const express = require('express')
 // 引入result
 const Result = require('../models/Result')
-// 加密
-const {md5} = require('../utils/index')
+// 加密 解密
+const {
+  md5,
+  decoded
+} = require('../utils/index')
 const {PWD_SALT,PRIVATE_KEY, JWT_EXPIRED} = require('../utils/constant')
 // 验证
 const { body, validationResult } = require('express-validator')
@@ -10,7 +13,7 @@ const boom = require('boom') // boom是一个兼容HTTP的错误对象，提供�
 // JWT
 const jwt = require('jsonwebtoken')
 // 查询
-const {login} = require('../services/user')
+const {login, findUser} = require('../services/user')
 const router = express.Router()
 
 // 创建 /user/login API
@@ -57,8 +60,22 @@ router.post('/login',
     // }
 })
 
-router.get('/info', function (req, res, next) {
-  res.json('user info...')
+router.get('/info', function (req, res) {
+  // res.json('user info...')
+  const decode = decoded(req)
+  // console.log(decode)
+  if(decode && decode.username) {
+    findUser(decode.username).then(user => {
+      if(user) {
+        user.roles = [user.role]
+        new Result(user, '用户信息查询成功').success(res)
+      } else {
+        new Result('用户信息查询失败').fail(res)
+      }
+    })
+  } else {
+    new Result('用户信息查询失败').fail(res)
+  }
 })
 
 module.exports = router

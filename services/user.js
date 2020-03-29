@@ -1,6 +1,7 @@
 // 引入查询方法
 const {
-  querySql
+  querySql,
+  queryOne
 } = require('../db')
 
 function login(username, password) {
@@ -13,6 +14,11 @@ function login(username, password) {
   // })
 }
 
+function findUser(username) {
+  return queryOne(`select id,username,nickname,role,avatar from admin_user where username='${username}'`)
+}
+
 module.exports = {
-  login
+  login,
+  findUser
 }
