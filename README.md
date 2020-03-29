@@ -30,6 +30,9 @@ app.use(cors())
 * 6.登录用户数据库查询
 * 7.密码加密 安装 crypto 库
 > npm i -S crypto
+* 8.express-validator
+> express-validator 是一个功能强大的表单验证器，它是 validator.js 的中间件
+`npm i -S express-validator`
 
 ## 上传github
 ```
