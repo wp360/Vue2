@@ -33,6 +33,29 @@ app.use(cors())
 * 8.express-validator
 > express-validator 是一个功能强大的表单验证器，它是 validator.js 的中间件
 `npm i -S express-validator`
+* 9.JWT基本概念
+```
+【Token 简析】Token 是什么
+Token 本质是字符串，用于请求时附带在请求头中，校验请求是否合法及判断用户身份
+
+【Token 与 Session、Cookie 的区别】
+· Session 保存在服务端，用于客户端与服务端连接时，临时保存用户信息，当用户释放连接后，Session 将被释放；
+· Cookie 保存在客户端，当客户端发起请求时，Cookie 会附带在 http header 中，提供给服务端辨识用户身份；
+· Token 请求时提供，用于校验用户是否具备访问接口的权限。
+
+【Token 的用途】
+
+Token 的用途主要有三点：
+
+· 拦截无效请求，降低服务器处理压力；
+· 实现第三方 API 授权，无需每次都输入用户名密码鉴权；
+· 身份校验，防止 CSRF 攻击。
+
+【JWT 简析】
+JSON Web Token（JWT）是非常流行的跨域身份验证解决方案。
+```
+* 10.安装 jsonwebtoken
+> npm i -S jsonwebtoken
 
 ## 上传github
 ```

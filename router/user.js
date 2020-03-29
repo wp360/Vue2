@@ -3,10 +3,12 @@ const express = require('express')
 const Result = require('../models/Result')
 // 加密
 const {md5} = require('../utils/index')
-const {PWD_SALT} = require('../utils/constant')
+const {PWD_SALT,PRIVATE_KEY, JWT_EXPIRED} = require('../utils/constant')
 // 验证
 const { body, validationResult } = require('express-validator')
 const boom = require('boom') // boom是一个兼容HTTP的错误对象，提供了一些标准的HTTP错误，比如400(参数错误)等。
+// JWT
+const jwt = require('jsonwebtoken')
 // 查询
 const {login} = require('../services/user')
 const router = express.Router()
@@ -38,7 +40,13 @@ router.post('/login',
       if(!user || user.length === 0) {
         new Result('登录失败').fail(res)
       } else {
-        new Result('登录成功').success(res)
+        // JWT设置
+        const token = jwt.sign(
+          {username},
+          PRIVATE_KEY,
+          {expiresIn: JWT_EXPIRED} // 过期时间
+        )
+        new Result({token}, '登录成功').success(res)
       }
     })
 
