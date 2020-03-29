@@ -25,6 +25,11 @@ const cors = require('cors')
 // ...
 app.use(cors())
 ```
+* 5.连接数据库
+> npm i -S mysql
+* 6.登录用户数据库查询
+* 7.密码加密 安装 crypto 库
+> npm i -S crypto
 
 ## 上传github
 ```
