@@ -108,6 +108,25 @@ export const asyncRoutes = [
       }
     ]
   },
+  // 图书上传
+  {
+    path: '/book',
+    component: Layout,
+    redirect: '/book/create',
+    meta: {
+      title: '图书管理',
+      icon: 'documentation',
+      roles: ['admin']
+    },
+    children: [
+      {
+        path: '/book/create',
+        component: () => import('@/views/book/create'),
+        name: 'book',
+        meta: { title: '添加图书', icon: 'edit', roles: ['admin'] }
+      }
+    ]
+  },
   // 404 page must be placed at the end !!!
   { path: '*', redirect: '/404', hidden: true }
 ]

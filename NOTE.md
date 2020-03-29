@@ -85,6 +85,118 @@ const server = app.listen(5000, function() {
 第二，中间件需要在请求之后引用
 ```
 
+## axios 用法分析
+* 1.基础用法
+* 2.请求拦截器
+* 3.响应拦截器
+* 参考实例：
+```js
+import axios from 'axios'
+export default {
+  // ...
+  created() {
+    // 基础版
+    // const url = 'https://test.youbaobao.xyz:18081/book/home/v2?openId=1234'
+    // axios.get(url).then(response => {
+    //   console.log(response)
+    // })
+
+    // 参数版
+    // const url = 'https://test.youbaobao.xyz:18081/book/home/v2'
+    // axios.get(url, {
+    //   params: {
+    //     openId: 1234
+    //   },
+    //   headers: {
+    //     token: 'abcd'
+    //   }
+    // }).then(response => {
+    //   console.log(response)
+    // }).catch(err => {
+    //   console.log(err)
+    // })
+
+    // 改进版
+    const whiteUrl = [ '/login', '/book/home/v2' ] // 白名单
+    const url = '/book/home/v2'
+    const request = axios.create({
+      baseURL: 'https://test.youbaobao.xyz:18081',
+      timeout: 5000
+    })
+
+    // axios 请求拦截器
+    request.interceptors.request.use(
+      config => {
+        // throw new Error('error...')
+        const url = config.url.replace(config.baseURL, '')
+          if (whiteUrl.some(wl => url === wl)) {
+            return config
+          }
+        config.headers['token'] = 'abcd'
+        return config
+      },
+      error => {
+        return Promise.reject(error)
+      }
+    )
+
+    // axios 响应拦截器
+    request.interceptors.response.use(
+      response => {
+        const res = response.data
+        if (res.error_code != 0) {
+          alert(res.msg)
+          return Promise.reject(new Error(res.msg))
+        } else {
+          return res
+        }
+      },
+      error => {
+        return Promise.reject(error)
+      }
+    )
+
+    request({
+      url,
+      methods: 'get',
+      params: {
+        openId: 1234
+      }
+    }).then(response => {
+      console.log(response)
+    })
+  },
+// ...省略
+```
+
+## Mock 接口
+* 1.去掉 main.js 中 mock 相关代码：
+```js
+// if (process.env.NODE_ENV === 'production') {
+//   const { mockXHR } = require('../mock')
+//   mockXHR()
+// }
+```
+* 2.删除 src/api 目录下 2 个 api 文件：
+```
+article.js
+qiniu.js
+```
+* 3.删除 vue.config.js 中的相关配置：
+```js
+  devServer: {
+    port: port,
+    // open: true,
+    overlay: {
+      warnings: false,
+      errors: true
+    },
+    // before: require('./mock/mock-server.js')
+  },
+```
+* 4.修改.env.development配置
+
+
 ## 参考文档
 [http://www.youbaobao.xyz/admin-docs/guide/base/vue-element-admin.html](http://www.youbaobao.xyz/admin-docs/guide/base/vue-element-admin.html)
 
