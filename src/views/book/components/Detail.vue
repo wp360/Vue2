@@ -13,6 +13,7 @@
         <warning />
         <el-col :span="24">
           <!-- 表单控件的具体样式 -->
+          <ebook-upload />
         </el-col>
         <el-col :span="24">
           <!-- 上传控件的具体样式 -->
@@ -22,13 +23,15 @@
   </el-form>
 </template>
 <script>
-import Sticky from '../../../components/Sticky/index'
+import Sticky from '../../../components/Sticky'
 import Warning from './Warning'
+import EbookUpload from '../../../components/EbookUpload'
 
 export default {
   components: {
     Sticky,
-    Warning
+    Warning,
+    EbookUpload
   },
   props: {
     isEdit: Boolean
