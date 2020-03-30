@@ -4,6 +4,7 @@ const {
   UPLOAD_URL
 } = require('../utils/constant')
 const fs = require('fs')
+const Epub = require('../utils/epub')
 
 class Book {
   constructor(file, data) {
@@ -61,7 +62,47 @@ class Book {
   }
 
   createBookFromData(data) {
+    this.fileName = data.fileName
+    this.cover = data.coverPath
+    this.title = data.title
+    this.author = data.author
+    this.publisher = data.publisher
+    this.bookId = data.fileName
+    this.language = data.language
+    this.rootFile = data.rootFile
+    this.originalName = data.originalName
+    this.path = data.path || data.filePath
+    this.filePath = data.path || data.filePath
+    this.unzipPath = data.unzipPath
+    this.coverPath = data.coverPath
+    this.createUser = data.username
+    this.createDt = new Date().getTime()
+    this.updateDt = new Date().getTime()
+    this.updateType = data.updateType === 0 ? data.updateType : UPDATE_TYPE_FROM_WEB
+    this.contents = data.contents
+  }
 
+  parse() {
+    return new Promise((resolve, reject) => {
+      const bookPath = `${UPLOAD_PATH}${this.filePath}`
+      if (!fs.existsSync(bookPath)) {
+        reject(new Error('电子书不存在'))
+      }
+      // resolve()
+      const epub = new Epub(bookPath)
+      epub.on('error', err => {
+        reject(err)
+      })
+      epub.on('end', err => {
+        if(err) {
+          reject(err)
+        } else {
+          console.log(epub.metadata)
+          resolve()
+        }
+      })
+      epub.parse()
+    })
   }
 }
 
