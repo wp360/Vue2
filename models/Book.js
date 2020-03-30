@@ -53,6 +53,7 @@ class Book {
     this.publisher = '' // 出版社
     this.contents = [] // 目录
     this.cover = '' // 封面图片URL
+    this.coverPath = '' // 封面图片的路径
     this.category = -1 // 分类ID
     this.categoryText = '' // 分类名称
     this.language = '' // 语种
@@ -98,7 +99,39 @@ class Book {
           reject(err)
         } else {
           console.log(epub.metadata)
-          resolve()
+          let {
+            title,
+            language,
+            creator,
+            creatorFileAs,
+            publisher,
+            cover
+          } = epub.metadata
+          if (!title) {
+            reject(new Error('图书标题为空'))
+          } else {
+            this.title = title
+            this.language = language || 'en'
+            this.author = creator || creatorFileAs || 'unknown'
+            this.publisher = publisher || 'unknown'
+            this.rootFile = epub.rootFile
+            const handleGetImage = (error, imgBuffer, mimeType) => {
+              // console.log(error, imgBuffer, mimeType)
+              if(error) {
+                reject(error)
+              } else {
+                const suffix = mimeType.split('/')[1]
+                const coverPath = `${UPLOAD_PATH}/img/${this.fileName}.${suffix}`
+                const coverUrl = `${UPLOAD_URL}/img/${this.fileName}.${suffix}`
+                fs.writeFileSync(coverPath, imgBuffer, 'binary') // 文件写入
+                this.coverPath = `/img/${this.fileName}.${suffix}`
+                this.cover = coverUrl
+                resolve(this)
+              }
+            }
+            epub.getImage(cover, handleGetImage)
+            // resolve(this)
+          }
         }
       })
       epub.parse()
