@@ -1,6 +1,8 @@
 const express = require('express')
 const boom = require('boom')
 const userRouter = require('./user')
+// 图书上传
+const bookRouter = require('./book')
 // const {
 //   CODE_ERROR
 // } = require('../utils/constant')
@@ -18,6 +20,7 @@ router.get('/', function (req, res) {
 
 router.use('/user', userRouter)
 
+router.use('/book', bookRouter)
 /**
  * 集中处理404请求的中间件
  * 注意：该中间件必须放在正常处理流程之后
