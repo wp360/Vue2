@@ -1,5 +1,6 @@
 const {env} = require('./env');
 const UPLOAD_PATH = env === 'dev' ? '../upload/admin-upload-ebook' : 'root/upload/admin-upload/ebook';
+const UPLOAD_URL = env === 'dev' ? '../upload/admin-upload-ebook' : 'root/admin-upload-ebook'; // root => 个人域名
 
 module.exports = {
   CODE_ERROR: -1,
@@ -9,5 +10,7 @@ module.exports = {
   PWD_SALT: 'admin_node',
   PRIVATE_KEY: 'admin_node_haidebaozi_key', // 私钥
   JWT_EXPIRED: 60 * 60, // 以秒计，此为1小时
-  UPLOAD_PATH
+  UPLOAD_PATH,
+  UPLOAD_URL,
+  MIME_TYPE_EPUB: 'application/epub+zip'
 }

@@ -59,6 +59,11 @@ JSON Web Token（JWT）是非常流行的跨域身份验证解决方案。
 * 11.JWT 认证
 > npm i -S express-jwt
 
+## 文件上传接口
+[express文件上传中间件Multer详解](https://www.cnblogs.com/LChenglong/p/8435141.html)
+
+## Book对象解析
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git
