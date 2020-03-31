@@ -49,38 +49,38 @@
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="根文件： " :label-width="labelWidth">
+              <el-form-item prop="rootFile" label="根文件： " :label-width="labelWidth">
                 <el-input v-model="postForm.rootFile" placeholder="根文件" disabled />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="文件路径： " :label-width="labelWidth">
+              <el-form-item prop="filePath" label="文件路径： " :label-width="labelWidth">
                 <el-input v-model="postForm.filePath" placeholder="文件路径" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="解压路径： " :label-width="labelWidth">
+              <el-form-item prop="unzipPath" label="解压路径： " :label-width="labelWidth">
                 <el-input v-model="postForm.unzipPath" placeholder="解压路径" disabled />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="12">
-              <el-form-item label="封面路径： " :label-width="labelWidth">
+              <el-form-item prop="coverPath" label="封面路径： " :label-width="labelWidth">
                 <el-input v-model="postForm.coverPath" placeholder="封面路径" disabled />
               </el-form-item>
             </el-col>
             <el-col :span="12">
-              <el-form-item label="文件名称： " :label-width="labelWidth">
+              <el-form-item prop="originalName" label="文件名称： " :label-width="labelWidth">
                 <el-input v-model="postForm.originalName" placeholder="文件名称" disabled />
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
             <el-col :span="24">
-              <el-form-item label="封面： " :label-width="labelWidth">
+              <el-form-item prop="cover" label="封面： " :label-width="labelWidth">
                 <a v-if="postForm.cover" :href="postForm.cover" target="_blank">
                   <img :src="postForm.cover" class="preview-img" alt="">
                 </a>
@@ -108,21 +108,23 @@ import Sticky from '../../../components/Sticky'
 import Warning from './Warning'
 import EbookUpload from '../../../components/EbookUpload'
 import MdInput from '../../../components/MDinput'
+import { createBook } from '../../../api/book'
+
 // 表单的默认值
-const defaultForm = {
-  title: '', // 书名
-  author: '', // 作者
-  publisher: '', // 出版社
-  language: '', // 语种
-  rootFile: '', // 根文件路径
-  cover: '', // 封面图片URL
-  coverPath: '', // 封面图片路径
-  fileName: '', // 文件名
-  originalName: '', // 文件原始名称
-  filePath: '', // 文件所在路径
-  unzipPath: '', // 解压文件所在路径
-  contents: [] // 目录
-}
+// const defaultForm = {
+//   title: '', // 书名
+//   author: '', // 作者
+//   publisher: '', // 出版社
+//   language: '', // 语种
+//   rootFile: '', // 根文件路径
+//   cover: '', // 封面图片URL
+//   coverPath: '', // 封面图片路径
+//   fileName: '', // 文件名
+//   originalName: '', // 文件原始名称
+//   filePath: '', // 文件所在路径
+//   unzipPath: '', // 解压文件所在路径
+//   contents: [] // 目录
+// }
 
 // 字段映射
 const fields = {
@@ -154,7 +156,7 @@ export default {
     return {
       loading: false,
       postForm: {
-        status: ''
+        // ebook_uri: ''
       },
       fileList: [],
       labelWidth: '120px',
@@ -183,9 +185,10 @@ export default {
       }
     },
     setDefault() {
-      this.postForm = Object.assign({}, defaultForm)
+      // this.postForm = Object.assign({}, defaultForm)
       this.fileList = []
       this.contentsTree = []
+      this.$refs.postForm.resetFields()
     },
     setData(data) {
       const {
@@ -241,7 +244,29 @@ export default {
         this.$refs.postForm.validate((valid, fields) => {
           console.log(valid, fields)
           if (valid) {
-            console.log('')
+            const book = Object.assign({}, this.postForm)
+            delete book.contents
+            delete book.contentsTree
+            // console.log(book)
+            // 图书操作状态 编辑、更新
+            if (!this.isEdit) {
+              createBook(book).then(response => {
+                // console.log(response)
+                const { msg } = response
+                this.$notify({
+                  title: '操作成功',
+                  message: msg,
+                  type: 'success',
+                  duration: 2000
+                })
+                this.loading = false
+                this.setDefault()
+              }).catch(() => {
+                this.loading = false
+              })
+            } else {
+              // updateBook(book)
+            }
           } else {
             const message = fields[Object.keys(fields)[0]][0].message
             // console.log(fields[Object.keys(fields)[0]][0].message)
