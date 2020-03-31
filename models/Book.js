@@ -85,7 +85,7 @@ class Book {
     this.createDt = new Date().getTime()
     this.updateDt = new Date().getTime()
     this.updateType = data.updateType === 0 ? data.updateType : 1
-    // this.contents = data.contents
+    this.contents = data.contents || []
     this.category = data.category || 99 // 分类
     this.categoryText = data.categoryText || '自定义'
   }
@@ -220,6 +220,7 @@ class Book {
         const dir = path.dirname(ncxFilePath).replace(UPLOAD_PATH, '') // 去掉文件名，返回目录
         // console.log('dir', dir)
         const fileName = this.fileName
+        const unzipPath = this.unzipPath
         // xml2js方法使用，传入3个参数：xml文件、配置文件、回调函数
         xml2js(xml, {
           explicitArray: false,
@@ -247,6 +248,8 @@ class Book {
                 // 电子书解压后的路径
                 // const nav = newNavMap[index]
                 const src = chapter.content['$'].src
+                chapter.id = `${src}`
+                chapter.href = `${dir}/${src}`.replace(unzipPath, '')
                 // chapter.text = `${UPLOAD_URL}/unzip/${fileName}/${chapter.href}`
                 chapter.text = `${UPLOAD_URL}${dir}/${src}`
                 // console.log(chapter.text)
@@ -312,6 +315,11 @@ class Book {
       category: this.category,
       categoryText: this.categoryText
     }
+  }
+
+  // 获取目录方法
+  getContents() {
+    return this.contents
   }
 
   // 获取实际路径方法
