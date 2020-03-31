@@ -6,6 +6,11 @@ const {
   PRIVATE_KEY
 } = require('./constant')
 
+// 判断是否对象
+function isObject(o) {
+  return Object.prototype.toString.call(o) === '[object Object]'
+}
+
 function md5(s) {
   // 注意参数需要为 String 类型，否则会出错
   return crypto.createHash('md5')
@@ -25,5 +30,6 @@ function decoded(req) {
 
 module.exports = {
   md5,
-  decoded
+  decoded,
+  isObject
 }
