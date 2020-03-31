@@ -118,6 +118,8 @@ class Book {
             try {
               // 解压epub电子书
               this.unzip() // 同步的方法
+              // 解析电子书目录
+              this.parseContents(epub)
               const handleGetImage = (error, imgBuffer, mimeType) => {
                 // console.log(error, imgBuffer, mimeType)
                 if (error) {
@@ -150,6 +152,34 @@ class Book {
     const zip = new AdmZip(Book.genPath(this.path))
     // 第二个参数表示是否覆盖
     zip.extractAllTo(Book.genPath(this.unzipPath), true)
+  }
+
+  // 解析目录
+  parseContents(epub) {
+    // ncx目录文件
+    function getNcxFilePath() {
+      const spine = epub && epub.spine
+      // console.log('spine', spine)
+      const manifest = epub && epub.manifest
+      const ncx = spine.toc && spine.toc.href
+      const id = spine.toc && spine.toc.id
+      // console.log('spine', spine.toc, ncx, id, manifest[id].href)
+      if(ncx) {
+        return ncx
+      } else {
+        return manifest[id].href
+      }
+    }
+
+    const ncxFilePath = Book.genPath(`${this.unzipPath}/${getNcxFilePath()}`)
+    // console.log('ncxFilePath', ncxFilePath)
+    if(fs.existsSync(ncxFilePath)) {
+      return new Promise((resolve, reject) => {
+        const xml = fs.readFileSync(ncxFilePath, 'utf-8')
+      })
+    } else {
+      throw new Error('目录文件不存在')
+    }
   }
 
   // 获取实际路径方法
