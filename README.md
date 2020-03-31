@@ -62,6 +62,9 @@ JSON Web Token（JWT）是非常流行的跨域身份验证解决方案。
 ## 文件上传接口
 [express文件上传中间件Multer详解](https://www.cnblogs.com/LChenglong/p/8435141.html)
 
+## 使用Node.js的xml2js模块操作xml数据
+[使用Node.js的xml2js模块操作xml数据](https://www.cnblogs.com/yjpfront-end/p/10096727.html)
+
 ## Book对象解析
 
 ## 上传github

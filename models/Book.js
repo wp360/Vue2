@@ -5,6 +5,8 @@ const {
 } = require('../utils/constant')
 const fs = require('fs')
 const Epub = require('../utils/epub')
+// 引入xml2js库
+const xml2js = require('xml2js').parseString
 
 class Book {
   constructor(file, data) {
@@ -171,11 +173,69 @@ class Book {
       }
     }
 
+    // 获取目录对象
+    function findParent(array) {
+      return array.map(item => {
+        return item
+      })
+    }
+
+    // 解决树状结构目录
+    function flatten(array) {
+      return [].concat(...array.map(item => {
+        return item
+      }))
+    }
+
     const ncxFilePath = Book.genPath(`${this.unzipPath}/${getNcxFilePath()}`)
     // console.log('ncxFilePath', ncxFilePath)
     if(fs.existsSync(ncxFilePath)) {
       return new Promise((resolve, reject) => {
         const xml = fs.readFileSync(ncxFilePath, 'utf-8')
+        const fileName = this.fileName
+        // xml2js方法使用，传入3个参数：xml文件、配置文件、回调函数
+        xml2js(xml, {
+          explicitArray: false,
+          ignoreAttrs: false
+        }, function(err, json) {
+          if(err) {
+            reject(err)
+          } else {
+            // console.log('xml', json)
+            const navMap = json.ncx.navMap
+            // console.log('xml', JSON.stringify(navMap))
+            // console.log(navMap.navPoint)
+            if(navMap.navPoint && navMap.navPoint.length > 0) {
+              navMap.navPoint = findParent(navMap.navPoint)
+              const newNavMap = flatten(navMap.navPoint)
+              // console.log(newNavMap === navMap.navPoint)
+              const chapters = []
+              // console.log(epub.flow)
+              // console.log(epub.flow, newNavMap)
+              epub.flow.forEach((chapter, index) => {
+                if(index + 1 > newNavMap.length) {
+                  return
+                }
+                // 电子书解压后的路径
+                const nav = newNavMap[index]
+                chapter.text = `${UPLOAD_URL}/unzip/${fileName}/${chapter.href}`
+                // console.log(chapter.text)
+                if (nav && nav.navLabel) {
+                  chapter.label = nav.navLabel.text || ''
+                } else {
+                  chapter.label = ''
+                }
+                chapter.navId = nav['$'].id
+                chapter.fileName = fileName
+                chapter.order = index + 1
+                chapters.push(chapter)
+                console.log(chapters)
+              })
+            } else {
+              reject(new Error('目录解析失败， 目录数为0'))
+            }
+          }
+        })
       })
     } else {
       throw new Error('目录文件不存在')
