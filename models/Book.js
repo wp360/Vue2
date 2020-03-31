@@ -115,27 +115,49 @@ class Book {
             this.author = creator || creatorFileAs || 'unknown'
             this.publisher = publisher || 'unknown'
             this.rootFile = epub.rootFile
-            const handleGetImage = (error, imgBuffer, mimeType) => {
-              // console.log(error, imgBuffer, mimeType)
-              if(error) {
-                reject(error)
-              } else {
-                const suffix = mimeType.split('/')[1]
-                const coverPath = `${UPLOAD_PATH}/img/${this.fileName}.${suffix}`
-                const coverUrl = `${UPLOAD_URL}/img/${this.fileName}.${suffix}`
-                fs.writeFileSync(coverPath, imgBuffer, 'binary') // 文件写入
-                this.coverPath = `/img/${this.fileName}.${suffix}`
-                this.cover = coverUrl
-                resolve(this)
+            try {
+              // 解压epub电子书
+              this.unzip() // 同步的方法
+              const handleGetImage = (error, imgBuffer, mimeType) => {
+                // console.log(error, imgBuffer, mimeType)
+                if (error) {
+                  reject(error)
+                } else {
+                  const suffix = mimeType.split('/')[1]
+                  const coverPath = `${UPLOAD_PATH}/img/${this.fileName}.${suffix}`
+                  const coverUrl = `${UPLOAD_URL}/img/${this.fileName}.${suffix}`
+                  fs.writeFileSync(coverPath, imgBuffer, 'binary') // 文件写入
+                  this.coverPath = `/img/${this.fileName}.${suffix}`
+                  this.cover = coverUrl
+                  resolve(this)
+                }
               }
+              epub.getImage(cover, handleGetImage)
+            } catch (e) {
+              reject(e)
             }
-            epub.getImage(cover, handleGetImage)
             // resolve(this)
           }
         }
       })
       epub.parse()
     })
+  }
+
+  // 解压方法
+  unzip() {
+    const AdmZip = require('adm-zip')
+    const zip = new AdmZip(Book.genPath(this.path))
+    // 第二个参数表示是否覆盖
+    zip.extractAllTo(Book.genPath(this.unzipPath), true)
+  }
+
+  // 获取实际路径方法
+  static genPath(path) {
+    if(!path.startsWith('/')) {
+      path = `/${path}`
+    }
+    return `${UPLOAD_PATH}${path}`
   }
 }
 
