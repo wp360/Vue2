@@ -135,8 +135,12 @@ class Book {
               // 解压epub电子书
               this.unzip() // 同步的方法
               // 解析电子书目录
-              this.parseContents(epub).then(({chapters}) => {
+              this.parseContents(epub).then(({
+                    chapters,
+                    chapterTree
+                  }) => {
                 this.contents = chapters
+                this.contentsTree = chapterTree
                 epub.getImage(cover, handleGetImage)
               })
             } catch (e) {
@@ -250,7 +254,19 @@ class Book {
                 chapters.push(chapter)
                 // console.log(chapters)
               })
-              resolve({chapters})
+              // 树状目录
+              const chapterTree = []
+              chapters.forEach(c => {
+                c.children = []
+                if(c.pid === '') {
+                  chapterTree.push(c)
+                } else {
+                  const parent = chapters.find(_ => _.navId === c.pid)
+                  parent.children.push(c)
+                }
+              })
+              console.log(chapterTree)
+              resolve({chapters, chapterTree})
             } else {
               reject(new Error('目录解析失败， 目录数为0'))
             }
