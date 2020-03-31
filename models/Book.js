@@ -117,26 +117,28 @@ class Book {
             this.author = creator || creatorFileAs || 'unknown'
             this.publisher = publisher || 'unknown'
             this.rootFile = epub.rootFile
+            const handleGetImage = (error, imgBuffer, mimeType) => {
+              // console.log(error, imgBuffer, mimeType)
+              if (error) {
+                reject(error)
+              } else {
+                const suffix = mimeType.split('/')[1]
+                const coverPath = `${UPLOAD_PATH}/img/${this.fileName}.${suffix}`
+                const coverUrl = `${UPLOAD_URL}/img/${this.fileName}.${suffix}`
+                fs.writeFileSync(coverPath, imgBuffer, 'binary') // 文件写入
+                this.coverPath = `/img/${this.fileName}.${suffix}`
+                this.cover = coverUrl
+                resolve(this)
+              }
+            }
             try {
               // 解压epub电子书
               this.unzip() // 同步的方法
               // 解析电子书目录
-              this.parseContents(epub)
-              const handleGetImage = (error, imgBuffer, mimeType) => {
-                // console.log(error, imgBuffer, mimeType)
-                if (error) {
-                  reject(error)
-                } else {
-                  const suffix = mimeType.split('/')[1]
-                  const coverPath = `${UPLOAD_PATH}/img/${this.fileName}.${suffix}`
-                  const coverUrl = `${UPLOAD_URL}/img/${this.fileName}.${suffix}`
-                  fs.writeFileSync(coverPath, imgBuffer, 'binary') // 文件写入
-                  this.coverPath = `/img/${this.fileName}.${suffix}`
-                  this.cover = coverUrl
-                  resolve(this)
-                }
-              }
-              epub.getImage(cover, handleGetImage)
+              this.parseContents(epub).then(({chapters}) => {
+                this.contents = chapters
+                epub.getImage(cover, handleGetImage)
+              })
             } catch (e) {
               reject(e)
             }
@@ -174,8 +176,17 @@ class Book {
     }
 
     // 获取目录对象
-    function findParent(array) {
+    function findParent(array, level = 0, pid = '') {
       return array.map(item => {
+        // return item
+        item.level = level
+        item.pid = pid
+        if (item.navPoint && item.navPoint.length > 0) {
+          item.navPoint = findParent(item.navPoint, level + 1, item['$'].id)
+        } else if (item.navPoint) {
+          item.navPoint.level = level + 1
+          item.navPoint.pid = item['$'].id
+        }
         return item
       })
     }
@@ -183,6 +194,11 @@ class Book {
     // 解决树状结构目录
     function flatten(array) {
       return [].concat(...array.map(item => {
+        if (item.navPoint && item.navPoint.length > 0) {
+          return [].concat(item, ...flatten(item.navPoint))
+        } else if (item.navPoint) {
+          return [].concat(item, item.navPoint)
+        }
         return item
       }))
     }
@@ -225,12 +241,16 @@ class Book {
                 } else {
                   chapter.label = ''
                 }
+                chapter.level = nav.level
+                chapter.pid = nav.pid
                 chapter.navId = nav['$'].id
                 chapter.fileName = fileName
                 chapter.order = index + 1
+                // console.log(chapter)
                 chapters.push(chapter)
-                console.log(chapters)
+                // console.log(chapters)
               })
+              resolve({chapters})
             } else {
               reject(new Error('目录解析失败， 目录数为0'))
             }
