@@ -4,6 +4,8 @@ const {
   UPLOAD_URL
 } = require('../utils/constant')
 const fs = require('fs')
+// 路径
+const path = require('path')
 const Epub = require('../utils/epub')
 // 引入xml2js库
 const xml2js = require('xml2js').parseString
@@ -18,7 +20,7 @@ class Book {
   }
 
   createBookFromFile(file) {
-    console.log('createBookFromFile: ', file)
+    // console.log('createBookFromFile: ', file)
     const {
       destination,
       filename,
@@ -100,7 +102,7 @@ class Book {
         if(err) {
           reject(err)
         } else {
-          console.log(epub.metadata)
+          // console.log(epub.metadata)
           let {
             title,
             language,
@@ -212,6 +214,8 @@ class Book {
     if(fs.existsSync(ncxFilePath)) {
       return new Promise((resolve, reject) => {
         const xml = fs.readFileSync(ncxFilePath, 'utf-8')
+        const dir = path.dirname(ncxFilePath).replace(UPLOAD_PATH, '') // 去掉文件名，返回目录
+        // console.log('dir', dir)
         const fileName = this.fileName
         // xml2js方法使用，传入3个参数：xml文件、配置文件、回调函数
         xml2js(xml, {
@@ -232,22 +236,27 @@ class Book {
               const chapters = []
               // console.log(epub.flow)
               // console.log(epub.flow, newNavMap)
-              epub.flow.forEach((chapter, index) => {
-                if(index + 1 > newNavMap.length) {
-                  return
-                }
+              // epub.flow
+              newNavMap.forEach((chapter, index) => {
+                // if(index + 1 > newNavMap.length) {
+                //   return
+                // }
                 // 电子书解压后的路径
-                const nav = newNavMap[index]
-                chapter.text = `${UPLOAD_URL}/unzip/${fileName}/${chapter.href}`
+                // const nav = newNavMap[index]
+                const src = chapter.content['$'].src
+                // chapter.text = `${UPLOAD_URL}/unzip/${fileName}/${chapter.href}`
+                chapter.text = `${UPLOAD_URL}${dir}/${src}`
                 // console.log(chapter.text)
-                if (nav && nav.navLabel) {
-                  chapter.label = nav.navLabel.text || ''
-                } else {
-                  chapter.label = ''
-                }
-                chapter.level = nav.level
-                chapter.pid = nav.pid
-                chapter.navId = nav['$'].id
+                // if (nav && nav.navLabel) {
+                //   chapter.label = nav.navLabel.text || ''
+                // } else {
+                //   chapter.label = ''
+                // }
+                chapter.label = chapter.navLabel.text || ''
+                // chapter.level = nav.level
+                // chapter.pid = nav.pid
+                // chapter.navId = nav['$'].id
+                chapter.navId = chapter['$'].id
                 chapter.fileName = fileName
                 chapter.order = index + 1
                 // console.log(chapter)
@@ -265,7 +274,7 @@ class Book {
                   parent.children.push(c)
                 }
               })
-              console.log(chapterTree)
+              // console.log(chapterTree)
               resolve({chapters, chapterTree})
             } else {
               reject(new Error('目录解析失败， 目录数为0'))
