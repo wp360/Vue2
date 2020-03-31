@@ -59,13 +59,14 @@ export default {
     },
     onSuccess(response, file) {
       console.log(response, file)
-      const { code, msg } = response
+      const { code, msg, data } = response
       if (code === 0) {
         this.$message({
           message: msg,
           type: 'success'
         })
-        this.$emit('onSuccess', file)
+        // file
+        this.$emit('onSuccess', data)
       } else {
         this.$message({
           message: (msg && `上传失败，失败原因： ${msg}`) || '上传失败',
@@ -91,7 +92,7 @@ export default {
       this.$emit('onRemove')
     },
     onExceed() {
-      this.$messaage({
+      this.$message({
         message: '每次只能上传一本电子书',
         type: 'warning'
       })

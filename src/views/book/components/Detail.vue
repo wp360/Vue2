@@ -74,7 +74,7 @@
             </el-col>
             <el-col :span="12">
               <el-form-item label="文件名称： " :label-width="labelWidth">
-                <el-input v-model="postForm.fileName" placeholder="文件名称" disabled />
+                <el-input v-model="postForm.originalName" placeholder="文件名称" disabled />
               </el-form-item>
             </el-col>
           </el-row>
@@ -92,7 +92,7 @@
             <el-col :span="24">
               <el-form-item label="目录： " :label-width="labelWidth">
                 <div v-if="postForm.contents && postForm.contents.length > 0" class="contents-wrapper">
-                  <el-tree />
+                  <el-tree :data="contentsTree" @node-click="onContentClick" />
                 </div>
                 <span v-else>无</span>
               </el-form-item>
@@ -126,15 +126,59 @@ export default {
         status: ''
       },
       fileList: [],
-      labelWidth: '120px'
+      labelWidth: '120px',
+      contentsTree: []
     }
   },
   methods: {
+    onContentClick(data) {
+      // console.log(data)
+      if (data.text) {
+        window.open(data.text)
+      }
+    },
+    setData(data) {
+      const {
+        title,
+        author,
+        publisher,
+        language,
+        rootFile,
+        cover,
+        originalName,
+        url,
+        contents,
+        contentsTree,
+        fileName,
+        coverPath,
+        filePath,
+        unzipPath
+      } = data
+      this.postForm = {
+        // ...this.postForm,
+        title,
+        author,
+        publisher,
+        language,
+        rootFile,
+        cover,
+        url,
+        originalName,
+        contents,
+        fileName,
+        coverPath,
+        filePath,
+        unzipPath
+      }
+      this.fileList = [{ name: originalName, url }]
+      this.contentsTree = contentsTree
+    },
     showGuide() {
       console.log('显示帮助信息')
     },
-    onUploadSuccess() {
-      console.log('onUploadSuccess')
+    onUploadSuccess(data) {
+      console.log('onUploadSuccess', data)
+      this.setData(data)
     },
     onUploadRemove() {
       console.log('onUploadRemove')
