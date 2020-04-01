@@ -322,12 +322,39 @@ class Book {
     return this.contents
   }
 
+  // 重置
+  reset() {
+    console.log(this.fileName)
+    if(Book.pathExists(this.filePath)) {
+      // console.log('删除文件...')
+      fs.unlinkSync(Book.genPath(this.filePath))
+    }
+    if (Book.pathExists(this.coverPath)) {
+      // console.log('删除封面...')
+      fs.unlinkSync(Book.genPath(this.coverPath))
+    }
+    if (Book.pathExists(this.unzipPath)) {
+      // console.log('删除解压目录...')
+      // 低版本node中recursive不支持
+      fs.rmdirSync(Book.genPath(this.unzipPath), {recursive: true})
+    }
+  }
+
   // 获取实际路径方法
   static genPath(path) {
     if(!path.startsWith('/')) {
       path = `/${path}`
     }
     return `${UPLOAD_PATH}${path}`
+  }
+
+  // 判断路径是否存在
+  static pathExists(path) {
+    if(path.startsWith(UPLOAD_PATH)) {
+      return fs.existsSync(path)
+    } else {
+      return fs.existsSync(Book.genPath(path))
+    }
   }
 }
 
