@@ -271,16 +271,17 @@ class Book {
                 // console.log(chapters)
               })
               // 树状目录
-              const chapterTree = []
-              chapters.forEach(c => {
-                c.children = []
-                if(c.pid === '') {
-                  chapterTree.push(c)
-                } else {
-                  const parent = chapters.find(_ => _.navId === c.pid)
-                  parent.children.push(c)
-                }
-              })
+              const chapterTree = Book.genContentsTree(chapters)
+              // const chapterTree = []
+              // chapters.forEach(c => {
+              //   c.children = []
+              //   if(c.pid === '') {
+              //     chapterTree.push(c)
+              //   } else {
+              //     const parent = chapters.find(_ => _.navId === c.pid)
+              //     parent.children.push(c)
+              //   }
+              // })
               // console.log(chapterTree)
               resolve({chapters, chapterTree})
             } else {
@@ -360,7 +361,7 @@ class Book {
 
   static genCoverUrl(book) {
     const {cover} = book
-    if(book.updateType === 0) {
+    if(+book.updateType === 0) {
       if(cover) {
         if(cover.startsWith('/')) {
           return `${OLD_UPLOAD_URL}${cover}`
@@ -383,8 +384,8 @@ class Book {
     }
   }
 
-  static genContentsTree(book) {
-    const {contents} = book
+  static genContentsTree(contents) {
+    // const {contents} = book
     if(contents) {
       const contentsTree = []
       contents.forEach(c=> {

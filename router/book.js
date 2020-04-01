@@ -48,7 +48,22 @@ router.post('/create', function(req, res, next) {
   })
 })
 
-// 电子书编辑功能
+// 电子书更新功能
+router.post('/update', function (req, res, next) {
+  const decode = decoded(req)
+  if (decode && decode.username) {
+    req.body.username = decode.username
+  }
+  const book = new Book(null, req.body)
+  // console.log(book)
+  bookService.updateBook(book).then(() => {
+    new Result('更新电子书信息成功').success(res)
+  }).catch(err => {
+    next(boom.badImplementation(err))
+  })
+})
+
+// 获取电子书
 router.get('/get', function(req,res,next){
   const {fileName} = req.query
   if(!fileName) {
@@ -60,6 +75,15 @@ router.get('/get', function(req,res,next){
       next(boom.badImplementation(err))
     })
   }
+})
+
+// 电子书列表
+router.get('/category', function(req, res, next) {
+  bookService.getCategory().then(category => {
+    new Result(category, '获取分类成功').success(res)
+  }).catch(err => {
+    next(boom.badImplementation(err))
+  })
 })
 
 module.exports = router
