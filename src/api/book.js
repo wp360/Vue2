@@ -7,3 +7,27 @@ export function createBook(book) {
     data: book
   })
 }
+
+// 更新电子书
+export function updateBook(book) {
+  return request({
+    url: '/book/update',
+    method: 'post',
+    data: book
+  })
+}
+
+export function getBook(fileName) {
+  return request({
+    url: '/book/get',
+    method: 'get',
+    params: { fileName }
+  })
+}
+
+export function getCategory() {
+  return request({
+    url: '/book/category',
+    method: 'get'
+  })
+}

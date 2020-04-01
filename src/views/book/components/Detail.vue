@@ -91,7 +91,7 @@
           <el-row>
             <el-col :span="24">
               <el-form-item label="目录： " :label-width="labelWidth">
-                <div v-if="postForm.contents && postForm.contents.length > 0" class="contents-wrapper">
+                <div v-if="contentsTree && contentsTree.length > 0" class="contents-wrapper">
                   <el-tree :data="contentsTree" @node-click="onContentClick" />
                 </div>
                 <span v-else>无</span>
@@ -108,7 +108,7 @@ import Sticky from '../../../components/Sticky'
 import Warning from './Warning'
 import EbookUpload from '../../../components/EbookUpload'
 import MdInput from '../../../components/MDinput'
-import { createBook } from '../../../api/book'
+import { createBook, getBook, updateBook } from '../../../api/book'
 
 // 表单的默认值
 // const defaultForm = {
@@ -147,8 +147,17 @@ export default {
   data() {
     const validateRequire = (rule, value, callback) => {
       console.log(rule, value)
-      if (value.length === 0) {
-        callback(new Error(fields[rule.field] + '必须填写'))
+      // if (value.length === 0) {
+      //   callback(new Error(fields[rule.field] + '必须填写'))
+      // } else {
+      //   callback()
+      // }
+      if (value === '') {
+        this.$message({
+          message: fields[rule.field] + '为必传项',
+          type: 'error'
+        })
+        callback(new Error(fields[rule.field] + '为必传项'))
       } else {
         callback()
       }
@@ -177,7 +186,19 @@ export default {
       }
     }
   },
+  created() {
+    if (this.isEdit) {
+      const fileName = this.$route.params.fileName
+      this.getBookData(fileName)
+    }
+    // console.log(this.$route.params)
+  },
   methods: {
+    getBookData(fileName) {
+      getBook(fileName).then(response => {
+        this.setData(response.data)
+      })
+    },
     onContentClick(data) {
       // console.log(data)
       if (data.text) {
@@ -208,7 +229,7 @@ export default {
         unzipPath
       } = data
       this.postForm = {
-        // ...this.postForm,
+        ...this.postForm,
         title,
         author,
         publisher,
@@ -218,13 +239,15 @@ export default {
         url,
         originalName,
         contents,
+        contentsTree,
         fileName,
         coverPath,
         filePath,
         unzipPath
       }
-      this.fileList = [{ name: originalName, url }]
+      console.log('contentsTree', contentsTree)
       this.contentsTree = contentsTree
+      this.fileList = [{ name: originalName || fileName, url }]
     },
     showGuide() {
       console.log('显示帮助信息')
@@ -238,6 +261,17 @@ export default {
       this.setDefault()
     },
     submitForm() {
+      const onSuccess = (response) => {
+        const { msg } = response
+        this.$notify({
+          title: '操作成功',
+          message: msg,
+          type: 'success',
+          duration: 2000
+        })
+        this.loading = false
+      }
+
       if (!this.loading) {
         this.loading = true
         // 表单验证
@@ -245,27 +279,34 @@ export default {
           console.log(valid, fields)
           if (valid) {
             const book = Object.assign({}, this.postForm)
-            delete book.contents
+            // delete book.contents
             delete book.contentsTree
             // console.log(book)
             // 图书操作状态 编辑、更新
             if (!this.isEdit) {
               createBook(book).then(response => {
                 // console.log(response)
-                const { msg } = response
-                this.$notify({
-                  title: '操作成功',
-                  message: msg,
-                  type: 'success',
-                  duration: 2000
-                })
-                this.loading = false
+                // const { msg } = response
+                // this.$notify({
+                //   title: '操作成功',
+                //   message: msg,
+                //   type: 'success',
+                //   duration: 2000
+                // })
+                // this.loading = false
+                onSuccess(response)
                 this.setDefault()
               }).catch(() => {
                 this.loading = false
               })
             } else {
-              // updateBook(book)
+              // 更新电子书
+              updateBook(book).then(response => {
+                // console.log(response)
+                onSuccess(response)
+              }).catch(() => {
+                this.loading = false
+              })
             }
           } else {
             const message = fields[Object.keys(fields)[0]][0].message
