@@ -66,6 +66,23 @@ function insertBook(book) {
   })
 }
 
+function getBook(fileName) {
+  return new Promise(async (resolve, reject) => {
+    const bookSql = `select * from book where fileName='${fileName}'`
+    const contentsSql = `select * from contents where fileName='${fileName}' order by \`order\``
+    const book = await db.queryOne(bookSql)
+    const contents = await db.querySql(contentsSql)
+    if(book) {
+      // 封面
+      book.cover = Book.genCoverUrl(book)
+      // 目录
+      book.contentsTree = contents
+    }
+    resolve(book)
+  })
+}
+
 module.exports = {
-  insertBook
+  insertBook,
+  getBook
 }
