@@ -39,3 +39,11 @@ export function listBook(params) {
     params
   })
 }
+
+export function deleteBook(fileName) {
+  return request({
+    url: '/book/delete',
+    method: 'get',
+    params: { fileName }
+  })
+}
