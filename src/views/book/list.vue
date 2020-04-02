@@ -66,8 +66,8 @@
         width="150"
       >
         <!-- v-slot -->
-        <template slot-scope="{row: {title}}">
-          <span>{{ title }}</span>
+        <template slot-scope="{row: {titleWrapper}}">
+          <span v-html="titleWrapper" />
         </template>
       </el-table-column>
       <el-table-column
@@ -75,8 +75,8 @@
         align="center"
         width="150"
       >
-        <template slot-scope="{row: {author}}">
-          <span>{{ author }}</span>
+        <template slot-scope="{row: {authorWrapper}}">
+          <span v-html="authorWrapper" />
         </template>
       </el-table-column>
       <el-table-column label="出版社" prop="publisher" align="center" width="150" />
@@ -157,6 +157,16 @@ export default {
     sortChange(data) {
       console.log('sortChange', data)
     },
+    wrapperKeyword(k, v) {
+      function highlight(value) {
+        return `<span style="color: #1890ff">${value}</span>`
+      }
+      if (!this.listQuery[k]) {
+        return v
+      } else {
+        return v.replace(new RegExp(this.listQuery[k], 'ig'), v => highlight(v))
+      }
+    },
     getList() {
       this.listLoading = true
       listBook(this.listQuery).then(response => {
@@ -164,6 +174,11 @@ export default {
         const { list } = response.data
         this.list = list
         this.listLoading = false
+        // 查询关键字高亮
+        this.list.forEach(book => {
+          book.titleWrapper = this.wrapperKeyword('title', book.title)
+          book.authorWrapper = this.wrapperKeyword('author', book.author)
+        })
       })
     },
     getCategoryList() {
