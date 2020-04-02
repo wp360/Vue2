@@ -150,12 +150,25 @@ export default {
     parseQuery() {
       const listQuery = {
         page: 1,
-        pageSize: 20
+        pageSize: 20,
+        sort: '+id'
       }
       this.listQuery = { ...listQuery, ...this.listQuery }
     },
+    // 排序方法
     sortChange(data) {
       console.log('sortChange', data)
+      const { prop, order } = data
+      this.sortBy(prop, order)
+    },
+    sortBy(prop, order) {
+      // 升序
+      if (order === 'ascending') {
+        this.listQuery.sort = `+${prop}`
+      } else {
+        this.listQuery.sort = `-${prop}`
+      }
+      this.handleFilter()
     },
     wrapperKeyword(k, v) {
       function highlight(value) {
