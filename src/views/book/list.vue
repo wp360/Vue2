@@ -32,7 +32,7 @@
           v-for="item in categoryList"
           :key="item.value"
           :label="item.label + '(' + item.num + ')'"
-          :value="item.value"
+          :value="item.label"
         />
       </el-select>
       <el-button v-waves class="filter-item" type="primary" icon="el-icon-search" style="margin-left: 10px;" @click="handleFilter">查询</el-button>
@@ -51,6 +51,7 @@
       fit
       highlight-current-row
       style="width: 100%"
+      :default-sort="defaultSort"
       @sort-change="sortChange"
     >
       <el-table-column
@@ -148,7 +149,7 @@
       :total="total"
       :page.sync="listQuery.page"
       :limit.sync="listQuery.pageSize"
-      @pagination="getList"
+      @pagination="refresh"
     />
   </div>
 </template>
@@ -181,7 +182,8 @@ export default {
       showCover: false,
       categoryList: [],
       list: [],
-      total: 0
+      total: 0,
+      defaultSort: {}
     }
   },
   created() {
@@ -192,15 +194,43 @@ export default {
     this.getList()
     this.getCategoryList()
   },
+  beforeRouteUpdate(to, from, next) {
+    // console.log(to, from)
+    if (to.path === from.path) {
+      const newQuery = Object.assign({}, to.query)
+      const oldQuery = Object.assign({}, from.query)
+      if (JSON.stringify(newQuery) !== JSON.stringify(oldQuery)) {
+        this.getList()
+      }
+    }
+    next()
+  },
   methods: {
     // 解析listQuery数据
     parseQuery() {
+      // 路由参数
+      const query = Object.assign({}, this.$route.query)
+      let sort = '+id'
       const listQuery = {
         page: 1,
         pageSize: 20,
-        sort: '+id'
+        sort
       }
-      this.listQuery = { ...listQuery, ...this.listQuery }
+      if (query) {
+        query.page && (query.page = +query.page)
+        query.pageSize && (query.pageSize = +query.pageSize)
+        query.sort && (sort = query.sort)
+      }
+      // 获取升降序参数
+      const sortSymbol = sort[0]
+      const sortColumn = sort.slice(1, sort.length)
+      // console.log(sortSymbol, sortColumn)
+      this.defaultSort = {
+        prop: sortColumn,
+        order: sortSymbol === '+' ? 'ascending' : 'descending'
+      }
+      this.listQuery = { ...listQuery, ...query }
+      console.log(this.listQuery)
     },
     // 排序方法
     sortChange(data) {
@@ -249,9 +279,17 @@ export default {
         console.log(this.categoryList)
       })
     },
+    refresh() {
+      this.$router.push({
+        path: '/book/list',
+        query: this.listQuery
+      })
+    },
     handleFilter() {
       console.log('handleFilter', this.listQuery)
-      this.getList()
+      this.listQuery.page = 1
+      // this.getList()
+      this.refresh()
     },
     handleCreate() {
       this.$router.push('/book/create')
