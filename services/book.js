@@ -134,6 +134,7 @@ async function listBook(query) {
     category,
     author,
     title,
+    sort,
     page = 1,
     pageSize = 20
   } = query
@@ -147,6 +148,13 @@ async function listBook(query) {
   category && (where = db.and(where, 'category', category))
   if(where !== 'where') {
     bookSql = `${bookSql} ${where}`
+  }
+  // 排序
+  if (sort) {
+    const symbol = sort[0]
+    const column = sort.slice(1, sort.length)
+    const order = symbol === '+' ? 'asc' : 'desc'
+    bookSql = `${bookSql} order by \`${column}\` ${order}`
   }
   bookSql = `${bookSql} limit ${pageSize} offset ${offset}`
   const list = await db.querySql(bookSql)
