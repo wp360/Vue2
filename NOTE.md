@@ -196,6 +196,8 @@ qiniu.js
 ```
 * 4.修改.env.development配置
 
+> sortable对应列是否可以排序，如果设置为 'custom'，则代表用户希望远程排序，需要监听 Table 的 sort-change 事件
+
 
 ## 参考文档
 [http://www.youbaobao.xyz/admin-docs/guide/base/vue-element-admin.html](http://www.youbaobao.xyz/admin-docs/guide/base/vue-element-admin.html)

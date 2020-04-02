@@ -31,7 +31,7 @@
         <el-option
           v-for="item in categoryList"
           :key="item.value"
-          :label="item.label"
+          :label="item.label + '(' + item.num + ')'"
           :value="item.value"
         />
       </el-select>
@@ -43,14 +43,82 @@
         显示封面
       </el-checkbox>
     </div>
-    <el-table />
+    <el-table
+      :key="tableKey"
+      v-loading="listLoading"
+      :data="list"
+      border
+      fit
+      highlight-current-row
+      style="width: 100%"
+      @sort-change="sortChange"
+    >
+      <el-table-column
+        label="ID"
+        prop="id"
+        sortable="custom"
+        align="center"
+        width="80"
+      />
+      <el-table-column
+        label="书名"
+        align="center"
+        width="150"
+      >
+        <!-- v-slot -->
+        <template slot-scope="{row: {title}}">
+          <span>{{ title }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column
+        label="作者"
+        align="center"
+        width="150"
+      >
+        <template slot-scope="{row: {author}}">
+          <span>{{ author }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="出版社" prop="publisher" align="center" width="150" />
+      <el-table-column label="分类" prop="categoryText" align="center" width="100" />
+      <el-table-column label="语言" prop="language" align="center" width="100" />
+      <el-table-column
+        v-if="showCover"
+        label="封面"
+        prop="cover"
+        align="center"
+        width="150"
+      >
+        <template slot-scope="{row: { cover }}">
+          <a :href="cover" target="_blank">
+            <img :src="cover" alt="封面图片" style="width: 120px;height: 180px;">
+          </a>
+        </template>
+      </el-table-column>
+      <el-table-column label="文件名" prop="fileName" align="center" width="100" />
+      <el-table-column label="文件路径" prop="filePath" align="center" width="100" />
+      <el-table-column label="封面路径" prop="coverPath" align="center" width="100" />
+      <el-table-column label="解压路径" prop="unzipPath" align="center" width="100" />
+      <el-table-column label="上传人" prop="createUser" align="center" width="100" />
+      <el-table-column label="上传时间" prop="createDt" align="center" />
+      <el-table-column
+        label="操作"
+        align="center"
+        width="120"
+        fixed="right"
+      >
+        <template slot-scope="{ row }">
+          <el-button type="text" icon="el-icon-edit" @click="handleUpdate(row)" />
+        </template>
+      </el-table-column>
+    </el-table>
     <pagination :total="0" />
   </div>
 </template>
 <script>
 import Pagination from '../../components/Pagination/index'
 import waves from '../../directive/waves/waves'
-import { getCategory } from '../../api/book'
+import { getCategory, listBook } from '../../api/book'
 
 export default {
   components: {
@@ -61,25 +129,59 @@ export default {
   },
   data() {
     return {
+      tableKey: 0,
+      listLoading: true,
       listQuery: {},
       showCover: false,
-      categoryList: []
+      categoryList: [],
+      list: []
     }
   },
+  created() {
+    this.parseQuery()
+  },
   mounted() {
+    // 获取数据方法
+    this.getList()
     this.getCategoryList()
   },
   methods: {
+    // 解析listQuery数据
+    parseQuery() {
+      const listQuery = {
+        page: 1,
+        pageSize: 20
+      }
+      this.listQuery = { ...listQuery, ...this.listQuery }
+    },
+    sortChange(data) {
+      console.log('sortChange', data)
+    },
+    getList() {
+      this.listLoading = true
+      listBook(this.listQuery).then(response => {
+        // console.log(response)
+        const { list } = response.data
+        this.list = list
+        this.listLoading = false
+      })
+    },
     getCategoryList() {
       getCategory().then(response => {
         this.categoryList = response.data
+        console.log(this.categoryList)
       })
     },
     handleFilter() {
       console.log('handleFilter', this.listQuery)
+      this.getList()
     },
     handleCreate() {
       this.$router.push('/book/create')
+    },
+    handleUpdate(row) {
+      // console.log('handleUpdate', row)
+      this.$router.push(`/book/edit/${row.fileName}`)
     },
     changeShowCover(value) {
       this.showCover = value
