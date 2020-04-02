@@ -77,6 +77,22 @@ router.get('/get', function(req,res,next){
   }
 })
 
+// 删除电子书
+router.get('/delete', function (req, res, next) {
+  const {
+    fileName
+  } = req.query
+  if (!fileName) {
+    next(boom.badRequest(new Error('参数fileName不能为空')))
+  } else {
+    bookService.deleteBook(fileName).then(() => {
+      new Result('删除图书信息成功').success(res)
+    }).catch(err => {
+      next(boom.badImplementation(err))
+    })
+  }
+})
+
 // 电子书分类
 router.get('/category', function(req, res, next) {
   bookService.getCategory().then(category => {
@@ -88,8 +104,19 @@ router.get('/category', function(req, res, next) {
 
 // 电子书列表
 router.get('/list', function (req, res, next) {
-  bookService.listBook(req.query).then(({list}) => {
-    new Result({list}, '获取图书列表成功').success(res)
+  bookService.listBook(req.query)
+  .then(({
+        list,
+        count,
+        page,
+        pageSize
+      }) => {
+    new Result({
+      list,
+      count,
+      page: +page,
+      pageSize: +pageSize
+    }, '获取图书列表成功').success(res)
   }).catch(err => {
     next(boom.badImplementation(err))
   })

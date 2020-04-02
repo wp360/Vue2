@@ -156,12 +156,42 @@ async function listBook(query) {
     const order = symbol === '+' ? 'asc' : 'desc'
     bookSql = `${bookSql} order by \`${column}\` ${order}`
   }
+  // 分页优化
+  let countSql = `select count(*) as count from book`
+  if (where !== 'where') {
+    countSql = `${countSql} ${where}`
+  }
+  const count = await db.querySql(countSql)
+  // console.log('count', count)
   bookSql = `${bookSql} limit ${pageSize} offset ${offset}`
   const list = await db.querySql(bookSql)
   // return new Promise((resolve, reject) => {
   //   resolve()
   // })
-  return { list }
+  // 封面路径设置
+  list.forEach(book => book.cover = Book.genCoverUrl(book))
+  return { list, count: count[0].count, page, pageSize }
+}
+
+// 删除电子书
+function deleteBook(fileName) {
+  return new Promise(async (resolve, reject) => {
+    let book = await getBook(fileName)
+    if (book) {
+      if (+book.updateType === 0) {
+        reject(new Error('内置电子书不能删除'))
+      } else {
+        const bookObj = new Book(null, book)
+        const sql = `delete from book where fileName='${fileName}'`
+        db.querySql(sql).then(() => {
+          bookObj.reset()
+          resolve()
+        })
+      }
+    } else {
+      reject(new Error('电子书不存在'))
+    }
+  })
 }
 
 module.exports = {
@@ -169,5 +199,6 @@ module.exports = {
   getBook,
   updateBook,
   getCategory,
-  listBook
+  listBook,
+  deleteBook
 }
