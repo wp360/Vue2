@@ -20,3 +20,5 @@
 `ssh-keygen -t rsa -C "2897406527@qq.com"`
 
 #### 注意：无需输入密码，两次回车即可
+
+* 4. VScode操作Git
