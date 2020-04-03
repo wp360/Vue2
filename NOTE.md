@@ -12,3 +12,6 @@
 `git config --list`
 `git clone git项目链接地址`
 `git config --global credential.helper`
+> 公钥、私钥
+`ssh-keygen -t rsa -C "2897406527@qq.com"`
+#### 注意：无需输入密码，两次回车即可
