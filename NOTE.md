@@ -22,3 +22,12 @@
 #### 注意：无需输入密码，两次回车即可
 
 * 4. VScode操作Git
+* 5. VueCli4.0安装
+```
+npm install -g @vue/cli
+or
+yarn global add @vue/cli
+vue --version
+```
+* 6. vue项目可视化管理
+> vue ui
