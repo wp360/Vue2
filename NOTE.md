@@ -104,3 +104,93 @@ module.exports= {
 > src >> router.js
 * 7. src文件夹下新建pages文件夹(页面)
 > src >> pages
+## 基本插件
+`cnpm i vue-lazyload element-ui node-sass sass-loader vue-awesome-swiper vue-axios vue-cookie --save-dev`
+## 路由
+```js
+// router.js
+import Vue from 'vue'
+import Router from 'vue-router'
+import Home from './pages/home'
+import Index from './pages/index'
+import Product from './pages/product'
+import Detail from './pages/detail'
+import Cart from './pages/cart'
+import Order from './pages/order'
+import OrderConfirm from './pages/orderConfirm'
+import OrderList from './pages/orderList'
+import OrderPay from './pages/orderPay'
+import AliPay from './pages/alipay'
+
+Vue.use(Router)
+
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home,
+      redirect: '/index',
+      children: [
+        {
+          path: 'index',
+          name: 'index',
+          component: Index
+        },
+        {
+          path: 'product/:id',
+          name: 'product',
+          component: Product
+        },
+        {
+          path: 'detail/:id',
+          name: 'detail',
+          component: Detail
+        }
+      ]
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: Cart
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: Order,
+      children: [
+        {
+          path: 'confirm',
+          name: 'order-confirm',
+          component: OrderConfirm
+        },
+        {
+          path: 'list',
+          name: 'order-list',
+          component: OrderList
+        },
+        {
+          path: 'pay',
+          name: 'order-pay',
+          component: OrderPay
+        },
+        {
+          path: 'alipay',
+          name: 'alipay',
+          component: AliPay
+        }
+      ]
+    }
+  ]
+})
+
+// main.js引入路由
+
+import router from './router'
+// ...
+new Vue({
+  router,
+  render: h => h(App),
+}).$mount('#app')
+
+```

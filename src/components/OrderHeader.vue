@@ -1,10 +1,10 @@
 <template>
   <div>
-    订单列表
+    订单头部组件
   </div>
 </template>
 <script>
 export default {
-  name: 'order-list'
+  name: 'order-header'
 }
 </script>
