@@ -261,3 +261,6 @@ export default {
 * easy-mock平台
 * 集成Mock API
 `cnpm i mockjs --save-dev`
+
+## 首页
+* 1. 头部组件
