@@ -10,7 +10,7 @@
 // import HelloWorld from './components/HelloWorld.vue'
 // import axios from 'axios'
 // import jsonp from 'jsonp'
-import storage from './storage'
+// import storage from './storage'
 
 export default {
   name: 'App',
@@ -45,7 +45,7 @@ export default {
     // storage.setItem('user', {a:1})
     // storage.setItem('sex', { a: 1}, 'user')
     // storage.clear('a')
-    storage.clear('sex', 'user')
+    // storage.clear('sex', 'user')
   }
 }
 </script>
