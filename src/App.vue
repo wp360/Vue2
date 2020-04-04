@@ -1,23 +1,24 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <router-view></router-view>
+    <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
+    <!-- <HelloWorld msg="Welcome to Your Vue.js App"/> -->
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
 // import axios from 'axios'
-import jsonp from 'jsonp'
+// import jsonp from 'jsonp'
 
 export default {
   name: 'App',
   components: {
-    HelloWorld
+    // HelloWorld
   },
   data () {
     return {
-      data: ''
+      // data: ''
     }
   },
   mounted() {
@@ -33,11 +34,11 @@ export default {
     //   this.data = result
     // })
     // 代理实例：
-    let url = '/api/search/hotwords'
-    jsonp(url, (err, res) => {
-      let result = res
-      this.data = result
-    })
+    // let url = '/api/search/hotwords'
+    // jsonp(url, (err, res) => {
+    //   let result = res
+    //   this.data = result
+    // })
   }
 }
 </script>

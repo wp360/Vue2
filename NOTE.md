@@ -84,3 +84,23 @@ module.exports= {
   }
 }
 ```
+## 需求梳理
+* 熟悉文档、查看原型、读懂需求
+* 了解前端设计稿 - 设计前端业务架构
+* 了解后台接口文档 - 制定相关对接规范
+* 协调资源
+* 搭建前端架构
+## 目录结构设置
+* 1. 去除App.vue里多余的内容
+* 2. src文件夹下新建api接口文件夹
+> src >> api >> index.js
+* 3. src文件夹下新建utils文件夹
+> src >> utils >> index.js
+* 4. src文件夹下新建storage文件夹(前端数据存储的工具箱)
+> src >> storage >> index.js
+* 5. src文件夹下新建store文件夹(vuex)
+> src >> store
+* 6. src文件夹下新建router.js(路由文件)
+> src >> router.js
+* 7. src文件夹下新建pages文件夹(页面)
+> src >> pages
