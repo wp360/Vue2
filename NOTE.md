@@ -214,3 +214,40 @@ new Vue({
 * 统一报错
 * 未登录统一拦截
 * 请求值、返回值的统一处理
+## 接口环境设置
+* 开发上线的不同阶段，需要不同的配置
+* 不同的跨域方式，配置不同
+* 打包的时候统一注入环境参数，统一管理环境，输出不同的版本包
+```js
+// 新建文件env.js
+let baseURL;
+switch(process.env.NODE_ENV) {
+  case 'development':
+    baseURL = 'http://dev-mall-pre.springboot.cn/api';
+    break;
+  case 'test':
+    baseURL = 'http://test-mall-pre.springboot.cn/api';
+    break;
+  case 'production':
+    baseURL = 'http://mall-pre.springboot.cn/api';
+    break;
+  default:
+    baseURL = 'http://mall-pre.springboot.cn/api';
+    break;
+}
+
+export default {
+  baseURL
+}
+```
+* 修改package.json
+```json
+  "scripts": {
+    "serve": "vue-cli-service serve --mode=development",
+    "build": "vue-cli-service build --mode=production",
+    "test": "vue-cli-service build --mode=test",
+    "lint": "vue-cli-service lint"
+  },
+```
+> 在node中，有全局变量process表示的是当前的node进程。process.env包含着关于系统环境的信息。但是process.env中并不存在NODE_ENV这个东西。NODE_ENV是用户一个自定义的变量，在webpack中它的用途是判断生产环境或开发环境的依据的。
+[process.env.NODE_ENV详解：](https://juejin.im/post/5d907b6751882502c5534694)
