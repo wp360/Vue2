@@ -20,6 +20,7 @@ export default {
   data () {
     return {
       // data: ''
+      res: {}
     }
   },
   mounted() {
@@ -46,6 +47,19 @@ export default {
     // storage.setItem('sex', { a: 1}, 'user')
     // storage.clear('a')
     // storage.clear('sex', 'user')
+
+    // json模拟数据 Mock 本地加载请求静态json文件的形式
+    // this.axios.get('/mock/user/login.json').then((res) => {
+    //   this.res = res
+    // })
+    // 通过easy-mock平台实现数据mock
+    // this.axios.get('/table/list').then((res) => {
+    //   this.res = res
+    // })
+    // 本地集成mockjs实现数据mock
+    // this.axios.get('/user/login').then((res) => {
+    //   this.res = res
+    // })
   }
 }
 </script>

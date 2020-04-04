@@ -251,3 +251,13 @@ export default {
 ```
 > 在node中，有全局变量process表示的是当前的node进程。process.env包含着关于系统环境的信息。但是process.env中并不存在NODE_ENV这个东西。NODE_ENV是用户一个自定义的变量，在webpack中它的用途是判断生产环境或开发环境的依据的。
 [process.env.NODE_ENV详解：](https://juejin.im/post/5d907b6751882502c5534694)
+
+## Mock设置
+* 开发阶段，为了高效率，需要提前Mock（模拟数据）
+* 减少代码冗余、灵活插拔
+* 减少沟通、减少接口联调时间
+
+* 本地创建json
+* easy-mock平台
+* 集成Mock API
+`cnpm i mockjs --save-dev`
