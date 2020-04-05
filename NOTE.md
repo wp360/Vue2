@@ -264,3 +264,7 @@ export default {
 
 ## 首页
 * 1. 头部组件
+* 2. 头部导航
+
+#### 相关知识点：
+[css中的mixin及其用法](https://blog.csdn.net/liya_nan/article/details/81479995)
