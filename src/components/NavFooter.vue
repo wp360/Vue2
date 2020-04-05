@@ -6,7 +6,7 @@
     </div>
     <div class="footer-link">
       <a href="https://wp360.github.io/" target="_blank">个人主页</a><span>|</span>
-      <a href="https://wp360.github.io/waimai/" target="_blank">美团外卖（React）</a><span>|</span>
+      <a href="https://wp360.github.io/waimai/" target="_blank">美团外卖</a><span>|</span>
       <a href="http://h5.oldkids.cn/onlineLesson/" target="_blank">云课堂</a><span>|</span>
       <a href="http://h5.oldkids.cn/yanglao/" target="_blank">机构查询</a>
     </div>
