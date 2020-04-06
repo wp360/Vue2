@@ -163,8 +163,8 @@ export default {
     getProductList() {
       this.axios.get('/products', {
         params: {
-          categoryId: '100012'
-          // pageSize: 6
+          categoryId: '100012',
+          pageSize: 12
         }
       }).then((res) => {
         // console.log(res)
