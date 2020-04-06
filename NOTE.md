@@ -271,3 +271,5 @@ export default {
 [css中的mixin及其用法](https://blog.csdn.net/liya_nan/article/details/81479995)
 
 [vue-awesome-swiper轮播图文档](https://github.com/surmon-china/vue-awesome-swiper)
+
+[vue-lazyload文档](https://github.com/hilongjw/vue-lazyload)
