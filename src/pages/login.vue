@@ -37,7 +37,8 @@
   </div>
 </template>
 <script>
-// import { mapActions } from 'vuex';
+import { mapActions } from 'vuex'
+
 export default {
   name: 'login',
   data(){
@@ -54,11 +55,13 @@ export default {
         username,
         password
       }).then((res)=>{
-        // vue-cookie
-        this.$cookie.set('userId',res.id,{expires:'Session'});
-        // this.$store.dispatch('saveUserName',res.username);
+        // vue-cookie => https://www.npmjs.com/package/vue-cookie
+        // expires:'Session'
+        this.$cookie.set('userId',res.id,{expires: '1M'});
         // 保存用户信息 使用Vuex
-        // this.saveUserName(res.username);
+        // this.$store.dispatch('saveUserName',res.username);
+        // 使用mapActions
+        this.saveUserName(res.username);
         this.$router.push({
           name:'index',
           params:{
@@ -67,7 +70,7 @@ export default {
         });
       })
     },
-    // ...mapActions(['saveUserName']),
+    ...mapActions(['saveUserName']),
     register(){
       this.axios.post('/user/register',{
         username:'admin1',

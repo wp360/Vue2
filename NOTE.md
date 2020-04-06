@@ -265,6 +265,149 @@ export default {
 ## 首页
 * 1. 头部组件
 * 2. 头部导航
+* 3. 轮播图
+* 4. 导航列表
+* 5. 广告位
+* 6. 商品展示
+* 7. 底部组件
+
+## 登录
+
+## Vuex状态管理
+> Vuex 是一个专为 Vue.js 应用程序开发的状态管理模式。它采用集中式存储管理应用的所有组件的状态，并以相应的规则保证状态以一种可预测的方式发生变化。
+* 1. 新建store文件夹，添加index.js
+```js
+// index.js
+import Vue from 'vue'
+import Vuex from 'vuex'
+import mutations from './mutations'
+import actions from './action'
+
+Vue.use(Vuex)
+
+const state = {
+  username: '', // 登录用户名
+  cartCount: 0 // 购物车商品数量
+}
+
+export default new Vuex.Store({
+  state,
+  mutations,
+  actions
+})
+```
+* 2. mutation
+> 更改 Vuex 的 store 中的状态的唯一方法是提交 mutation。
+```js
+// mutations.js
+/**
+ * 商城Vuex-mutations
+ */
+export default {
+
+}
+```
+* 3. action
+> Action 类似于 mutation，不同在于：Action 提交的是 mutation，而不是直接变更状态。Action 可以包含任意异步操作。
+```js
+// action.js
+/**
+ * 商城Vuex-actions
+ */
+export default {
+
+}
+```
+* 4. main.js设置store
+```js
+// ...
+// Vuex状态管理
+import store from './store'
+
+new Vue({
+  store,
+  // ...
+}).$mount('#app')
+
+```
+* 5. 用户名及购物车数量显示
+```js
+// action.js
+export default {
+  saveUserName(context, username) {
+    context.commit('saveUserName', username)
+  },
+  saveCartCount(context, count) {
+    context.commit('saveCartCount', count)
+  }
+}
+
+// mutations.js
+export default {
+  saveUserName(state, username) {
+    state.username = username
+  },
+  saveCartCount(state, count) {
+    state.cartCount = count
+  }
+}
+
+// NavHeader.vue
+// 使用计算属性方法，可以解决数据还未加载状态信息已经展示
+computed: {
+  username() {
+    return this.$store.state.username
+  },
+  cartCount() {
+    return this.$store.state.cartCount
+  }
+},
+
+// login.vue
+// 保存用户信息 使用Vuex
+this.$store.dispatch('saveUserName',res.username);
+
+// App.vue
+getUser() {
+  this.axios.get('/user').then((res) => {
+    // 保存到Vuex里面
+    this.$store.dispatch('saveUserName',res.username)
+  })
+},
+getCartCount() {
+  this.axios.get('/carts/products/sum').then((res) => {
+    // 保存到Vuex里面
+    this.$store.dispatch('saveCartCount',res)
+  })
+}
+```
+* 6. mapActions的使用
+```js
+import { mapActions } from 'vuex'
+// ...
+
+// this.$store.dispatch('saveUserName',res.username);
+// 使用mapActions
+this.saveUserName(res.username);
+
+//...
+...mapActions(['saveUserName']),
+```
+* 7. mapState的使用
+```js
+// NavHeader.vue
+import { mapState } from 'vuex'
+// ...
+computed: {
+  // username() {
+  //   return this.$store.state.username
+  // },
+  // cartCount() {
+  //   return this.$store.state.cartCount
+  // }
+  ...mapState(['username', 'cartCount'])
+},
+```
 
 #### 相关知识点：
 

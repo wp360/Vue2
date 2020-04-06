@@ -13,7 +13,7 @@
           <a href="javascript:;" v-if="!username" @click="login">登录</a>
           <a href="javascript:;" v-if="username">我的订单</a>
           <a href="javascript:;" class="my-cart" @click="goToCart">
-            <span class="icon-cart"></span>购物车
+            <span class="icon-cart"></span>购物车({{cartCount}})
           </a>
         </div>
       </div>
@@ -137,14 +137,25 @@
   </div>
 </template>
 <script>
+import { mapState } from 'vuex'
+
 export default {
   name: "nav-header",
   data() {
     return {
-      username: 'admin',
+      // username: this.$store.state.username, // 'admin'
       phoneList: [],
       redMiList: []
     }
+  },
+  computed: {
+    // username() {
+    //   return this.$store.state.username
+    // },
+    // cartCount() {
+    //   return this.$store.state.cartCount
+    // }
+    ...mapState(['username', 'cartCount'])
   },
   filters: {
     currency(val) {
