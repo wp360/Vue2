@@ -46,7 +46,23 @@
           </div>
           <div class="item-menu">
             <span>Redmi红米</span>
-            <div class="children"></div>
+            <div class="children">
+              <ul>
+                <li class="product" v-for="(item, index) in redMiList" :key="index">
+                  <a :href="'/#/product/' + item.id" target="_blank">
+                    <div class="pro-img">
+                      <img :src="item.mainImage" :alt="item.subtitle">
+                    </div>
+                    <div class="pro-name">
+                      {{item.name}}
+                    </div>
+                    <div class="pro-price">
+                      {{item.price | currency}}
+                    </div>
+                  </a>
+                </li>
+              </ul>
+            </div>
           </div>
           <div class="item-menu">
             <span>电视</span>
@@ -126,7 +142,8 @@ export default {
   data() {
     return {
       username: 'admin',
-      phoneList: []
+      phoneList: [],
+      redMiList: []
     }
   },
   filters: {
@@ -146,15 +163,16 @@ export default {
     getProductList() {
       this.axios.get('/products', {
         params: {
-          categoryId: '100012',
-          pageSize: 6
+          categoryId: '100012'
+          // pageSize: 6
         }
       }).then((res) => {
         // console.log(res)
-        // if(res.list.length >= 6) {
-        //   this.phoneList = res.list.slice(0,6)
-        // }
-        this.phoneList = res.list
+        if(res.list.length >= 6) {
+          this.phoneList = res.list.slice(0,6)
+        }
+        // this.phoneList = res.list
+        this.redMiList = res.list.slice(6)
       })
     },
     goToCart() {

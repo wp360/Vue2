@@ -105,7 +105,7 @@ module.exports= {
 * 7. src文件夹下新建pages文件夹(页面)
 > src >> pages
 ## 基本插件
-`cnpm i vue-lazyload element-ui node-sass sass-loader vue-awesome-swiper vue-axios vue-cookie --save-dev`
+`cnpm i vue-lazyload element-ui node-sass sass-loader swiper vue-awesome-swiper vue-axios vue-cookie --save-dev`
 ## 路由
 ```js
 // router.js
@@ -267,4 +267,7 @@ export default {
 * 2. 头部导航
 
 #### 相关知识点：
+
 [css中的mixin及其用法](https://blog.csdn.net/liya_nan/article/details/81479995)
+
+[vue-awesome-swiper轮播图文档](https://github.com/surmon-china/vue-awesome-swiper)
