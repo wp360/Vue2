@@ -60,6 +60,22 @@ export default {
     // this.axios.get('/user/login').then((res) => {
     //   this.res = res
     // })
+    // 获取用户信息
+    this.getUser()
+    // 获取购物车数据
+    this.getCartCount()
+  },
+  methods: {
+    getUser() {
+      this.axios.get('/user').then(() => {
+        // 保存到Vuex里面
+      })
+    },
+    getCartCount() {
+      this.axios.get('/carts/products/sum').then(() => {
+        // 保存到Vuex里面
+      })
+    }
   }
 }
 </script>
