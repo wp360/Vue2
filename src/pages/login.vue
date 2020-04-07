@@ -56,8 +56,8 @@ export default {
         password
       }).then((res)=>{
         // vue-cookie => https://www.npmjs.com/package/vue-cookie
-        // expires:'Session'
-        this.$cookie.set('userId',res.id,{expires: '1M'});
+        // expires:''
+        this.$cookie.set('userId',res.id,{expires: 'Session'}); // 1M
         // 保存用户信息 使用Vuex
         // this.$store.dispatch('saveUserName',res.username);
         // 使用mapActions

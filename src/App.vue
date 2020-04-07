@@ -60,10 +60,12 @@ export default {
     // this.axios.get('/user/login').then((res) => {
     //   this.res = res
     // })
-    // 获取用户信息
-    this.getUser()
-    // 获取购物车数据
-    this.getCartCount()
+    if(this.$cookie.get('userId')) {
+      // 获取用户信息
+      this.getUser()
+      // 获取购物车数据
+      this.getCartCount()
+    }
   },
   methods: {
     getUser() {
