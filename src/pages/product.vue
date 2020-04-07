@@ -45,7 +45,7 @@
           <!-- :class="{'slide': showSlide}" -->
           <div class="video" v-bind:class="showSlide">
             <span class="icon-close" @click="closeVideo"></span>
-            <video src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
+            <video id="video" src="/imgs/product/video.mp4" muted autoplay controls="controls"></video>
           </div>
         </div>
       </div>
@@ -75,6 +75,7 @@ export default {
           clickable :true,
         }
       },
+      isPlay: '',
       product:{} //商品信息
     }
   },
@@ -93,6 +94,11 @@ export default {
       this.$router.push(`/detail/${id}`)
     },
     closeVideo() {
+      this.isPlay = document.getElementById('video')
+      // console.log(this.isPlay.paused)
+      if(!this.isPlay.paused) {
+        this.isPlay.pause()
+      }
       // this.showSlide = false
       this.showSlide='slideUp'
       setTimeout(()=>{

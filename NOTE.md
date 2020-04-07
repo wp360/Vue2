@@ -413,6 +413,44 @@ computed: {
 
 ## 购物车
 
+## Element UI
+* 1. 安装
+`cnpm i element-ui -S`
+* 2. 按需加载
+`cnpm install babel-plugin-component -D`
+* 3. 添加.babelrc
+```js
+{
+  "presets": [
+    ["es2015", {
+      "modules": false
+    }]
+  ],
+  "plugins": [
+    [
+      "component",
+      {
+        "libraryName": "element-ui",
+        "styleLibraryName": "theme-chalk"
+      }
+    ]
+  ]
+}
+```
+* 4. main.js引入
+```js
+// main.js
+import { Message } from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+
+// ...
+
+Vue.prototype.$message = Message
+```
+
+* 5. 使用
+> this.$message.warning('警告文字')
+
 #### 相关知识点：
 
 [css中的mixin及其用法](https://blog.csdn.net/liya_nan/article/details/81479995)
