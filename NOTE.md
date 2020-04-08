@@ -458,6 +458,8 @@ Vue.prototype.$message = Message
 ## 订单
 * 1. 订单确认页面
 * 2. 订单结算
+  * 二维码
+  `cnpm install --save qrcode`
 * 3. 订单列表
 
 
