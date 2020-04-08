@@ -462,6 +462,190 @@ Vue.prototype.$message = Message
   `cnpm install --save qrcode`
 * 3. 订单列表
 
+## 路由懒加载
+* 1. 方法一：
+```js
+// router.js
+import Product from './pages/product'
+// ...
+{
+  path: 'product/:id',
+  name: 'product',
+  component: Product
+},
+// 改成：
+// import Product from './pages/product'
+// ...
+{
+  path: 'product/:id',
+  name: 'product',
+  component: resolve => require(['./pages/product.vue'], resolve)
+},
+```
+* 2. 方法二：
+`npm install --save-dev @babel/plugin-syntax-dynamic-import`
+```js
+// router.js
+import Vue from 'vue'
+import Router from 'vue-router'
+import Home from './pages/home'
+import Index from './pages/index'
+import Product from './pages/product'
+import Detail from './pages/detail'
+import Login from './pages/login'
+import Cart from './pages/cart'
+import Order from './pages/order'
+import OrderConfirm from './pages/orderConfirm'
+import OrderList from './pages/orderList'
+import OrderPay from './pages/orderPay'
+import AliPay from './pages/alipay'
+
+Vue.use(Router)
+
+export default new Router({
+  routes: [
+    {
+      path: '/',
+      name: 'home',
+      component: Home,
+      redirect: '/index',
+      children: [
+        {
+          path: 'index',
+          name: 'index',
+          component: Index
+        },
+        {
+          path: 'product/:id',
+          name: 'product',
+          component: Product
+        },
+        {
+          path: 'detail/:id',
+          name: 'detail',
+          component: Detail
+        }
+      ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: Login
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: Cart
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: Order,
+      children: [
+        {
+          path: 'confirm',
+          name: 'order-confirm',
+          component: OrderConfirm
+        },
+        {
+          path: 'list',
+          name: 'order-list',
+          component: OrderList
+        },
+        {
+          path: 'pay',
+          name: 'order-pay',
+          component: OrderPay
+        },
+        {
+          path: 'alipay',
+          name: 'alipay',
+          component: AliPay
+        }
+      ]
+    }
+  ]
+})
+// 改成：
+import Vue from 'vue'
+import Router from 'vue-router'
+import Home from './pages/home'
+import Index from './pages/index'
+Vue.use(Router)
+
+export default new Router({
+  routes:[
+    {
+      path:'/',
+      name:'home',
+      component:Home,
+      redirect:'/index',
+      children:[
+        {
+          path: '/index',
+          name: 'index',
+          component: Index,
+        }, {
+          path: '/product/:id',
+          name: 'product',
+          component: () => import('./pages/product.vue')
+        }, {
+          path: '/detail/:id',
+          name: 'detail',
+          component: () => import('./pages/detail.vue')
+        }
+      ]
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('./pages/login.vue')
+    },
+    {
+      path: '/cart',
+      name: 'cart',
+      component: () => import('./pages/cart.vue')
+    },
+    {
+      path: '/order',
+      name: 'order',
+      component: () => import('./pages/order.vue'),
+      children:[
+        {
+          path: 'list',
+          name: 'order-list',
+          component: () => import('./pages/orderList.vue')
+        },
+        {
+          path: 'confirm',
+          name: 'order-confirm',
+          component: () => import('./pages/orderConfirm.vue')
+        },
+        {
+          path: 'pay',
+          name: 'order-pay',
+          component: () => import('./pages/orderPay.vue')
+        },
+        {
+          path: 'alipay',
+          name: 'alipay',
+          component: () => import('./pages/alipay.vue')
+        }
+      ]
+    }
+  ]
+})
+```
+
+## 删除预加载-真正按需
+```js
+// vue.config.js
+  chainWebpack: (config) => {
+    config.plugins.delete('prefetch')
+  }
+```
+
+[路由懒加载参考文档](https://router.vuejs.org/zh/guide/advanced/lazy-loading.html)
 
 #### 相关知识点：
 
