@@ -42,12 +42,12 @@ axios.interceptors.response.use(function(response) {
   } else {
     // alert(res.msg)
     // Message.warning(res.msg)
-    this.$message.warning(res.msg)
+    Message.warning(res.msg)
     return Promise.reject(res)
   }
 }, (error) => {
   let res = error.response
-  this.$message.warning(res.data.message)
+  Message.warning(res.data.message)
   return Promise.reject(error)
 })
 
