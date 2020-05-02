@@ -12,6 +12,12 @@ module.exports = {
         pathRewrite: {
           '/list': 'list.json'
         }
+      },
+      '/proxy': {
+        target: 'http://localhost:8081',
+        pathRewrite: {
+          '/proxy': 'proxy.json'
+        }
       }
     }
   }
