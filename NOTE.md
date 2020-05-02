@@ -97,6 +97,25 @@ module.exports = {
 ## 异步操作Promise
 * 1. 安装axios
 `npm i axios`
+* 2. axios的引入及使用
+* 3. async/await的使用
+## desctructing解构赋值
+* 1. 新建list.vue文件
+* 2. 调用mock数据
+* 3. 解构赋值
+```js
+  async mounted () {
+    const { data } = await axios.get('/list')
+    if (data && data.code === 0) {
+      this.list = data.list
+    }
+  }
+// ===========================================
+  async mounted () {
+    const { data: { list } } = await axios.get('/list')
+    this.list = list
+  }
+```
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git
