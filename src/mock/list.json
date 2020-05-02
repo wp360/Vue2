@@ -7,5 +7,7 @@
   {
     "name": "jack",
     "addr": "USA"
-  }]
+  }],
+  "price": 69,
+  "rate": 7.1
 }
