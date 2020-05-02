@@ -68,6 +68,35 @@ import './directive/make-red'
 ```
 <h1 v-make-red>{{ msg }}</h1>
 ```
+## mock数据
+* 1. 新建mock数据
+> mock >> list.json、user.json
+* 2. vue.config.js设置
+```js
+module.exports = {
+  devServer: {
+    proxy: {
+      '/user': {
+        target: 'http://localhost:8081',
+        pathRewrite: {
+          '/user': 'user.json'
+        }
+      },
+      '/list': {
+        target: 'http://localhost:8081',
+        pathRewrite: {
+          '/list': 'list.json'
+        }
+      }
+    }
+  }
+}
+```
+* mock文件夹下启动服务
+> http-server .
+## 异步操作Promise
+* 1. 安装axios
+`npm i axios`
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git

@@ -1,0 +1,11 @@
+{
+  "code": 0,
+  "list": [{
+    "name": "bob",
+    "addr": "上海"
+  },
+  {
+    "name": "jack",
+    "addr": "USA"
+  }]
+}

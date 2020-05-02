@@ -31,10 +31,33 @@
 </template>
 
 <script>
+// 引入axios
+import axios from 'axios'
 export default {
   name: 'HelloWorld',
   props: {
     msg: String
+  },
+  // mounted () {
+  //   // axios.get('/user').then((res) => {
+  //   //   // console.log(res)
+  //   //   if (res.data && res.data.code === 0) {
+  //   //     console.log(res.data.user)
+  //   //   }
+  //   // })
+  //   // 解构赋值
+  //   axios.get('/user').then(({ data }) => {
+  //     if (data && data.code === 0) {
+  //       console.log(data.user)
+  //     }
+  //   })
+  // }
+  // async / await的使用
+  async mounted () {
+    const { data } = await axios.get('/user')
+    if (data && data.code === 0) {
+      console.log(data.user)
+    }
   }
 }
 </script>
