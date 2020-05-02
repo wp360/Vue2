@@ -2,22 +2,25 @@
   <div id="app">
     <img alt="Vue logo" src="./assets/logo.png">
     <HelloWorld msg="Welcome to Your Vue.js App"/>
-    <List/>
-    <Proxy/>
+    <!-- <List/>
+    <Proxy/> -->
+    <Author />
   </div>
 </template>
 
 <script>
 import HelloWorld from './components/HelloWorld.vue'
-import List from './components/list.vue'
-import Proxy from './components/proxy.vue'
+// import List from './components/list.vue'
+// import Proxy from './components/proxy.vue'
+import Author from './components/author.vue'
 
 export default {
   name: 'App',
   components: {
     HelloWorld,
-    List,
-    Proxy
+    // List,
+    // Proxy
+    Author
   }
 }
 </script>

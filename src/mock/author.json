@@ -1,0 +1,20 @@
+{
+  "code": 0,
+  "allAuthors": {
+    "fiction": [
+      "刘慈欣",
+      "儒尔·凡尔纳",
+      "Isaac Asimov"
+    ],
+    "science": [
+      "Stephen Hawking",
+      "埃德·扬",
+      "尤瓦尔·赫拉利"
+    ],
+    "fantansy": [
+      "J.K.Rowling",
+      "乔治·R.R.马丁",
+      "J.R.R.托尔金"
+    ]
+  }
+}

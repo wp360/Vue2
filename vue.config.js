@@ -18,6 +18,12 @@ module.exports = {
         pathRewrite: {
           '/proxy': 'proxy.json'
         }
+      },
+      '/author': {
+        target: 'http://localhost:8081',
+        pathRewrite: {
+          '/author': 'author.json'
+        }
       }
     }
   }
