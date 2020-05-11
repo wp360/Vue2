@@ -4,14 +4,29 @@
   </div>
 </template>
 <script>
+// import remoteLoad from '@/utils/remoteLoad.js'
 export default {
   name: 'app',
   created () {
     this.getLocation()
+    // 已载入高德地图API，则直接初始化地图
+    // if (window.AMap) {
+    //   this.getLocation()
+    // // 未载入高德地图API，则先载入API再初始化
+    // } else {
+    //   // 载入高德地图
+    //   Promise.all([
+    //     remoteLoad('https://webapi.amap.com/maps?v=1.4.15&key=ab3a789432f55b2af930a86fc6200447')
+    //   ])
+    //     .then(() => {
+    //       this.getLocation()
+    //     })
+    // }
   },
   methods: {
     getLocation () {
       const self = this
+      // const AMap = this.AMap = window.AMap
       AMap.plugin('AMap.Geolocation', function () {
         var geolocation = new AMap.Geolocation({
           // 是否使用高精度定位，默认：true
@@ -26,7 +41,9 @@ export default {
 
         function onComplete (data) {
           // data是具体的定位信息  精准定位
-          console.log(data)
+          console.log('精准定位' + data)
+          self.$store.dispatch('setLocation', data)
+          self.$store.dispatch('setAddress', data.formattedAddress)
         }
 
         function onError (data) {
@@ -37,14 +54,15 @@ export default {
       })
     },
     getLngLatLocation () {
-      // const self = this
+      const self = this
+      /* eslint-disable no-undef */
       AMap.plugin('AMap.CitySearch', function () {
         var citySearch = new AMap.CitySearch()
-        citySearch.getLocalCity(function(status, result) {
+        citySearch.getLocalCity(function (status, result) {
           if (status === 'complete' && result.info === 'OK') {
             // 查询成功，result即为当前所在城市信息
-            console.log(result)
-            AMap.plugin('AMap.Geocoder', function() {
+            // console.log(result)
+            AMap.plugin('AMap.Geocoder', function () {
               var geocoder = new AMap.Geocoder({
                 // city 指定进行编码查询的城市，支持传入城市名、adcode 和 citycode
                 city: result.adcode
@@ -52,10 +70,22 @@ export default {
 
               var lnglat = result.rectangle.split(';')[1].split(',')
 
-              geocoder.getAddress(lnglat, function(status, data) {
+              geocoder.getAddress(lnglat, function (status, data) {
                 if (status === 'complete' && data.info === 'OK') {
                   // result为对应的地理位置详细信息
-                  console.log(data)
+                  console.log('非精准定位' + data)
+                  self.$store.dispatch('setLocation', {
+                    addressComponent: {
+                      city: result.city,
+                      province: result.province
+                    },
+                    formattedAddress: data.regeocode.formattedAddress
+                  })
+
+                  self.$store.dispatch(
+                    'setAddress',
+                    data.regeocode.formattedAddress
+                  )
                 }
               })
             })
