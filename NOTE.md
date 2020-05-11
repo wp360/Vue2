@@ -34,6 +34,9 @@ router.beforeEach((to, from, next) => {
 })
 
 ```
+* 4. 登录Input组件
+> components >> InputGroup.vue
+* 5. 登录页引入组件
 
 ## 上传github
 ```
