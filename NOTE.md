@@ -81,6 +81,13 @@ const timer = setInterval(() => {
 ```
 * 9. 登录验证
 * 10. 登录跳转
+## tabBar组件
+* 1. 新建对应页面(Home.vue、Order.vue、Me.vue)
+* 2. 路由设置
+* 3. 新建TabBar.vue组件
+* 4. Index.vue引入组件
+* 5. 添加字体图标样式
+* 6. TabBar.vue组件制作
 
 ## 上传github
 ```
