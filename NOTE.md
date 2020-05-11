@@ -37,6 +37,43 @@ router.beforeEach((to, from, next) => {
 * 4. 登录Input组件
 > components >> InputGroup.vue
 * 5. 登录页引入组件
+* 6. 输入手机号判断
+```js
+  if (!this.phone) {
+    this.errors = {
+      phone: '手机号码不能为空'
+    }
+    return false
+  } else if (!/^1[345678]\d{9}$/.test(this.phone)) {
+    this.errors = {
+      phone: '请填写正确的手机号码'
+    }
+    return false
+  } else {
+    this.errors = {}
+    return true
+  }
+```
+* 7. 验证码倒计时
+```js
+// validateBtn()
+let time = 60
+const timer = setInterval(() => {
+  if (time === 0) {
+    clearInterval(timer)
+    this.btnTitle = '获取验证码'
+    this.disabled = false
+  } else {
+    // 倒计时
+    this.btnTitle = time + '秒后重试'
+    this.disabled = true
+    time--
+  }
+}, 1000)
+```
+* 8. 获取验证码
+* 9. 登录验证
+* 10. 登录跳转
 
 ## 上传github
 ```

@@ -22,9 +22,9 @@
         <span>《用户服务协议》</span>
       </p>
     </div>
-    <!-- 登录按钮 -->
+    <!-- 登录按钮:disabled="isClick"  -->
     <div class="login_btn">
-      <button :disabled="isClick" @click="handleLogin">登录</button>
+      <button @click="handleLogin">登录</button>
     </div>
   </div>
 </template>
@@ -52,7 +52,44 @@ export default {
   },
   methods: {
     getVerifyCode () {
-      console.log('验证码')
+      // console.log('验证码')
+      if (this.validatePhone()) {
+        // 倒计时
+        this.validateBtn()
+        // 发送网络请求
+      }
+    },
+    validatePhone () {
+      // 验证手机号码
+      if (!this.phone) {
+        this.errors = {
+          phone: '手机号码不能为空'
+        }
+        return false
+      } else if (!/^1[345678]\d{9}$/.test(this.phone)) {
+        this.errors = {
+          phone: '请填写正确的手机号码'
+        }
+        return false
+      } else {
+        this.errors = {}
+        return true
+      }
+    },
+    validateBtn () {
+      let time = 60
+      const timer = setInterval(() => {
+        if (time === 0) {
+          clearInterval(timer)
+          this.btnTitle = '获取验证码'
+          this.disabled = false
+        } else {
+          // 倒计时
+          this.btnTitle = time + '秒后重试'
+          this.disabled = true
+          time--
+        }
+      }, 1000)
     },
     handleLogin () {
       console.log('登录')
