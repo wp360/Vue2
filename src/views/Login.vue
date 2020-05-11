@@ -57,6 +57,15 @@ export default {
         // 倒计时
         this.validateBtn()
         // 发送网络请求
+        this.$axios
+          .post("/api/posts/sms_send", {
+            tpl_id: "136729",
+            key: "795be723dd9e88c3ea98e2b6713ab795",
+            phone: this.phone
+          })
+          .then(res => {
+            console.log(res);
+          })
       }
     },
     validatePhone () {

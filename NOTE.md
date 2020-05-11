@@ -72,6 +72,13 @@ const timer = setInterval(() => {
 }, 1000)
 ```
 * 8. 获取验证码
+```
+1. 使用聚合数据获取短信API服务
+2. 安装axios（cnpm i axios --save）
+3. main.js全局使用
+4. 跨域请求，新建vue.config.js
+5. 发送网络请求
+```
 * 9. 登录验证
 * 10. 登录跳转
 
