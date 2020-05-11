@@ -22,9 +22,9 @@
         <span>《用户服务协议》</span>
       </p>
     </div>
-    <!-- 登录按钮:disabled="isClick"  -->
+    <!-- 登录按钮 -->
     <div class="login_btn">
-      <button @click="handleLogin">登录</button>
+      <button :disabled="isClick" @click="handleLogin">登录</button>
     </div>
   </div>
 </template>
@@ -57,15 +57,16 @@ export default {
         // 倒计时
         this.validateBtn()
         // 发送网络请求
-        this.$axios
-          .post("/api/posts/sms_send", {
-            tpl_id: "136729",
-            key: "795be723dd9e88c3ea98e2b6713ab795",
-            phone: this.phone
-          })
-          .then(res => {
-            console.log(res);
-          })
+        alert('暂无对应短信api接口，直接使用123456替代')
+        // this.$axios
+        //   .post('/api/posts/sms_send', {
+        //     tpl_id: '136729',
+        //     key: '795be723dd9e88c3ea98e2b6713ab795',
+        //     phone: this.phone
+        //   })
+        //   .then(res => {
+        //     console.log(res)
+        //   })
       }
     },
     validatePhone () {
@@ -101,7 +102,35 @@ export default {
       }, 1000)
     },
     handleLogin () {
-      console.log('登录')
+      // console.log('登录')
+      // 取消错误提醒
+      this.errors = {}
+      // 发送请求
+      if (this.verifyCode === '123456') {
+        localStorage.setItem('ele_login', true)
+        this.$router.push('/')
+      } else {
+        this.errors = {
+          code: '手机验证码不正确'
+        }
+      }
+      // this.$axios
+      //   .post('/api/posts/sms_back', {
+      //     phone: this.phone,
+      //     code: this.verifyCode
+      //   })
+      //   .then(res => {
+      //   // console.log(res);
+      //   // 检验成功 设置登录状态并且跳转到/
+      //     localStorage.setItem('ele_login', true)
+      //     this.$router.push('/')
+      //   })
+      //   .catch(err => {
+      //   // 返回错误信息
+      //     this.errors = {
+      //       code: err.response.data.msg
+      //     }
+      //   })
     }
   }
 }
