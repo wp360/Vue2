@@ -88,6 +88,16 @@ const timer = setInterval(() => {
 * 4. Index.vue引入组件
 * 5. 添加字体图标样式
 * 6. TabBar.vue组件制作
+## vue中使用高德地图amap
+* 1.安装插件:
+`npm install vue-amap --save`
+* 2.main.js中
+```js
+import AMap from 'vue-amap'
+Vue.use(AMap);
+```
+* 3.index.html文件中
+`<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=申请的key值"></script>`
 
 ## 上传github
 ```
