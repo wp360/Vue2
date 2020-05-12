@@ -16,7 +16,7 @@
 </template>
 <script>
 export default {
-  name: 'tabbar',
+  name: 'TabBar',
   props: {
     data: Array
   }

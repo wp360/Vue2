@@ -7,7 +7,7 @@
 <script>
 import TabBar from '../components/TabBar'
 export default {
-  name: 'index',
+  name: 'Index',
   data () {
     return {
       tabbarData: [

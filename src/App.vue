@@ -5,6 +5,7 @@
 </template>
 <script>
 // import remoteLoad from '@/utils/remoteLoad.js'
+import AMap from 'AMap'
 export default {
   name: 'app',
   created () {

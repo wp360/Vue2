@@ -1,4 +1,9 @@
 module.exports = {
+  configureWebpack: {
+    externals: {
+      'AMap': 'AMap'
+    }
+  },
   devServer: {
     open: true,
     host: 'localhost',

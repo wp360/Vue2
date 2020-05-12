@@ -25,7 +25,7 @@
 
 <script>
 export default {
-  name: 'inputGroup',
+  name: 'InputGroup',
   props: {
     type: {
       type: String,
