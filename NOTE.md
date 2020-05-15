@@ -100,7 +100,7 @@ Vue.use(AMap);
 `<script type="text/javascript" src="https://webapi.amap.com/maps?v=1.4.15&key=申请的key值"></script>`
 ## 实现定位显示
 > 解决报错：'AMap' is not defined  no-undef 采用：/* eslint-disable no-undef */
-
+## 搜索框和定位信息展示
 
 ## 上传github
 ```
