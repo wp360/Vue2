@@ -106,6 +106,8 @@ Vue.use(AMap);
 * 高德地图——输入提示与POI搜索的使用
 [https://lbs.amap.com/api/javascript-api/guide/services/autocomplete](https://lbs.amap.com/api/javascript-api/guide/services/autocomplete)
 
+## 选择收获地址和城市页面头部展示
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git

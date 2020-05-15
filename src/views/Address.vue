@@ -77,7 +77,11 @@ export default {
       })
     },
     selectAddress (item) {
-      console.log(item)
+      // console.log(item)
+      // 设置地址
+      this.$store.dispatch('setAddress', item.district + item.address + item.name)
+      // 跳转首页
+      this.$router.push('/home')
     }
   }
 }
