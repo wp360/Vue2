@@ -102,6 +102,10 @@ Vue.use(AMap);
 > 解决报错：'AMap' is not defined  no-undef 采用：/* eslint-disable no-undef */
 ## 搜索框和定位信息展示
 
+## 根据关键字检索位置信息
+* 高德地图——输入提示与POI搜索的使用
+[https://lbs.amap.com/api/javascript-api/guide/services/autocomplete](https://lbs.amap.com/api/javascript-api/guide/services/autocomplete)
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git

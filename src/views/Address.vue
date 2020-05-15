@@ -13,33 +13,72 @@
         </div>
         <Location :address="address" />
     </div>
+    <div class="area">
+      <div class="area_list">
+          <ul class="area_item" v-for="item in areaList" :key='item.id' >
+              <li @click="selectAddress(item)">
+                <h4>{{item.name}}</h4>
+                <p>{{item.district}}{{item.address}}</p>
+              </li>
+          </ul>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import Header from '../components/Header'
 import Location from '../components/Location'
+import AMap from 'AMap'
 export default {
   name: 'Address',
   data () {
     return {
-      city: '',
-      search_val: ''
+      city: '', // 当前城市
+      search_val: '', // 搜索内容
+      areaList: []
     }
-  },
-  computed: {
-    address () {
-      return this.$store.getters.location.length > 0 ? this.$store.getters.location.formattedAddress : '定位失效，无法获取到对应地址信息'
-    }
-  },
-  components: {
-    Header,
-    Location
   },
   beforeRouteEnter (to, from, next) {
     // console.log(to)
     next(vm => {
       vm.city = to.params.city
     })
+  },
+  components: {
+    Header,
+    Location
+  },
+  computed: {
+    address () {
+      return this.$store.getters.location.length > 0 ? this.$store.getters.location.formattedAddress : '定位失效，无法获取到对应地址信息'
+    }
+  },
+  watch: {
+    search_val () {
+      this.searchPlace()
+    }
+  },
+  methods: {
+    searchPlace () {
+      // console.log(this.search_val)
+      AMap.plugin('AMap.Autocomplete', () => {
+        // 实例化Autocomplete
+        var autoOptions = {
+          // city 限定城市，默认全国
+          city: this.city
+        }
+        var autoComplete = new AMap.Autocomplete(autoOptions)
+        // keyword
+        autoComplete.search(this.search_val, (status, result) => {
+          // 搜索成功时，result即是对应的匹配数据
+          // console.log(result)
+          this.areaList = result.tips
+        })
+      })
+    },
+    selectAddress (item) {
+      console.log(item)
+    }
   }
 }
 </script>
