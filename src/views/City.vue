@@ -7,9 +7,11 @@
       </div>
       <button @click="$router.go(-1)">取消</button>
     </div>
-    <div class="location-area">
-      <Location :address="city" />
-      <Alphabet :cityInfo="cityInfo" :keys="keys" />
+    <div style="height: 100%">
+      <div class="location">
+        <Location :address="city" />
+      </div>
+      <Alphabet ref="allCity" :cityInfo="cityInfo" :keys="keys" />
     </div>
   </div>
 </template>
@@ -51,6 +53,10 @@ export default {
           // keys 排序
           this.keys.sort()
           // console.log(this.keys)
+          this.$nextTick(() => {
+            // 这里我们可以获取变化后的 DOM
+            this.$refs.allCity.initScroll()
+          })
         })
         .catch(err => {
           console.log(err)

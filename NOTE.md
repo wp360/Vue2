@@ -142,6 +142,12 @@ import Alphabet from '../components/Alphabet'
 ```
 * 5. Alphabet.vue页面调整
 
+## 使用BScroll实现滚动
+* 1. 安装better-scroll
+`npm install better-scroll --save`
+* 2. 引入BScroll
+* 3. 连接数据
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git

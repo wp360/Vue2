@@ -1,5 +1,5 @@
 <template>
-  <div class="location">
+  <div class="location-area">
     <div class="title">当前定位</div>
     <div class="des" @click="$emit('click')">
       <i class="fa fa-location-arrow"></i>
