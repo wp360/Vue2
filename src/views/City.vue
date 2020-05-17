@@ -5,13 +5,19 @@
         <i class="fa fa-search"></i>
         <input type="text" v-model="city_val" placeholder="输入城市名" />
       </div>
-      <button @click="$router.go(-1)">取消</button>
+      <!-- $router.go(-1) -->
+      <button @click="$router.push({name: 'address', params: {city: city}})">取消</button>
     </div>
-    <div style="height: 100%">
+    <div style="height: 100%" v-if="searchList.length === 0">
       <div class="location">
-        <Location :address="city" />
+        <Location @click="selectCity({name:city})" :address="city" />
       </div>
       <Alphabet @selectCity="selectCity" ref="allCity" :cityInfo="cityInfo" :keys="keys" />
+    </div>
+    <div class="search_list" v-else>
+      <ul>
+        <li @click="selectCity(item)" v-for="item in searchList" :key="item.id">{{item.name}}</li>
+      </ul>
     </div>
   </div>
 </template>
@@ -24,7 +30,9 @@ export default {
     return {
       city_val: '',
       cityInfo: null,
-      keys: []
+      keys: [],
+      allCities: [],
+      searchList: []
     }
   },
   computed: {
@@ -34,6 +42,13 @@ export default {
   },
   created () {
     this.getCityInfo()
+  },
+  watch: {
+    city_val () {
+      // console.log(this.city_val)
+      // 搜索城市
+      this.searchCity()
+    }
   },
   components: {
     Location,
@@ -57,6 +72,13 @@ export default {
             // 这里我们可以获取变化后的 DOM
             this.$refs.allCity.initScroll()
           })
+          // 存储所有城市， 用来搜索过滤
+          this.keys.forEach(key => {
+            this.cityInfo[key].forEach(city => {
+              // console.log(city)
+              this.allCities.push(city)
+            })
+          })
         })
         .catch(err => {
           console.log(err)
@@ -70,6 +92,18 @@ export default {
           city: city.name
         }
       })
+    },
+    searchCity () {
+      if (!this.city_val) {
+        // 如果搜索框为空, 数组置空
+        this.searchList = []
+      } else {
+        // 根据输入框的关键字检索城市 并存入到searchList数组中
+        this.searchList = this.allCities.filter(item => {
+          return item.name.indexOf(this.city_val) !== -1
+        })
+        // console.log(this.searchList)
+      }
     }
   }
 }

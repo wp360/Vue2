@@ -166,6 +166,52 @@ methods: {
 }
 ```
 
+## 根据关键字检索城市及优化
+```js
+// City.vue
+data () {
+  return {
+    // ...
+    allCities: [],
+    searchList: []
+  }
+},
+// ...
+// 监听搜索
+  watch: {
+    city_val () {
+      // console.log(this.city_val)
+      // 搜索城市
+      this.searchCity()
+    }
+  },
+// ...
+  methods: {
+    getCityInfo () {
+      this.$axios('/api/posts/cities')
+        .then(res => {
+          // ...
+          // 存储所有城市， 用来搜索过滤
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    searchCity () {
+      if (!this.city_val) {
+        // 如果搜索框为空, 数组置空
+        this.searchList = []
+      } else {
+        // 根据输入框的关键字检索城市 并存入到searchList数组中
+        this.searchList = this.allCities.filter(item => {
+          return item.name.indexOf(this.city_val) !== -1
+        })
+        // console.log(this.searchList)
+      }
+    }
+  }
+```
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git

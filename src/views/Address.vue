@@ -11,7 +11,7 @@
             <i class="fa fa-search"></i>
             <input type="text" v-model="search_val" placeholder="小区/写字楼/学校等" />
         </div>
-        <Location :address="address" />
+        <Location @click="selectAddress" :address="address" />
     </div>
     <div class="area">
       <div class="area_list">
@@ -78,8 +78,12 @@ export default {
     },
     selectAddress (item) {
       // console.log(item)
-      // 设置地址
-      this.$store.dispatch('setAddress', item.district + item.address + item.name)
+      if (item) {
+        // 设置地址
+        this.$store.dispatch('setAddress', item.district + item.address + item.name)
+      } else {
+        this.$store.dispatch('setAddress', this.address)
+      }
       // 跳转首页
       this.$router.push('/home')
     }

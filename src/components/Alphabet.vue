@@ -59,7 +59,7 @@ export default {
       const citylist = this.$refs.area_scroll.getElementsByClassName('citylist')
       // 根据下标,滚动到相对应的元素上
       const el = citylist[index]
-      console.log(el)
+      // console.log(el)
       // 滚动到对应的位置上
       this.scroll.scrollToElement(el, 300)
     }
