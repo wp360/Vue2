@@ -108,6 +108,40 @@ Vue.use(AMap);
 
 ## 选择收获地址和城市页面头部展示
 
+## 展示所有城市列表
+* 1. 根据城市数据接口获取对应城市信息
+* 2. 使用getCityInfo方法处理key 计算key
+* 3. 新建Alphabet.vue字母表组件
+```vue
+<template>
+  <div class="alphabet">
+    字母表
+  </div>
+</template>
+
+<script>
+export default {
+  name: 'Alphabet',
+  props: {
+    cityInfo: Object,
+    keys: Array
+  }
+}
+</script>
+```
+* 4. 引入字母表组件到City.vue
+```
+<Alphabet :cityInfo="cityInfo" :keys="keys" />
+
+import Alphabet from '../components/Alphabet'
+
+  components: {
+    Location,
+    Alphabet
+  },
+```
+* 5. Alphabet.vue页面调整
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git

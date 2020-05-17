@@ -9,16 +9,20 @@
     </div>
     <div class="location-area">
       <Location :address="city" />
+      <Alphabet :cityInfo="cityInfo" :keys="keys" />
     </div>
   </div>
 </template>
 <script>
 import Location from '../components/Location'
+import Alphabet from '../components/Alphabet'
 export default {
   name: 'City',
   data () {
     return {
-      city_val: ''
+      city_val: '',
+      cityInfo: null,
+      keys: []
     }
   },
   computed: {
@@ -26,8 +30,32 @@ export default {
       return this.$store.getters.location.length > 0 ? this.$store.getters.location.addressComponent.city || this.$store.getters.location.addressComponent.province : '上海'
     }
   },
+  created () {
+    this.getCityInfo()
+  },
   components: {
-    Location
+    Location,
+    Alphabet
+  },
+  methods: {
+    getCityInfo () {
+      this.$axios('/api/posts/cities')
+        .then(res => {
+          console.log(res.data)
+          this.cityInfo = res.data
+          // 处理key 计算key
+          this.keys = Object.keys(res.data)
+          // console.log(this.keys)
+          // hotcities这个key移除掉
+          this.keys.pop()
+          // keys 排序
+          this.keys.sort()
+          // console.log(this.keys)
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    }
   }
 }
 </script>
