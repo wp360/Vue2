@@ -148,6 +148,24 @@ import Alphabet from '../components/Alphabet'
 * 2. 引入BScroll
 * 3. 连接数据
 
+## 字母索引和选择城市
+* 1. 使用selectKey方法，根据索引值获取对应城市数据
+* 2. 根据下标，滚动到相对应的元素上，然后滚动到对应的位置上
+* 3. 通过$emit实现子组件向父组件通信
+```
+// 字母表组件点击城市名称
+@click="$emit('selectCity', city)"
+// City父组件
+<Alphabet @selectCity="selectCity" ref="allCity" :cityInfo="cityInfo" :keys="keys" />
+// 获取城市
+methods: {
+  // 省略
+  selectCity (citty) {
+    console.log(city)
+  }
+}
+```
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git
