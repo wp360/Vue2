@@ -212,6 +212,90 @@ data () {
   }
 ```
 
+## 首页
+* 1. Mint-UI的使用
+> 安装
+`npm install --save mint-ui`
+> main.js引入
+```js
+import MintUI from 'mint-ui'
+import 'mint-ui/lib/style.css'
+
+Vue.use(MintUI)
+
+// 请求拦截
+axios.interceptors.request.use(config => {
+  // 加载动画
+  Indicator.open()
+  return config
+}, error => {
+  return Promise.reject(error)
+})
+
+// 响应拦截
+axios.interceptors.response.use(response => {
+  Indicator.close()
+  return response
+}, error => {
+  // 错误提醒
+  Indicator.close()
+  return Promise.reject(error)
+})
+```
+#### vue-axios interceptors(拦截器)实际应用
+```js
+Vue.use(qs)
+// 注：qs，使用axios，必须得安装 qs，所有的Post 请求，我们都需要 qs,对参数进行序列化。
+
+// 在 request 拦截器实现
+axios.interceptors.request.use(
+ config => {
+  config.baseURL = '/api/'
+  config.withCredentials = true // 允许携带token ,这个是解决跨域产生的相关问题
+  config.timeout = 6000
+  let token = sessionStorage.getItem('access_token')
+  let csrf = store.getters.csrf
+  if (token) {
+   config.headers = {
+    'access-token': token,
+    'Content-Type': 'application/x-www-form-urlencoded'
+   }
+  }
+  if (config.url === 'refresh') {
+   config.headers = {
+    'refresh-token': sessionStorage.getItem('refresh_token'),
+    'Content-Type': 'application/x-www-form-urlencoded'
+   }
+  }
+  return config
+ },
+ error => {
+  return Promise.reject(error)
+ }
+)
+//在 response 拦截器实现
+axios.interceptors.response.use(
+ response => {
+  // 定时刷新access-token
+  if (!response.data.value && response.data.data.message === 'token invalid') {
+   // 刷新token
+   store.dispatch('refresh').then(response => {
+    sessionStorage.setItem('access_token', response.data)
+   }).catch(error => {
+    throw new Error('token刷新' + error)
+   })
+  }
+  return response
+ },
+ error => {
+  return Promise.reject(error)
+ }
+)
+```
+[vue+axios 实现登录拦截权限验证](https://www.jianshu.com/p/78dac627d9ea)
+
+* 2. 轮播图
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git
