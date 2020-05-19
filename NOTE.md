@@ -295,8 +295,8 @@ axios.interceptors.response.use(
 [vue+axios 实现登录拦截权限验证](https://www.jianshu.com/p/78dac627d9ea)
 
 * 2. 轮播图
-
 * 3. 实现分类和推荐商家
+* 4. 组件显示隐藏遮罩
 
 ## 上传github
 ```

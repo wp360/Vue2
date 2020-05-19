@@ -1,11 +1,19 @@
 <template>
-  <div v-if="filterData" class="filter_wrap">
-    <aside class="filter">
-      <div class="filter-nav" v-for="item in filterData.navTab" :key="item.name">
-        <span>{{item.name}}</span>
-        <i v-if="item.icon" :class="'fa fa-'+item.icon"></i>
-      </div>
-    </aside>
+  <div :class="{'open': isSort}" @click.self="hideView">
+    <div v-if="filterData" class="filter_wrap">
+      <aside class="filter">
+        <div
+          class="filter-nav"
+          v-for="(item, index) in filterData.navTab"
+          :key="item.name"
+          :class="{'filter-bold':currentFilter === index}"
+          @click="filterSort(index)"
+        >
+          <span>{{item.name}}</span>
+          <i v-if="item.icon" :class="'fa fa-'+item.icon"></i>
+        </div>
+      </aside>
+    </div>
   </div>
 </template>
 
@@ -17,7 +25,26 @@ export default {
   },
   data () {
     return {
-
+      currentFilter: 0,
+      isSort: false
+    }
+  },
+  methods: {
+    filterSort (index) {
+      this.currentFilter = index
+      switch (index) {
+        case 0:
+          this.isSort = true
+          this.$emit('searchFixed', true)
+          break
+        default:
+          this.hideView()
+          break
+      }
+    },
+    hideView () {
+      this.isSort = false
+      this.$emit('searchFixed', false)
     }
   }
 }
