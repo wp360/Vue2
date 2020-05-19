@@ -82,7 +82,7 @@ export default {
       // 筛选
       this.$axios('/api/profile/filter')
         .then(res => {
-          // console.log(res.data)
+          console.log(res.data)
           this.filterData = res.data
         })
     },
