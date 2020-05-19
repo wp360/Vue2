@@ -36,17 +36,24 @@
     </div>
     <!-- 推荐商家 -->
     <div class="shoplist-title">推荐商家</div>
+    <!-- 导航 -->
+    <FilterView :filterData="filterData" />
   </div>
 </template>
 <script>
 // import { Swipe, SwipeItem } from 'mint-ui'
+import FilterView from '../components/FilterView'
 export default {
   name: 'Home',
   data () {
     return {
       swipeImgs: [],
-      entries: []
+      entries: [],
+      filterData: null
     }
+  },
+  components: {
+    FilterView
   },
   computed: {
     address () {
@@ -61,14 +68,21 @@ export default {
   },
   methods: {
     getData () {
+      // 轮播及分类数据
       this.$axios('/api/profile/shopping')
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
           this.swipeImgs = res.data.swipeImgs
           this.entries = res.data.entries
         })
         .catch(err => {
           console.log(err)
+        })
+      // 筛选
+      this.$axios('/api/profile/filter')
+        .then(res => {
+          // console.log(res.data)
+          this.filterData = res.data
         })
     }
   }
