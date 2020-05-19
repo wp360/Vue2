@@ -297,6 +297,7 @@ axios.interceptors.response.use(
 * 2. 轮播图
 * 3. 实现分类和推荐商家
 * 4. 组件显示隐藏遮罩
+* 5. 选择排序条件
 
 ## 上传github
 ```
