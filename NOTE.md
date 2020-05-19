@@ -296,6 +296,8 @@ axios.interceptors.response.use(
 
 * 2. 轮播图
 
+* 3. 实现分类和推荐商家
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git

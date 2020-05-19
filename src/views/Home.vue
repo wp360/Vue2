@@ -15,13 +15,27 @@
       </div>
     </div>
     <!-- 中间部分 -->
-    <div class="container" style="height: 2000px">
+    <div class="container">
+      <!-- 轮播 -->
       <mt-swipe :auto="4000" class="swiper">
         <mt-swipe-item v-for="(img, index) in swipeImgs" :key="index">
           <img :src="img" alt="轮播图">
         </mt-swipe-item>
       </mt-swipe>
+      <!-- 分类 -->
+      <mt-swipe :auto="0" class="entries">
+        <mt-swipe-item v-for="(entry, i) in entries" :key="i" class="entry_wrap">
+          <div class="foodentry" v-for="item in entry" :key="item.name">
+            <div class="img_wrap">
+              <img :src="item.image" :alt="item.name">
+            </div>
+            <span>{{item.name}}</span>
+          </div>
+        </mt-swipe-item>
+      </mt-swipe>
     </div>
+    <!-- 推荐商家 -->
+    <div class="shoplist-title">推荐商家</div>
   </div>
 </template>
 <script>
@@ -30,7 +44,8 @@ export default {
   name: 'Home',
   data () {
     return {
-      swipeImgs: []
+      swipeImgs: [],
+      entries: []
     }
   },
   computed: {
@@ -48,8 +63,9 @@ export default {
     getData () {
       this.$axios('/api/profile/shopping')
         .then(res => {
-          // console.log(res.data)
+          console.log(res.data)
           this.swipeImgs = res.data.swipeImgs
+          this.entries = res.data.entries
         })
         .catch(err => {
           console.log(err)
