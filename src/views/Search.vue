@@ -1,6 +1,7 @@
 <template>
   <div class="search">
     <Header :isLeft="true" title="搜索" />
+    <!-- 搜索框 -->
     <div class="search_header">
       <form class="search_wrap">
         <i class="fa fa-search"></i>
@@ -8,10 +9,18 @@
         <button>搜索</button>
       </form>
     </div>
+    <!-- 搜索内容 -->
+    <div class="shop" v-if="result">
+      <div class="search-cont">
+        <SearchIndex :data="result.restaurants" />
+        <SearchIndex :data="result.words" />
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import Header from '../components/Header'
+import SearchIndex from '../components/SearchIndex'
 export default {
   name: 'Search',
   data () {
@@ -21,7 +30,8 @@ export default {
     }
   },
   components: {
-    Header
+    Header,
+    SearchIndex
   },
   watch: {
     keyWord () {

@@ -342,6 +342,7 @@ methods: {
   }
 ```
 > 新建Search.vue
+* 13. 显示商家商品列表
 
 ## 上传github
 ```
