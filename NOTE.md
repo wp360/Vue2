@@ -301,6 +301,35 @@ axios.interceptors.response.use(
 * 6. 展示筛选条件
 * 7. 选择筛选条件
 * 8. 展示商家信息
+* 9. 封装评分星标组件和计算距离
+* 10. 下拉刷新上拉加载
+
+[下拉刷新上拉加载使用参考文档](http://mint-ui.github.io/docs/#/zh-cn2/loadmore)
+
+* 11. 排序
+```js
+// Home.vue
+data () {
+  return {
+    // ...
+    data: null
+  }
+},
+// ...
+  // 拉取商家信息
+  this.$axios.post(`/api/profile/restaurants/${this.page}/${this.size}`, this.data)
+// 添加this.data
+// ...
+methods: {
+  // ...
+  update (condation) {
+    // console.log(condation)
+    this.data = condation
+    this.loadData()
+  }
+}
+// 后端接口参数单词拼写原因，FilterView.vue修改condation为condition
+```
 
 ## 上传github
 ```

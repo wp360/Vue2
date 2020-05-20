@@ -15,13 +15,7 @@
         <!-- 第二行 星级 -->
         <div class="index-rateWrap">
           <div class="stars-area">
-            <div class="rating-gray">
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-            </div>
+            <Rating :rating="restaurant.rating" />
             <span class="rate">{{restaurant.rating}}</span>
             <span>月售{{restaurant.recent_order_num}}单</span>
           </div>
@@ -36,7 +30,7 @@
             <span>配送费￥ {{restaurant.float_delivery_fee}}</span>
           </div>
           <div class="index-distanceWrap">
-            <span>1km</span> |
+            <span>{{(restaurant.distance / 1000).toFixed(2)}}km</span> |
             <span>{{restaurant.order_lead_time}}分钟</span>
           </div>
         </div>
@@ -45,15 +39,14 @@
   </section>
 </template>
 <script>
+import Rating from './Rating'
 export default {
   name: 'IndexShop',
   props: {
     restaurant: Object
   },
-  data () {
-    return {
-
-    }
+  components: {
+    Rating
   }
 }
 </script>

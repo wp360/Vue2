@@ -81,11 +81,11 @@ export default {
           this.$emit('searchFixed', true)
           break
         case 1:
-          this.$emit('update', { condation: this.filterData.navTab[1].condition })
+          this.$emit('update', { condition: this.filterData.navTab[1].condition })
           this.hideView()
           break
         case 2:
-          this.$emit('update', { condation: this.filterData.navTab[2].condition })
+          this.$emit('update', { condition: this.filterData.navTab[2].condition })
           this.hideView()
           break
         case 3:
@@ -111,7 +111,7 @@ export default {
       // 隐藏遮罩
       this.hideView()
       // 更新数据
-      this.$emit('update', { condation: item.code })
+      this.$emit('update', { condition: item.code })
     },
     selectScreen (item, screen) {
       if (screen.id !== 'MPI') {
@@ -153,7 +153,7 @@ export default {
         })
       })
       // console.log(mpiStr)
-      this.$emit('update', { condation: screenData })
+      this.$emit('update', { condition: screenData })
       this.hideView()
     }
   }

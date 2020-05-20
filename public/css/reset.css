@@ -154,3 +154,12 @@ table {
   text-align: center;
   position: absolute;
 }
+
+.mint-swipe-indicators .mint-swipe-indicator {
+  background: #ccc;
+}
+
+.mint-swipe-indicators .mint-swipe-indicator.is-active {
+  background: #009eef;
+  opacity: 1;
+}

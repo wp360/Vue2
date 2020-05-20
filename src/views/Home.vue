@@ -39,13 +39,22 @@
     <!-- 导航 -->
     <FilterView :filterData="filterData" @searchFixed="showFilterView" @update="update" />
     <!-- 商家信息 -->
-    <div class="shoplist">
-      <IndexShop
-        v-for="item in restaurants"
-        :key="item.restaurant.id"
-        :restaurant="item.restaurant"
-      />
-    </div>
+    <mt-loadmore
+      :top-method="loadData"
+      :bottom-method="loadMore"
+      :bottom-all-loaded="allLoaded"
+      :auto-fill="false"
+      :bottomPullText="bottomPullText"
+      ref="loadmore"
+    >
+      <div class="shoplist">
+        <IndexShop
+          v-for="item in restaurants"
+          :key="item.restaurant.id"
+          :restaurant="item.restaurant"
+        />
+      </div>
+    </mt-loadmore>
   </div>
 </template>
 <script>
@@ -62,7 +71,10 @@ export default {
       showFilter: false,
       page: 1,
       size: 5,
-      restaurants: [] // 存放所有商家的容器
+      restaurants: [], // 存放所有商家的容器
+      allLoaded: false, // 是否全部加载
+      bottomPullText: '上拉加载更多',
+      data: null
     }
   },
   components: {
@@ -98,18 +110,50 @@ export default {
           // console.log(res.data)
           this.filterData = res.data
         })
+      this.loadData()
+    },
+    loadData () {
+      this.page = 1
+      this.allLoaded = false
+      this.bottomPullText = '上拉加载更多'
       // 拉取商家信息
-      this.$axios.post('/api/profile/restaurants/1/5')
+      this.$axios.post(`/api/profile/restaurants/${this.page}/${this.size}`, this.data)
         .then(res => {
-          console.log(res.data)
+          // console.log(res.data)
+          this.$refs.loadmore.onTopLoaded()
           this.restaurants = res.data
         })
+    },
+    loadMore () {
+      if (!this.allLoaded) {
+        this.page++
+        this.$axios.post(`/api/profile/restaurants/${this.page}/${this.size}`)
+          .then(res => {
+            // 加载完之后重新渲染
+            this.$refs.loadmore.onBottomLoaded()
+            if (res.data.length > 0) {
+              res.data.forEach(item => {
+                this.restaurants.push(item)
+              })
+              if (res.data < this.size) {
+                this.allLoaded = true
+                this.bottomPullText = '没有更多了哦'
+              }
+            } else {
+              // 数据为空
+              this.allLoaded = true
+              this.bottomPullText = '没有更多了哦'
+            }
+          })
+      }
     },
     showFilterView (isShow) {
       this.showFilter = isShow
     },
     update (condation) {
-      console.log(condation)
+      // console.log(condation)
+      this.data = condation
+      this.loadData()
     }
   }
 }
