@@ -1,7 +1,7 @@
 <template>
   <div class="search_index">
     <ul class="search_list">
-      <li v-for="item in data" :key="item.id">
+      <li v-for="item in data" :key="item.id" @click="$emit('click')">
         <img v-if="item.image_path" :src="item.image_path" :alt="item.name">
         <i v-else class="fa fa-search"></i>
         <div class="shopitem">
