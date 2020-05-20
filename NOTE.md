@@ -300,6 +300,7 @@ axios.interceptors.response.use(
 * 5. 选择排序条件
 * 6. 展示筛选条件
 * 7. 选择筛选条件
+* 8. 展示商家信息
 
 ## 上传github
 ```
