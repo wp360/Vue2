@@ -331,6 +331,18 @@ methods: {
 // 后端接口参数单词拼写原因，FilterView.vue修改condation为condition
 ```
 
+* 12. 根据关键字搜索商家商品名称
+> 路由添加搜索
+```js
+// router.js
+  {
+    path: '/search',
+    name: 'search',
+    component: () => import('../views/Search.vue')
+  }
+```
+> 新建Search.vue
+
 ## 上传github
 ```
 git remote add origin https://github.com/wp360/Vue2.git

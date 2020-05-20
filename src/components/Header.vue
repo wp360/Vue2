@@ -62,9 +62,13 @@ export default {
 }
 .header-title {
   flex: 1;
+  margin-left: -3rem;
 }
 .is-left {
   text-align: left;
+}
+.is-left button {
+  margin-left: 5px;
 }
 .is-right {
   text-align: right;

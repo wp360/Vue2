@@ -8,7 +8,7 @@
       </div>
     </div>
     <!-- 搜索 -->
-    <div class="search_wrap" :class="{'fixedview': showFilter}">
+    <div class="search_wrap" :class="{'fixedview': showFilter}" @click="$router.push('/search')">
       <div class="shop_search">
         <i class="fa fa-search"></i>
         搜索商家 商家名称
