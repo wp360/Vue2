@@ -4,8 +4,8 @@ import axios from './utils/axios'
 let router = new Router({
   prefix: '/search'
 })
-// 9c47f83b359f6f98745a4911c5048b2d
-const sign = 'abcd' // d8402a2d5ad7e02e80108270d71831cc
+
+const sign = '9c47f83b359f6f98745a4911c5048b2d' // d8402a2d5ad7e02e80108270d71831cc
 
 router.get('/top', async (ctx) => {
   let {status, data: {top}} = await axios.get(`http://cp-tools.cn/search/top`,{
