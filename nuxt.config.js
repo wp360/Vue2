@@ -45,6 +45,8 @@ module.exports = {
 
   // Build Configuration (https://go.nuxtjs.dev/config-build)
   build: {
-    transpile: [/^element-ui/]
+    transpile: [/^element-ui/],
+    // https://github.com/nuxt/nuxt.js/issues/3804
+    cache: false
   }
 }
