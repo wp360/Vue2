@@ -14,4 +14,4 @@ if (config.dev) {
 
 // 监听指定端口
 app.listen(port, '0.0.0.0')
-console.log('服务器运行于 localhost:' + port)
+// console.log('服务器运行于 localhost:' + port)
