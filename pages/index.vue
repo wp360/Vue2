@@ -9,7 +9,7 @@
       </el-col>
     </el-row>
     <el-row :span="24">
-      3
+      <artistic />
     </el-row>
   </div>
 </template>
@@ -17,11 +17,13 @@
 <script>
 import EMenu from '@/components/index/menu.vue'
 import Life from '@/components/index/life.vue'
+import Artistic from '@/components/index/artistic.vue'
 
 export default {
   components: {
     EMenu,
-    Life
+    Life,
+    Artistic
   }
 }
 </script>
