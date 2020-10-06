@@ -112,7 +112,8 @@ export default {
       }, 200)
     },
     input () {
-      // console.log('input')
+      /* eslint-disable */
+      console.log('input')
     }
   }
 }
