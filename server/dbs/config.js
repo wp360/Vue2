@@ -1,5 +1,7 @@
 export default {
-  dbs: 'mongodb://127.0.0.1:27017/student',
+  // :27017
+  // mongodb://root:abc123@ds243325.mlab.com:43325/meituan
+  dbs: 'mongodb://127.0.0.1/student',
   redis: {
     get host () {
       return '127.0.0.1'

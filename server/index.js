@@ -30,8 +30,11 @@ app.use(json())
 
 // 连接数据库
 mongoose.connect(dbConfig.dbs, {
-  useNewUrlParser: true
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
+mongoose.set('useCreateIndex', true)
+
 app.use(passport.initialize())
 app.use(passport.session())
 

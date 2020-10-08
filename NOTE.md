@@ -74,6 +74,7 @@ npm run dev
 下载地址： http://dl.mongodb.org/dl/win32/x86_64
 2. 配置环境变量
 目录：C:\Program Files\MongoDB\Server\3.X\bin
+> cd C:/Program Files/MongoDB/Server/3.2/bin
 3. 开机命令：cmd
 > mongod --dbpath E:\MongoDB
 * --dbpath就是选择数据库文档所在的文件夹。
@@ -118,6 +119,8 @@ npm run dev
 
 #### 参考笔记
 [https://www.cnblogs.com/xiaozhumaopao/p/10368420.html](https://www.cnblogs.com/xiaozhumaopao/p/10368420.html)
+
+[Centos7在线安装MongoDB 3.6以及创建用户建立远程连接](https://blog.csdn.net/weixin_43849575/article/details/103886117)
 
 ## 补充内容:
 

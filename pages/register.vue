@@ -43,7 +43,7 @@
         </el-form-item>
         <!-- 注册 -->
         <el-form-item>
-          <el-button type="primary" @click="submitForm('ruleForm')">
+          <el-button type="primary" @click="register">
             同意以下协议并注册
           </el-button>
           <!-- 错误提示 -->
@@ -60,6 +60,9 @@
 </template>
 
 <script>
+// 加密
+import CryptoJS from 'crypto-js'
+
 export default {
   layout: 'blank',
   data () {
@@ -153,6 +156,35 @@ export default {
           }
         })
       }
+    },
+    register () {
+      const self = this
+      this.$refs.ruleForm.validate((valid) => {
+        if (valid) {
+          self.$axios.post('/users/signup', {
+            username: window.encodeURIComponent(self.ruleForm.name),
+            password: CryptoJS.MD5(self.ruleForm.pwd).toString(),
+            email: self.ruleForm.email,
+            code: self.ruleForm.code
+          }).then(({
+            status,
+            data
+          }) => {
+            if (status === 200) {
+              if (data && data.code === 0) {
+                location.href = '/login'
+              } else {
+                self.error = data.msg
+              }
+            } else {
+              self.error = `服务器出错，错误码:${status}`
+            }
+            setTimeout(() => {
+              this.error = ''
+            }, 1500)
+          })
+        }
+      })
     }
   }
 }

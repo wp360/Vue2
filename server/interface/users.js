@@ -14,7 +14,7 @@ let router = new Router({
 let Store = new Redis().client
 
 // 注册接口
-router.post('/signup', async(ctx) => {
+router.post('/signup', async (ctx) => {
   const {
     username,
     password,
@@ -22,22 +22,21 @@ router.post('/signup', async(ctx) => {
     code
   } = ctx.request.body
 
-  if(code) {
-    const saveCode = await Store.hget(`nodemail: ${username}`, 'code')
-    const saveExpire = await Store.hget(`nodemail: ${username}`, 'expire')
-
-    if(code === saveCode) {
-      if(new Date().getTime() - saveExpire > 0) {
+  if (code) {
+    const saveCode = await Store.hget(`nodemail:${username}`, 'code')
+    const saveExpire = await Store.hget(`nodemail:${username}`, 'expire')
+    if (code === saveCode) {
+      if (new Date().getTime() - saveExpire > 0) {
         ctx.body = {
           code: -1,
-          msg: '验证码已过期， 请重新尝试'
+          msg: '验证码已过期，请重新尝试'
         }
         return false
-      } else {
-        ctx.body = {
-          code: -1,
-          msg: '请填写正确的验证码'
-        }
+      }
+    } else {
+      ctx.body = {
+        code: -1,
+        msg: '请填写正确的验证码'
       }
     }
   } else {
@@ -46,33 +45,27 @@ router.post('/signup', async(ctx) => {
       msg: '请填写验证码'
     }
   }
-
   let user = await User.find({
     username
   })
-
-  if(user.length) {
+  if (user.length) {
     ctx.body = {
       code: -1,
       msg: '已被注册'
     }
     return
   }
-
-  // 添加数据库
   let nuser = await User.create({
     username,
     password,
     email
   })
-
-  if(nuser) {
+  if (nuser) {
     let res = await axios.post('/users/signin', {
       username,
       password
     })
-
-    if(res.data && res.data.code ===0) {
+    if (res.data && res.data.code === 0) {
       ctx.body = {
         code: 0,
         msg: '注册成功',
